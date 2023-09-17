@@ -78,20 +78,29 @@
                             <label class="form-label" for="name">Name</label>
                             <input class="form-control" id="name" type="text" name="name" placeholder="johndoe"
                                 aria-describedby="register-username" autofocus="" tabindex="1" />
+
                         </div>
                         <div class="mb-1">
                             <label class="form-label" for="register-email">Email</label>
                             <input class="form-control" id="register-email" type="text" name="email"
                                 placeholder="john@example.com" aria-describedby="register-email" tabindex="2" />
+                            @if ($errors->has('message'))
+                                <div class="alert alert-danger">
+                                    {{ $errors->first('message') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="mb-1">
                             <label class="form-label" for="register-password">Password</label>
                             <div class="input-group input-group-merge form-password-toggle">
-                                <input class="form-control form-control-merge" id="register-password" type="password"
+                                <input class="form-control form-control-merge " id="register-password" type="password"
                                     name="password" placeholder="············" aria-describedby="register-password"
                                     tabindex="3" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
+                            @error('password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <div class="form-check">
@@ -123,13 +132,15 @@
             <!-- /Register-->
         </div>
     </div>
-    @endsection @section('vendor-script')
+@endsection
+@section('vendor-script')
     <script src="{{ asset(mix('vendors/js/forms/wizard/bs-stepper.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/cleave/cleave.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/cleave/addons/cleave-phone.us.js')) }}"></script>
 
-    @endsection @section('page-script')
+@endsection
+@section('page-script')
     <script src="{{ asset('js/scripts/pages/auth-register.js') }}"></script>
 @endsection
