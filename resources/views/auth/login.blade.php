@@ -92,6 +92,9 @@
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
+                        @error('error')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         <div class="mb-1">
                             <div class="form-check">
                                 <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />

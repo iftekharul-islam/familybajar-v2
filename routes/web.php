@@ -17,6 +17,8 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
+Route::get('/', [AuthController::class, 'login'])->name('login');
+
 //Auth Route Start
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'checkLogin'])->name('checkLogin');
@@ -34,7 +36,6 @@ Route::post('reset-password', [AuthController::class, 'checkResetPassword'])->na
 Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 
 
-Route::get('/', [StaterkitController::class, 'home'])->name('home');
 Route::get('home', [StaterkitController::class, 'home'])->name('home');
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');

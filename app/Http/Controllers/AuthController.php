@@ -18,21 +18,28 @@ class AuthController extends Controller
 
     public function checkLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6|max:20',
-        ]);
+        // $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required|min:6|max:20',
+        // ]);
 
-        $user = User::where('email', $request->email)->first();
+        $credentials = $request->only('email', 'password');
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'User not found!');
+        if (auth()->attempt($credentials)) {
+            // auth and dashboard
+            return redirect()->route('home');
         }
+        return redirect()->route('login')->withErrors('message', 'Invalid login credentials');
 
-        if (!Hash::check($request->password, $user->password)) {
-            return redirect()->route('login')->with('error', 'Invalid login credentials');
-        }
-        // auth and dashboard
+        // $user = User::where('email', $request->email)->first();
+
+        // if (!$user) {
+        //     return redirect()->route('login')->with('error', 'User not found!');
+        // }
+
+        // if (!Hash::check($request->password, $user->password)) {
+        //     return redirect()->route('login')->with('error', 'Invalid login credentials');
+        // }
     }
 
     public function registration()
@@ -42,11 +49,10 @@ class AuthController extends Controller
     public function checkRegistration(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|max:20',
             'checked' => 'required',
         ]);
-
         $data = $request->only('name', 'email');
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
@@ -66,8 +72,9 @@ class AuthController extends Controller
             $reset_token = Str::random(16);
             Mail::to($request->email)->send(new ResetPassword($reset_token, $user));
             $user->update(['reset_token' => $reset_token]);
-            dd("Mail Sent");
+            dd("<a href=\"https://mail.google.com\">Click here to open your default email client</a>");
             // directly open default email browser
+
         }
         dd('User not found');
         // return redirect()->route('login')->with('error', 'User not found!');
