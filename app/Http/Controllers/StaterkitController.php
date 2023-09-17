@@ -9,6 +9,7 @@ class StaterkitController extends Controller
     // home
     public function home()
     {
+//        return auth()->user();
         $breadcrumbs = [
             ['link' => "home", 'name' => "Home"], ['name' => "Index"]
         ];
