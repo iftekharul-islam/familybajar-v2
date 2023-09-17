@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,23 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Auth Route Start
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'checkLogin'])->name('checkLogin');
+
+Route::get('registration', [AuthController::class, 'registration'])->name('registration');
+Route::post('registration', [AuthController::class, 'checkRegistration'])->name('checkRegistration');
+
+Route::get('forget-password', [AuthController::class, 'forgetPassword'])->name('forgetPassword');
+Route::post('forget-password', [AuthController::class, 'checkForgetPassword'])->name('checkForgetPassword');
+Route::get('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
+Route::post('reset-password', [AuthController::class, 'checkResetPassword'])->name('checkResetPassword');
+//Auth Route End
+
+//Profile Route Start
+Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+
 
 Route::get('/', [StaterkitController::class, 'home'])->name('home');
 Route::get('home', [StaterkitController::class, 'home'])->name('home');
