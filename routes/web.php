@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,17 @@ use App\Http\Controllers\AuthenticationController;
 
 
 
-Route::get('login', [AuthenticationController::class, 'login_cover'])->name('auth-login-cover');
-Route::post('login', [AuthenticationController::class, 'login_confirm'])->name('login');
+Route::get('login', [AuthenticationController::class, 'login'])->name('login');
+Route::post('login', [AuthenticationController::class, 'loginConfirm'])->name('loginConfirm');
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [StaterkitController::class, 'home'])->name('home');
     Route::get('home', [StaterkitController::class, 'home'])->name('home');
+
+    // Users
+    Route::get('users', [UserController::class, 'index'])->name('users');
+    Route::get('users-list', [UserController::class, 'ajax_index'])->name('ajax_index');
 });
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');

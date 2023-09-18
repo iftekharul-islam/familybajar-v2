@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('reset_token')->nullable();
+            $table->enum('type', [1, 2, 3, 4])->nullable()->comment('1=Admin,2=Seller/Dealer,3=Customer,4=Employee');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
