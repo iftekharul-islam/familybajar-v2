@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -29,7 +30,18 @@ Route::middleware(['auth'])->group(function () {
 
     // Users
     Route::get('users', [UserController::class, 'index'])->name('users');
-    Route::get('users-list', [UserController::class, 'ajax_index'])->name('ajax_index');
+    Route::get('user-add', [UserController::class, 'userAdd'])->name('userAdd');
+    Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
+
+    // Settings
+    Route::get('settings/global', [SettingsController::class, 'global'])->name('global');
+    Route::post('settings/global', [SettingsController::class, 'updateGlobal'])->name('updateGlobal');
+
+    Route::get('settings/manual', [SettingsController::class, 'manual'])->name('manual');
+    Route::get('settings/manual-add', [SettingsController::class, 'manualAdd'])->name('manualAdd');
+    Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
+
+    Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
 });
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\GlobalSetting;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,6 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        GlobalSetting::create([
+            'hierarchy' => 1,
+            'percentage' => [100],
+            'manual' => null,
+        ]);
         User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',

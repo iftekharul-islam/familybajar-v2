@@ -14,32 +14,29 @@
                         <input type="text" class="form-control" id="floating-label1" placeholder="Search" />
                         <label for="floating-label1">Search by Name</label>
                     </div>
-                    <a href="/user-add"><button type="button" class="btn btn-gradient-primary">Add User</button></a>
+                    <a href="/settings/manual-add"><button type="button" class="btn btn-gradient-primary">Add
+                            Manual</button></a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Email</th>
-                                <th>Type</th>
-                                <th>Reference Code</th>
-                                <th>Refered By</th>
-                                <th>Actions</th>
+                                <th>Hierarchy Level</th>
+                                <th>Chain</th>
+                                <th>Manual</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
                                     <td>
-                                        {{-- <img src="{{ asset('images/icons/angular.svg') }}" class="me-75" height="20" --}}
-                                        {{-- width="20" alt="Angular" /> --}}
-                                        <span class="fw-bold">{{ $user->name }}</span>
+                                        <span class="fw-bold">{{ $user->user->name }}</span>
                                     </td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ config('status.type')[$user->type] }}</td>
-                                    <td>{{ $user->ref_code }}</td>
-                                    <td>{{ $user->refer->name ?? 'N/A' }}</td>
+                                    <td>{{ $user->hierarchy }}</td>
+                                    <td>{{ count($user->percentage ?? []) }}</td>
+                                    <td>{{ count($user->manual ?? []) }}</td>
                                     <td>
                                         <a class="" href="#">
                                             <i data-feather="edit-2" class="me-50"></i>
