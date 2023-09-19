@@ -8,46 +8,26 @@
         },
         {
             "url": "users",
-            "name": "User",
+            "name": "Users",
             "icon": "users",
             "slug": "users"
         },
         {
-            "name": "Page Layouts",
-            "icon": "mail",
-            "slug": "",
-            "badge": "5",
-            "badgeClass": "badge rounded-pill badge-light-danger ms-auto me-1",
+            "name": "Setting",
+            "icon": "settings",
+            "slug": "settings",
             "submenu": [
                 {
-                    "url": "layouts/collapsed-menu",
-                    "name": "Collapsed Menu",
+                    "url": "settings/global",
+                    "name": "Global",
                     "icon": "circle",
-                    "slug": "collapsed-menu"
+                    "slug": "setting/global"
                 },
                 {
-                    "url": "layouts/full",
-                    "name": "Layout Full",
+                    "url": "settings/manual",
+                    "name": "Manual",
                     "icon": "circle",
-                    "slug": "layout-full"
-                },
-                {
-                    "url": "layouts/without-menu",
-                    "name": "Without Menu",
-                    "icon": "circle",
-                    "slug": "without-menu"
-                },
-                {
-                    "url": "layouts/empty",
-                    "name": "Layout Empty",
-                    "icon": "circle",
-                    "slug": "layout-empty"
-                },
-                {
-                    "url": "layouts/blank",
-                    "name": "Layout Blank",
-                    "icon": "circle",
-                    "slug": "layout-blank"
+                    "slug": "setting/manual"
                 }
             ]
         }

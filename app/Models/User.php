@@ -24,7 +24,9 @@ class User extends Authenticatable
         'email',
         'password',
         'reset_token',
-        'type'
+        'type',
+        'ref_code',
+        'ref_by',
     ];
 
     /**
@@ -45,4 +47,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function manual_mapping()
+    {
+        return $this->hasOne(ManualSetting::class);
+    }
+
+    public function refer()
+    {
+        return $this->hasOne(User::class, 'ref_code', 'ref_by');
+    }
 }
