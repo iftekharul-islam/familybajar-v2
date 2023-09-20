@@ -7,35 +7,30 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
-    public function login_cover()
+    public function login()
     {
         $pageConfigs = ['blankPage' => true];
-
-        return view('/content/authentication/auth-login-cover', ['pageConfigs' => $pageConfigs]);
+        return view('/pages/auth/login', ['pageConfigs' => $pageConfigs]);
     }
 
-    public function login_confirm(Request $request)
+    public function loginConfirm(Request $request)
     {
-//        return $request->all();
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
-            // Authentication passed...
             return redirect()->route('home');
         }
-
-        return redirect()->route('auth-login-cover')
-            ->with('error', 'Invalid login credentials');
+        return redirect()->route('login')
+            ->with('error', 'Invalid login credentials')->withInput();
     }
 
     public function logout(Request $request)
     {
-        // Your custom logout logic here
-
         Auth::logout();
-
         $request->session()->invalidate();
-
-        return redirect()->route('auth-login-cover');
+        return redirect()->route('login');
     }
 }

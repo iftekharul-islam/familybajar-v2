@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +21,34 @@ use App\Http\Controllers\AuthenticationController;
 
 
 
-Route::get('login', [AuthenticationController::class, 'login_cover'])->name('auth-login-cover');
-Route::post('login', [AuthenticationController::class, 'login_confirm'])->name('login');
+Route::get('login', [AuthenticationController::class, 'login'])->name('login');
+Route::post('login', [AuthenticationController::class, 'loginConfirm'])->name('loginConfirm');
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [StaterkitController::class, 'home'])->name('home');
     Route::get('home', [StaterkitController::class, 'home'])->name('home');
+
+    // Users
+    Route::get('users', [UserController::class, 'index'])->name('users');
+    Route::get('user-add', [UserController::class, 'userAdd'])->name('userAdd');
+    Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
+
+    // Orders
+    Route::get('orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('order/{id}', [OrderController::class, 'orderShow'])->name('orderShow');
+    Route::get('order-add', [OrderController::class, 'orderAdd'])->name('orderAdd');
+    Route::post('order-add', [OrderController::class, 'orderAddButton'])->name('orderAddButton');
+
+    // Settings
+    Route::get('settings/global', [SettingsController::class, 'global'])->name('global');
+    Route::post('settings/global', [SettingsController::class, 'updateGlobal'])->name('updateGlobal');
+
+    Route::get('settings/manual', [SettingsController::class, 'manual'])->name('manual');
+    Route::get('settings/manual-add', [SettingsController::class, 'manualAdd'])->name('manualAdd');
+    Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
+
+    Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
 });
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');

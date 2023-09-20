@@ -1,49 +1,43 @@
 {
-  "menu": [
-    {
-      "url": "home",
-      "name": "Home",
-      "icon": "home",
-      "slug": "home"
-    },
-    {
-      "name": "Page Layouts",
-      "icon": "mail",
-      "slug": "",
-      "badge": "5",
-      "badgeClass": "badge rounded-pill badge-light-danger ms-auto me-1",
-      "submenu": [
+    "menu": [
         {
-          "url": "layouts/collapsed-menu",
-          "name": "Collapsed Menu",
-          "icon": "circle",
-          "slug": "collapsed-menu"
+            "url": "home",
+            "name": "Home",
+            "icon": "home",
+            "slug": "home"
         },
         {
-          "url": "layouts/full",
-          "name": "Layout Full",
-          "icon": "circle",
-          "slug": "layout-full"
+            "url": "users",
+            "name": "Users",
+            "icon": "users",
+            "slug": "users",
+            "access": [1]
         },
         {
-          "url": "layouts/without-menu",
-          "name": "Without Menu",
-          "icon": "circle",
-          "slug": "without-menu"
+            "url": "orders",
+            "name": "Orders",
+            "icon": "shopping-cart",
+            "slug": "orders"
         },
         {
-          "url": "layouts/empty",
-          "name": "Layout Empty",
-          "icon": "circle",
-          "slug": "layout-empty"
-        },
-        {
-          "url": "layouts/blank",
-          "name": "Layout Blank",
-          "icon": "circle",
-          "slug": "layout-blank"
+            "name": "Setting",
+            "icon": "settings",
+            "slug": "settings",
+            "submenu": [
+                {
+                    "url": "settings/global",
+                    "name": "Global",
+                    "icon": "circle",
+                    "slug": "setting/global"
+                },
+                {
+                    "url": "settings/manual",
+                    "name": "Manual",
+                    "icon": "circle",
+                    "slug": "setting/manual"
+                }
+            ],
+            "access": [1]
         }
-      ]
-    }
-  ]
+    ]
 }
