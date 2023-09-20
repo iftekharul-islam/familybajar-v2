@@ -1,6 +1,7 @@
 <?php
 
 return [
+    //user type status
     'type' => [
         1 => "Admin",
         2 => "Seller",

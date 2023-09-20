@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 
@@ -32,6 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users', [UserController::class, 'index'])->name('users');
     Route::get('user-add', [UserController::class, 'userAdd'])->name('userAdd');
     Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
+
+    // Orders
+    Route::get('orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('order/{id}', [OrderController::class, 'orderShow'])->name('orderShow');
+    Route::get('order-add', [OrderController::class, 'orderAdd'])->name('orderAdd');
+    Route::post('order-add', [OrderController::class, 'orderAddButton'])->name('orderAddButton');
 
     // Settings
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');

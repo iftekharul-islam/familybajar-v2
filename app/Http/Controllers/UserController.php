@@ -11,13 +11,20 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::with('refer')->get();
-        return view('pages.users.list', compact('users'));
+        $breadcrumbs = [
+            ['link' => "users", 'name' => "Users"]
+        ];
+        $users = User::with('refer');
+        $users = $users->paginate('10');
+        return view('pages.users.list', compact('users', 'breadcrumbs'));
     }
 
     public function userAdd(Request $request)
     {
-        return view('pages.users.add');
+        $breadcrumbs = [
+            ['link' => "users", 'name' => "Users"], ['name' => "Add"]
+        ];
+        return view('pages.users.add', compact('breadcrumbs'));
     }
 
     public function userAddButton(Request $request)
