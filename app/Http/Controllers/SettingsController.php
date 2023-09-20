@@ -11,9 +11,12 @@ class SettingsController extends Controller
 {
     public function global()
     {
+        $breadcrumbs = [
+            ['name' => "Settings"], ['link' => "settings/global", 'name' => "Global"]
+        ];
         $userOptions = User::get();
         $settings = GlobalSetting::latest()->first();
-        return view('pages.settings.global', compact('settings', 'userOptions'));
+        return view('pages.settings.global', compact('settings', 'userOptions', 'breadcrumbs'));
     }
 
     public function updateGlobal(Request $request)
@@ -25,11 +28,15 @@ class SettingsController extends Controller
             }
             $total += $percentage;
         }
-        foreach ($request->manual ?? [] as $manual) {
-            if ($manual->percentage < 1) {
+        foreach ($request->manual ?? [] as $key => $manual) {
+            if ($manual < 1) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
             }
-            $total += $percentage;
+            $total += $manual;
+            $manual_list[] = [
+                'user_id' => $request->user_id[$key],
+                'percentage' => $manual,
+            ];
         }
         if ($total != 100) {
             return redirect()->back()->with('error', 'Total percentage must be 100')->withInput();
@@ -37,23 +44,29 @@ class SettingsController extends Controller
         GlobalSetting::create([
             'hierarchy' => count($request->percentage),
             'percentage' => $request->percentage,
-            'manual' => null,
+            'manual' => $manual_list,
         ]);
-        $settings = GlobalSetting::latest()->first();
-        return view('pages.settings.global', compact('settings'));
+
+        return redirect()->route('global');
     }
 
 
     public function manual()
     {
+        $breadcrumbs = [
+            ['name' => "Settings"], ['name' => "Manual"]
+        ];
         $users = ManualSetting::with('user')->get();
-        return view('pages.settings.manual', compact('users'));
+        return view('pages.settings.manual', compact('users', 'breadcrumbs'));
     }
     public function manualAdd()
     {
+        $breadcrumbs = [
+            ['name' => "Settings"], ['link' => "settings/manual", 'name' => "Manual"], ['name' => "Add"]
+        ];
         $users = User::whereDoesntHave('manual_mapping')->get();
         $userOptions = User::get();
-        return view('pages.settings.manual-add', compact('users', 'userOptions'));
+        return view('pages.settings.manual-add', compact('users', 'userOptions', 'breadcrumbs'));
     }
 
     public function createManual(Request $request)

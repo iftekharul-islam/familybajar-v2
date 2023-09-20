@@ -27,6 +27,9 @@ class User extends Authenticatable
         'type',
         'ref_code',
         'ref_by',
+        'repurchase_amount',
+        'withdraw_amount',
+        'total_amount',
     ];
 
     /**

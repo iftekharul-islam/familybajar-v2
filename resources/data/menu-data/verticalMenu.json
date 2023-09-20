@@ -10,7 +10,14 @@
             "url": "users",
             "name": "Users",
             "icon": "users",
-            "slug": "users"
+            "slug": "users",
+            "access": [1]
+        },
+        {
+            "url": "orders",
+            "name": "Orders",
+            "icon": "shopping-cart",
+            "slug": "orders"
         },
         {
             "name": "Setting",
@@ -29,7 +36,8 @@
                     "icon": "circle",
                     "slug": "setting/manual"
                 }
-            ]
+            ],
+            "access": [1]
         }
     ]
 }

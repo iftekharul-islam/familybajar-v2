@@ -1,6 +1,10 @@
 @extends('layouts/contentLayoutMaster')
 @section('title', 'Manual Settings')
 
+@section('vendor-style')
+    <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+@endsection
 @section('content')
     <section>
         <div class="row">
@@ -10,7 +14,7 @@
                         @csrf
                         <div class="card-header">
                             <div class="col-sm-9">
-                                <select class="hide-search form-select" id="select2-hide-search" name="user">
+                                <select class="select2 form-select" id="select2-hide-search" name="user">
                                     <option value="" disabled selected hidden>Select User</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -113,7 +117,7 @@
                 manualLevel.textContent = currentLevel + 1;
 
                 var newSelect = document.createElement('select');
-                newSelect.className = 'form-control';
+                newSelect.className = 'select2 form-select';
                 newSelect.name = 'user_id[]';
 
                 var userOptionsDiv = document.getElementById('userOptions');
@@ -150,7 +154,7 @@
                     '<span class="cursor-pointer"><i data-feather="trash-2" style="color: red;"></i></span>';
 
                 var newRowDiv = document.createElement('div');
-                newRowDiv.className = 'mb-1 row';
+                newRowDiv.className = 'row';
                 newRowDiv.id = "percentage_list-" + (currentLevel);
 
                 newRowDiv.appendChild(col1Div);
@@ -162,4 +166,14 @@
         });
     </script>
 
+@endsection
+
+
+@section('vendor-script')
+    <!-- vendor files -->
+    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+@endsection
+@section('page-script')
+    <!-- Page js files -->
+    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection

@@ -23,6 +23,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Type</th>
+                                <th>Repurchase</th>
+                                <th>Withdraw</th>
+                                <th>Total</th>
                                 <th>Reference Code</th>
                                 <th>Refered By</th>
                                 <th>Actions</th>
@@ -38,6 +41,9 @@
                                     </td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ config('status.type')[$user->type] }}</td>
+                                    <td>{{ $user->repurchase_amount }}</td>
+                                    <td>{{ $user->withdraw_amount }}</td>
+                                    <td>{{ $user->total_amount }}</td>
                                     <td>{{ $user->ref_code }}</td>
                                     <td>{{ $user->refer->name ?? 'N/A' }}</td>
                                     <td>
@@ -52,6 +58,25 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mx-1 d-flex justify-content-end">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mt-2">
+                                <li class="page-item prev"><a class="page-link"
+                                        style="pointer-events: {{ $users->currentPage() == 1 ? 'none' : '' }}"
+                                        href="{{ $users->url($users->currentPage() - 1) }}"></a>
+                                </li>
+                                @for ($i = 1; $i <= $users->lastPage(); $i++)
+                                    <li class="page-item {{ $i == $users->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $users->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+                                <li class="page-item next" disabled><a class="page-link"
+                                        style="pointer-events: {{ $users->currentPage() == $users->lastPage() ? 'none' : '' }}"
+                                        href="{{ $users->url($users->currentPage() + 1) }}"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
