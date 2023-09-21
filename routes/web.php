@@ -28,6 +28,7 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [StaterkitController::class, 'home'])->name('home');
     Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    Route::get('profile', [UserController::class, 'profile'])->name('profile.show');
 
     // Users
     Route::get('users', [UserController::class, 'index'])->name('users');

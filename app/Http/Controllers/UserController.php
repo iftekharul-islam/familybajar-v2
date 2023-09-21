@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -9,6 +10,15 @@ use Nette\Utils\Random;
 
 class UserController extends Controller
 {
+    public function profile()
+    {
+        $user = User::with('refer')->with('orders', function ($q) {
+            $q->with('seller')->latest()->take(5);
+        })->find(auth()->user()->id);
+        $tree = User::buildTree($user->ref_code);
+        return view('pages.users.profile', compact('user', 'tree'));
+    }
+
     public function index(Request $request)
     {
         $breadcrumbs = [
