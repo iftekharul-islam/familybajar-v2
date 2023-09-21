@@ -60,4 +60,35 @@ class User extends Authenticatable
     {
         return $this->hasOne(User::class, 'ref_code', 'ref_by');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'id');
+    }
+
+
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'ref_by', 'ref_code');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(User::class, 'ref_by', 'ref_code');
+    }
+    public static function buildTree($parentId = null)
+    {
+        $nodes = User::where('ref_by', $parentId)->get();
+        $tree = [];
+        foreach ($nodes as $node) {
+            $children = User::buildTree($node->ref_code);
+
+            if ($children->isNotEmpty()) {
+                $node->setAttribute('children', $children);
+            }
+
+            $tree[] = $node;
+        }
+        return collect($tree);
+    }
 }
