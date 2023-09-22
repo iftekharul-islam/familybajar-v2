@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('order/{id}', [OrderController::class, 'orderShow'])->name('orderShow');
     Route::get('order-add', [OrderController::class, 'orderAdd'])->name('orderAdd');
     Route::post('order-add', [OrderController::class, 'orderAddButton'])->name('orderAddButton');
+
+    // Withdraws
+    Route::get('withdraws', [WithdrawController::class, 'withdraws'])->name('withdraws');
+    Route::get('withdraw-add', [WithdrawController::class, 'withdrawAdd'])->name('withdrawAdd');
+    Route::post('withdraw-add', [WithdrawController::class, 'withdrawAddButton'])->name('withdrawAddButton');
+    Route::get('withdraw-cancel/{id}', [WithdrawController::class, 'withdrawCancelButton'])->name('withdrawCancelButton');
+
+    // Withdraw Requests
+    Route::get('withdraw-requests', [WithdrawController::class, 'withdrawRequests'])->name('withdrawRequests');
+    Route::get('withdraw-request-edit/{id}', [WithdrawController::class, 'withdrawRequestEdit'])->name('withdrawRequestEdit');
+    Route::post('withdraw-request-edit', [WithdrawController::class, 'withdrawRequestEditButton'])->name('withdrawRequestEditButton');
 
     // Settings
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');

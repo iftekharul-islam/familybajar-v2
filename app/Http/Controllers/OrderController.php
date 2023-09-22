@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $breadcrumbs = [
-            ['link' => "orders", 'name' => "Order"]
+            ['name' => "Order"]
         ];
         $orders = Order::with('seller', 'customer');
         if ($request->has('q')) {
