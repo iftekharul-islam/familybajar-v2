@@ -12,6 +12,13 @@ class WithdrawHistory extends Model
     protected $fillable = [
         'user_id',
         'amount',
-        'remarks',
+        'trxID',
+        'status',
+        'remarks'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
