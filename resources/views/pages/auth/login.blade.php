@@ -49,7 +49,7 @@
                         </g>
                     </g>
                 </svg>
-                <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+                <h2 class="brand-text text-primary ms-1">Family Bajar</h2>
             </a>
             <!-- /Brand logo-->
 
@@ -68,12 +68,12 @@
             <!-- Login-->
             <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                    <h2 class="card-title fw-bold mb-1">Welcome to Vuexy! 👋</h2>
+                    <h2 class="card-title fw-bold mb-1">Welcome to Family Bajar! 👋</h2>
                     <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
                     <form class="auth-login-form mt-2" action="{{ route('loginConfirm') }}" method="POST">
                         @csrf
                         <div class="mb-1">
-                            <label class="form-label" for="login-email">Emailaaa</label>
+                            <label class="form-label" for="login-email">Email</label>
                             <input class="form-control" id="email" type="text" name="email"
                                 placeholder="john@example.com" aria-describedby="login-email" autofocus="" tabindex="1"
                                 value="{{ old('email') }}" />
@@ -99,10 +99,10 @@
                             @enderror
                         </div>
                         <div class="mb-1">
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
                                 <label class="form-check-label" for="remember-me"> Remember Me</label>
-                            </div>
+                            </div> --}}
                         </div>
                         @if (session('error'))
                             <div class="text-danger">

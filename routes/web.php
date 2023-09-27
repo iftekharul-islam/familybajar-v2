@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
 
     Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
+
+    Route::get('login-as-user/{id}', [AuthenticationController::class, 'loginAsUser'])->name('loginAsUser');
 });
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
