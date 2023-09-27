@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('withdraw-request-edit/{id}', [WithdrawController::class, 'withdrawRequestEdit'])->name('withdrawRequestEdit');
     Route::post('withdraw-request-edit', [WithdrawController::class, 'withdrawRequestEditButton'])->name('withdrawRequestEditButton');
 
+    // Repurchase History
+    Route::get('repurchase-history', [OrderController::class, 'repuchaseHistory'])->name('repuchaseHistory');
+
     // Settings
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');
     Route::post('settings/global', [SettingsController::class, 'updateGlobal'])->name('updateGlobal');

@@ -152,4 +152,14 @@ class OrderController extends Controller
             ]);
         }
     }
+
+    public function repuchaseHistory()
+    {
+        $breadcrumbs = [
+            ['name' => "Re-purchase History"]
+        ];
+        $histories = RepurchaseHistory::with('user');
+        $histories = $histories->paginate('10');
+        return view('pages.repurchase.list', compact('histories', 'breadcrumbs'));
+    }
 }
