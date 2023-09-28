@@ -21,12 +21,28 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $userList = User::all();
         $breadcrumbs = [
             ['link' => "users", 'name' => "Users"]
         ];
-        $users = User::with('refer');
-        $users = $users->paginate('10');
-        return view('pages.users.list', compact('users', 'breadcrumbs'));
+        $users = User::query()->with('refer');
+
+        if($request->has('search')){
+            $users->where('name', 'LIKE', "%{$request->search}%")
+            ->orWhere('email', 'LIKE', "%{$request->search}%");
+        }
+        $users =  $users->latest()->paginate('10');
+        return view('pages.users.list', compact('users', 'breadcrumbs', 'userList'));
+    }
+
+    public function show($id)
+    {
+        $user = User::with('refer')->with('orders', function ($q) {
+            $q->with('seller')->latest()->take(5);
+        })->find($id);
+        $tree = User::buildTree($user->ref_code);
+
+        return view('pages.users.show', compact('user', 'tree'));
     }
 
     public function userAdd(Request $request)

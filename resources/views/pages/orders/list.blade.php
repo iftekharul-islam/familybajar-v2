@@ -2,6 +2,11 @@
 
 @section('title', 'User List')
 
+@section('vendor-style')
+    <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+@endsection
+
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -9,16 +14,24 @@
                 {{-- <div class="card-header">
                     <h4 class="card-title">User List</h4>
                 </div> --}}
-                <div class="card-body d-flex justify-content-between">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="search_by_name" placeholder="Search by Customer Name" />
-                        <label for="floating-label1">Search by Customer Name</label>
+                @if(Auth::user()->type == config('status.type_by_name.admin'))
+                <form action="{{ route('orders') }}" method="get">
+                    <div class="card-body d-flex">
+                        <div class="col-3">
+                            <select class="select2 form-select" id="customer_id" name="user_id">
+                                <option value="" disabled selected>Select a User</option>
+                                @foreach ($users ?? [] as $customer)
+                                    <option value="{{ $customer->id }}"
+                                        {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                        {{ $customer->name }} ({{ $customer->email }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary ml-5">Search</button>
                     </div>
-                    @if (Auth::user()->type == 1)
-                        <a href="/order-add"><button type="button" class="btn btn-gradient-primary">Add New
-                                Order</button></a>
-                    @endif
-                </div>
+                </form>
+                @endif
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -28,6 +41,7 @@
                                 <th>Seller</th>
                                 <th>Repurchase Amount</th>
                                 <th>Total Amount</th>
+                                <th>Created at</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -41,6 +55,7 @@
                                     <td>{{ $order->seller->name }}</td>
                                     <td>{{ $order->repurchase_price }}</td>
                                     <td>{{ $order->total_price ?? 'N/A' }}</td>
+                                    <td>{{ $order->created_at }}</td>
                                     <td>
                                         <a class="" href="/order/{{ $order->id }}">
                                             <i data-feather="eye" class="me-50"></i>
@@ -86,8 +101,10 @@
     <!-- vendor js files -->
     <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 @endsection
 @section('page-script')
     {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>'
+    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection

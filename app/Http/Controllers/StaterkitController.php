@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StaterkitController extends Controller
@@ -13,7 +14,17 @@ class StaterkitController extends Controller
         $breadcrumbs = [
             ['link' => "home", 'name' => "Home"], ['name' => "Index"]
         ];
-        return view('/content/home', ['breadcrumbs' => $breadcrumbs]);
+        return view('content.home', ['breadcrumbs' => $breadcrumbs]);
+    }
+
+    public function homeNew()
+    {
+        $user = User::with('refer')->with('orders', function ($q) {
+            $q->with('seller')->latest()->take(5);
+        })->find(auth()->user()->id);
+        $tree = User::buildTree($user->ref_code);
+
+        return view('content.home_new', compact('user', 'tree'));
     }
 
     // Layout collapsed menu

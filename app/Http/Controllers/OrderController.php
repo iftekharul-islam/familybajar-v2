@@ -16,20 +16,20 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        $users = User::all();
         $breadcrumbs = [
             ['name' => "Order"]
         ];
-        $orders = Order::with('seller', 'customer');
-        if ($request->has('q')) {
-            $orders = $orders->whereHas('customer', function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->q . '%');
-            });
+        $orders = Order::query()->with('seller', 'customer');
+        if ($request->has('user_id')) {
+            $orders->where('customer_id', $request->user_id)
+                ->orWhere('seller_id', $request->user_id);
         }
-        if (Auth::user()->type != 1) {
+        if (Auth::user()->type != config('status.type.admin')) {
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
-        $orders = $orders->paginate('10');
-        return view('pages.orders.list', compact('orders', 'breadcrumbs'));
+        $orders = $orders->latest()->paginate('10');
+        return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users'));
     }
 
     public function orderShow($id)
@@ -153,13 +153,17 @@ class OrderController extends Controller
         }
     }
 
-    public function repuchaseHistory()
+    public function repurchaseHistory(Request $request)
     {
+        $users = User::all();
         $breadcrumbs = [
             ['name' => "Re-purchase History"]
         ];
-        $histories = RepurchaseHistory::with('user');
+        $histories = RepurchaseHistory::query()->with('user');
+        if($request->has('customer_id')){
+            $histories = $histories->where('user_id', $request->customer_id);
+        }
         $histories = $histories->paginate('10');
-        return view('pages.repurchase.list', compact('histories', 'breadcrumbs'));
+        return view('pages.repurchase.list', compact('histories', 'breadcrumbs', 'users'));
     }
 }
