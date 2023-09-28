@@ -29,6 +29,8 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary ml-5">Search</button>
+                        <a href="/order-add"><button type="button" class="btn btn-gradient-primary">Add New
+                                Order</button></a>
                     </div>
                 </form>
                 @endif

@@ -26,6 +26,7 @@
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            <a href="/withdraw-add"><button type="button" class="btn btn-gradient-primary">New Withdraw</button></a>
                         </div>
                     </form>
                 @endif
