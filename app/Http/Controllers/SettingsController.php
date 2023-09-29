@@ -28,6 +28,7 @@ class SettingsController extends Controller
             }
             $total += $percentage;
         }
+        $manual_list = [];
         foreach ($request->manual ?? [] as $key => $manual) {
             if ($manual < 1) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();

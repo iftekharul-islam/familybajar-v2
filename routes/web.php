@@ -28,12 +28,14 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [StaterkitController::class, 'home'])->name('home');
-    Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    Route::get('home', [StaterkitController::class, 'homeNew'])->name('home');
     Route::get('profile', [UserController::class, 'profile'])->name('profile.show');
 
     // Users
     Route::get('users', [UserController::class, 'index'])->name('users');
-    Route::get('user-add', [UserController::class, 'userAdd'])->name('userAdd');
+    Route::get('users/show/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::get('users/edit/{id}', [UserController::class, 'userEdit'])->name('user.edit');
+    Route::post('users/edit/{id}', [UserController::class, 'userEdited'])->name('user.edited');
     Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
 
     // Orders
@@ -54,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('withdraw-request-edit', [WithdrawController::class, 'withdrawRequestEditButton'])->name('withdrawRequestEditButton');
 
     // Repurchase History
-    Route::get('repurchase-history', [OrderController::class, 'repuchaseHistory'])->name('repuchaseHistory');
+    Route::get('repurchase-history', [OrderController::class, 'repurchaseHistory'])->name('repurchase-history');
 
     // Settings
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');

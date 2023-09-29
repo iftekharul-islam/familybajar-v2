@@ -2,6 +2,11 @@
 
 @section('title', 'User List')
 
+@section('vendor-style')
+    <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+@endsection
+
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -10,10 +15,14 @@
                     <h4 class="card-title">User List</h4>
                 </div> --}}
                 <div class="card-body d-flex justify-content-between">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floating-label1" placeholder="Search" />
-                        <label for="floating-label1">Search by Name</label>
-                    </div>
+                    <form action="{{ route('users') }}" method="get">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floating-label1"
+                                placeholder="Search By name or email" name="search"
+                                value="{{ Request()->get('search') }}" />
+                            <label for="floating-label1">Search here</label>
+                        </div>
+                    </form>
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                         data-bs-target="#editUser">Add User</button>
                 </div>
@@ -28,7 +37,8 @@
                                 <th>Withdraw</th>
                                 <th>Total</th>
                                 <th>Reference Code</th>
-                                <th>Refered By</th>
+                                <th>Referred By</th>
+                                <th>Created at</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -47,21 +57,25 @@
                                     <td>{{ $user->total_amount }}</td>
                                     <td>{{ $user->ref_code }}</td>
                                     <td>{{ $user->refer->name ?? 'N/A' }}</td>
+                                    <td>{{ $user->created_at }}</td>
                                     <td>
                                         @auth
                                             @if (Auth::user()->type == 1)
-                                                <a class="" href="/login-as-user/{{ $user->id }}">
+                                                <a class="" href="{{ route('loginAsUser', $user->id) }}">
                                                     <i data-feather='log-in' class="me-50"></i>
+                                                </a>
+                                                <a class="" href="{{ route('user.edit', $user->id) }}">
+                                                    <i data-feather="edit-2" class="me-50"></i>
                                                 </a>
                                             @endif
                                         @endauth
+                                        <a class="" href="{{ route('user.show', $user->id) }}">
+                                            <i data-feather="eye" class="me-50"></i>
+                                        </a>
 
-                                        <a class="" href="#">
-                                            <i data-feather="edit-2" class="me-50"></i>
-                                        </a>
-                                        <a class="" href="#">
-                                            <i data-feather="trash" class="me-50"></i>
-                                        </a>
+                                        {{--                                        <a class="" href="#"> --}}
+                                        {{--                                            <i data-feather="trash" class="me-50"></i> --}}
+                                        {{--                                        </a> --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -140,8 +154,8 @@
                                             <label class="col-form-label" for="type">Type</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select class="hide-search form-select" id="select2-hide-search" name="type"
-                                                value={{ old('type') }}>
+                                            <select class="hide-search form-select" id="select2-hide-search"
+                                                name="type" value={{ old('type') }}>
                                                 <option value="1">Admin</option>
                                                 <option value="2">Seller</option>
                                                 <option value="3" selected>Customer</option>
@@ -158,8 +172,15 @@
                                             <label class="col-form-label" for="ref_by">Refer By</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="ref_by" class="form-control" name="ref_by"
-                                                placeholder="jdk7s6" value="{{ old('ref_by') }}" />
+                                            <select class="select2 form-select" id="customer_id" name="ref_by">
+                                                <option value="" disabled selected>Select a User</option>
+                                                @foreach ($userList ?? [] as $customer)
+                                                    <option value="{{ $customer->ref_code }}"
+                                                        {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                        {{ $customer->name }} ({{ $customer->email }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -200,4 +221,16 @@
     </div>
 
     <!-- Hoverable rows end -->
+@endsection
+
+@section('vendor-script')
+    <!-- vendor js files -->
+    <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+@endsection
+@section('page-script')
+    {{-- Page js files --}}
+    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection

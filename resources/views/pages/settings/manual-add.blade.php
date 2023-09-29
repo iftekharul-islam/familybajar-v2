@@ -17,7 +17,7 @@
                                 <select class="select2 form-select" id="select2-hide-search" name="user">
                                     <option value="" disabled selected hidden>Select User</option>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
                                     @endforeach
                                 </select>
                                 @error('user_id')
@@ -33,7 +33,7 @@
                         </div>
                         <div class="row m-1">
                             <div class="col-6">
-                                <h4 class="card-title">Hierarchy Lavel: <span id="hierarchy_level"> 0 </span>
+                                <h4 class="card-title">Generation Total : <span id="hierarchy_level"> 0 </span>
                                 </h4>
                                 <div class="row">
                                     <div id="percentage_list" class="col-12">
@@ -47,7 +47,7 @@
                             <div class="col-6">
                                 <div hidden id="userOptions" data-options="{{ json_encode($userOptions) }}">>
                                 </div>
-                                <h4 class="card-title">Manual: <span id="manual_level"> 0 </span>
+                                <h4 class="card-title">Manual Total : <span id="manual_level"> 0 </span>
                                 </h4>
                                 <div class="row">
                                     <div id="manual_list" class="col-12">
@@ -77,7 +77,7 @@
 
                 var col1Div = document.createElement('div');
                 col1Div.className = 'col-sm-3';
-                col1Div.innerHTML = '<label class="col-form-label">Hierarchy Level-' + (currentLevel + 1) +
+                col1Div.innerHTML = '<label class="col-form-label">Generation - ' + (currentLevel + 1) +
                     '</label>';
 
                 var newInput = document.createElement('input');

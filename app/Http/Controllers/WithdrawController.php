@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\WithdrawHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,11 +11,20 @@ class WithdrawController extends Controller
 {
     public function withdraws(Request $request)
     {
+        $users = User::all();
         $breadcrumbs = [
             ['name' => "Withdraw"]
         ];
-        $withdraws = WithdrawHistory::where('user_id', Auth::user()->id)->latest()->paginate('10');
-        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs'));
+        $withdraws = WithdrawHistory::query();
+
+        if (Auth::user()->type == config('status.type_by_name.admin') && $request->has('user_id')) {
+            $withdraws->where('user_id', $request->user_id);
+        } else {
+            $withdraws->where('user_id', Auth::user()->id);
+        }
+        $withdraws = $withdraws->latest()->paginate('10');
+
+        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users'));
     }
 
     public function withdrawAdd(Request $request)
@@ -37,7 +47,7 @@ class WithdrawController extends Controller
             ]
         );
         if (Auth::user()->total_amount < $request->amount) {
-            return redirect()->route('withdrawAdd')
+            return redirect()->back()
                 ->with('error', 'You do not have enough balance!')->withInput();
         }
         $withdraw = WithdrawHistory::create([
@@ -75,11 +85,12 @@ class WithdrawController extends Controller
 
     public function withdrawRequests(Request $request)
     {
+        $users = User::all();
         $breadcrumbs = [
             ['name' => "Withdraw Requests"]
         ];
         $withdraws = WithdrawHistory::latest()->paginate('10');
-        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs'));
+        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users'));
     }
 
     public function withdrawRequestEdit($id)
@@ -112,14 +123,16 @@ class WithdrawController extends Controller
             );
             $withdraw->update([
                 'status' => $request->status,
-                'remarks' => $request->remarks,
+                'trxID' => $request->TrxID ?? null,
+                'remarks' => $request->remarks ?? null,
             ]);
             return redirect()->route('withdrawRequestEdit', $request->id)
                 ->with('success', 'Withdraw request approved successfully!');
         } elseif ($withdraw->status == 1 && $request->status == 4) {
             $withdraw->update([
                 'status' => $request->status,
-                'remarks' => $request->remarks,
+                'trxID' => $request->TrxID ?? null,
+                'remarks' => $request->remarks ?? null,
             ]);
             $user = $withdraw->user;
             $user->update([
