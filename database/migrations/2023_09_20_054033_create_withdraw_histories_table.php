@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('withdraw_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->double('amount');
+            $table->string('trxID')->nullable();
+            $table->enum('status', [1, 2, 3, 4])->comment('1=Pending, 2=Canceled, 3=Approved, 4=Rejected');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

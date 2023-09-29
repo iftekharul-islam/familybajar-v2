@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,5 +33,17 @@ class AuthenticationController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         return redirect()->route('login');
+    }
+
+    public function loginAsUser($id)
+    {
+        $user = User::find($id);
+        if (Auth::user()->type == 1) {
+            Auth::login($user);
+            return redirect()->route('home');
+        } else {
+            return redirect()->back()
+                ->with('error', 'Invalid login credentials')->withInput();
+        }
     }
 }

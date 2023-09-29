@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +28,14 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [StaterkitController::class, 'home'])->name('home');
-    Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    Route::get('home', [StaterkitController::class, 'homeNew'])->name('home');
+    Route::get('profile', [UserController::class, 'profile'])->name('profile.show');
 
     // Users
     Route::get('users', [UserController::class, 'index'])->name('users');
-    Route::get('user-add', [UserController::class, 'userAdd'])->name('userAdd');
+    Route::get('users/show/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::get('users/edit/{id}', [UserController::class, 'userEdit'])->name('user.edit');
+    Route::post('users/edit/{id}', [UserController::class, 'userEdited'])->name('user.edited');
     Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
 
     // Orders
@@ -39,6 +43,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('order/{id}', [OrderController::class, 'orderShow'])->name('orderShow');
     Route::get('order-add', [OrderController::class, 'orderAdd'])->name('orderAdd');
     Route::post('order-add', [OrderController::class, 'orderAddButton'])->name('orderAddButton');
+
+    // Withdraws
+    Route::get('withdraws', [WithdrawController::class, 'withdraws'])->name('withdraws');
+    Route::get('withdraw-add', [WithdrawController::class, 'withdrawAdd'])->name('withdrawAdd');
+    Route::post('withdraw-add', [WithdrawController::class, 'withdrawAddButton'])->name('withdrawAddButton');
+    Route::get('withdraw-cancel/{id}', [WithdrawController::class, 'withdrawCancelButton'])->name('withdrawCancelButton');
+
+    // Withdraw Requests
+    Route::get('withdraw-requests', [WithdrawController::class, 'withdrawRequests'])->name('withdrawRequests');
+    Route::get('withdraw-request-edit/{id}', [WithdrawController::class, 'withdrawRequestEdit'])->name('withdrawRequestEdit');
+    Route::post('withdraw-request-edit', [WithdrawController::class, 'withdrawRequestEditButton'])->name('withdrawRequestEditButton');
+
+    // Repurchase History
+    Route::get('repurchase-history', [OrderController::class, 'repurchaseHistory'])->name('repurchase-history');
 
     // Settings
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');
@@ -49,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
 
     Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
+
+    Route::get('login-as-user/{id}', [AuthenticationController::class, 'loginAsUser'])->name('loginAsUser');
 });
 // Route Components
 Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');

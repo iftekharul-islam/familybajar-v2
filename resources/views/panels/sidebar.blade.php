@@ -44,7 +44,7 @@
                             </g>
                         </svg>
                     </span>
-                    <h2 class="brand-text">Vuexy</h2>
+                    <h2 class="brand-text">Family Bajar</h2>
                 </a>
             </li>
             <li class="nav-item nav-toggle">

@@ -16,20 +16,23 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        $users = User::all();
         $breadcrumbs = [
-            ['link' => "orders", 'name' => "Order"]
+            ['name' => "Order"]
         ];
-        $orders = Order::with('seller', 'customer');
-        if ($request->has('q')) {
-            $orders = $orders->whereHas('customer', function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->q . '%');
-            });
+        $orders = Order::query()->with('seller', 'customer');
+        if ($request->has('user_id')) {
+            $orders->where('customer_id', $request->user_id)
+                ->orWhere('seller_id', $request->user_id);
         }
-        if (Auth::user()->type != 1) {
+        if (Auth::user()->type != config('status.type_by_name.admin')) {
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
-        $orders = $orders->paginate('10');
-        return view('pages.orders.list', compact('orders', 'breadcrumbs'));
+        $orders = $orders->latest()->paginate('10');
+        $customers = User::where('type', 3)->get();
+        $sellers = User::where('type', 2)->get();
+
+        return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users', 'sellers', 'customers'));
     }
 
     public function orderShow($id)
@@ -56,6 +59,7 @@ class OrderController extends Controller
 
     public function orderAddButton(Request $request)
     {
+        // info($request->all());
         $request->validate(
             [
                 'seller_id' => 'required',
@@ -84,6 +88,7 @@ class OrderController extends Controller
                 throw new Exception;
             }
         } catch (Exception $e) {
+            info($e->getMessage());
             return redirect()->route('orderAdd')
                 ->with('error', 'Something wents wrong!')->withInput();
         }
@@ -151,5 +156,19 @@ class OrderController extends Controller
                 'total_amount' => $user->total_amount + $order->repurchase_price * (100 - $total) / 100,
             ]);
         }
+    }
+
+    public function repurchaseHistory(Request $request)
+    {
+        $users = User::all();
+        $breadcrumbs = [
+            ['name' => "Re-purchase History"]
+        ];
+        $histories = RepurchaseHistory::query()->with('user');
+        if ($request->has('customer_id')) {
+            $histories = $histories->where('user_id', $request->customer_id);
+        }
+        $histories = $histories->paginate('10');
+        return view('pages.repurchase.list', compact('histories', 'breadcrumbs', 'users'));
     }
 }

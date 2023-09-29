@@ -20,6 +20,28 @@
             "slug": "orders"
         },
         {
+            "url": "withdraws",
+            "name": "Withdraw",
+            "icon": "dollar-sign",
+            "slug": "withdraws",
+            "access": [2, 3]
+        },
+        {
+            "url": "withdraw-requests",
+            "name": "Withdraw Requests",
+            "icon": "dollar-sign",
+            "slug": "withdraw-requests",
+            "access": [1]
+        },
+
+        {
+            "url": "repurchase-history",
+            "name": "Repurchase History",
+            "icon": "list",
+            "slug": "repuchase-history",
+            "access": [1]
+        },
+        {
             "name": "Setting",
             "icon": "settings",
             "slug": "settings",

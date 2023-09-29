@@ -2,6 +2,11 @@
 
 @section('title', 'User List')
 
+@section('vendor-style')
+    <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+@endsection
+
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -9,16 +14,27 @@
                 {{-- <div class="card-header">
                     <h4 class="card-title">User List</h4>
                 </div> --}}
-                <div class="card-body d-flex justify-content-between">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="search_by_name" placeholder="Search by Customer Name" />
-                        <label for="floating-label1">Search by Customer Name</label>
-                    </div>
-                    @if (Auth::user()->type == 1)
-                        <a href="/order-add"><button type="button" class="btn btn-gradient-primary">Add New
-                                Order</button></a>
-                    @endif
-                </div>
+                @if (Auth::user()->type == config('status.type_by_name.admin'))
+                    <form action="{{ route('orders') }}" method="get">
+                        <div class="card-body d-flex justify-content-between">
+                            <div class="col-6 d-flex">
+                                <select class="select2 form-select" id="customer_id" name="user_id">
+                                    <option value="" disabled selected>Select a User</option>
+                                    @foreach ($users ?? [] as $customer)
+                                        <option value="{{ $customer->id }}"
+                                            {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                            {{ $customer->name }} ({{ $customer->email }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#addOrder">Add New
+                                Order</button>
+                        </div>
+                    </form>
+                @endif
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -28,6 +44,7 @@
                                 <th>Seller</th>
                                 <th>Repurchase Amount</th>
                                 <th>Total Amount</th>
+                                <th>Created at</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -41,6 +58,7 @@
                                     <td>{{ $order->seller->name }}</td>
                                     <td>{{ $order->repurchase_price }}</td>
                                     <td>{{ $order->total_price ?? 'N/A' }}</td>
+                                    <td>{{ $order->created_at }}</td>
                                     <td>
                                         <a class="" href="/order/{{ $order->id }}">
                                             <i data-feather="eye" class="me-50"></i>
@@ -80,14 +98,118 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
+
+    <div class="modal fade" id="addOrder" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-5 pt-50">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-1">Add new order</h1>
+                    </div>
+
+                    <div class="card-body">
+                        <form class="form form-horizontal" action="{{ route('orderAddButton') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="seller_id">Seller</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="select2 form-select" id="seller_id" name="seller_id">
+                                                <option value="" disabled selected>Select a Seller</option>
+                                                @foreach ($sellers as $seller)
+                                                    <option value="{{ $seller->id }}"
+                                                        {{ old('seller_id') == $seller->id ? 'selected' : '' }}>
+                                                        {{ $seller->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('seller_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="customer_id">Customer</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="select2 form-select" id="customer_id" name="customer_id">
+                                                <option value="" disabled selected>Select a Customer</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}"
+                                                        {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                        {{ $customer->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('customer_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Total Price</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="first-name" class="form-control" name="total_price"
+                                                placeholder="Total Price" value="{{ old('total_price') }}" />
+                                            @error('total_price')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="email-id">Repurchase Price</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="email-id" class="form-control"
+                                                name="repurchase_price" placeholder="Repurchase Price"
+                                                value="{{ old('repurchase_price') }}" />
+                                            @error('repurchase_price')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 offset-sm-3">
+                                    @if (session('error'))
+                                        <div class="text-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('vendor-script')
     <!-- vendor js files -->
     <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 @endsection
 @section('page-script')
     {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>'
+    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection
