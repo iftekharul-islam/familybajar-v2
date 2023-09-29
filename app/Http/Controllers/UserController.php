@@ -41,7 +41,6 @@ class UserController extends Controller
             $q->with('seller')->latest()->take(5);
         })->find($id);
         $tree = User::buildTree($user->ref_code);
-
         return view('pages.users.show', compact('user', 'tree'));
     }
 
@@ -59,11 +58,21 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3',
         ]);
-        $user = User::find($id);
         $data = $request->only('name');
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif',
+            ]);
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('uploads/'), $filename);
+            $data['image'] = 'uploads/' . $filename;
+        }
         if ($request->has('password')) {
             $data['password'] = Hash::make($request->password);
         }
+        $user = User::find($id);
         $user->update($data);
         return redirect()->route('user.show', $user->id);
     }

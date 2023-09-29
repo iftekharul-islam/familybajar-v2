@@ -11,9 +11,24 @@
                         <h4 class="card-title">Add new user</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form form-horizontal" action="{{ route('user.edited', $user_data->id) }}" method="POST">
+                        <form class="form form-horizontal" action="{{ route('user.edited', $user_data->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Image</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control" name="image" placeholder="Image" />
+                                            @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">

@@ -30,7 +30,15 @@ class User extends Authenticatable
         'repurchase_amount',
         'withdraw_amount',
         'total_amount',
+        'image'
     ];
+
+    protected $appends = ["image_url"];
+
+    public function getImageUrlAttribute()
+    {
+        return asset($this->attributes['image']);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
