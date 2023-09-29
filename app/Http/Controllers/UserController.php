@@ -27,9 +27,9 @@ class UserController extends Controller
         ];
         $users = User::query()->with('refer');
 
-        if($request->has('search')){
+        if ($request->has('search')) {
             $users->where('name', 'LIKE', "%{$request->search}%")
-            ->orWhere('email', 'LIKE', "%{$request->search}%");
+                ->orWhere('email', 'LIKE', "%{$request->search}%");
         }
         $users =  $users->latest()->paginate('10');
         return view('pages.users.list', compact('users', 'breadcrumbs', 'userList'));
@@ -45,12 +45,27 @@ class UserController extends Controller
         return view('pages.users.show', compact('user', 'tree'));
     }
 
-    public function userAdd(Request $request)
+    public function userEdit($id)
     {
         $breadcrumbs = [
-            ['link' => "users", 'name' => "Users"], ['name' => "Add"]
+            ['link' => "users", 'name' => "Users"], ['name' => "Edit"]
         ];
-        return view('pages.users.add', compact('breadcrumbs'));
+        $user_data = User::with('refer')->find($id);
+        return view('pages.users.edit', compact('user_data', 'breadcrumbs'));
+    }
+
+    public function userEdited(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|min:3',
+        ]);
+        $user = User::find($id);
+        $data = $request->only('name');
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+        $user->update($data);
+        return redirect()->route('user.show', $user->id);
     }
 
     public function userAddButton(Request $request)

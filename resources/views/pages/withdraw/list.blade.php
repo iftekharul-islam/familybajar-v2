@@ -11,10 +11,10 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-                @if(Auth::user()->type == config('status.type_by_name.admin'))
-                    <form action="{{ route('withdrawRequests') }}" method="get">
-                        <div class="card-body d-flex">
-                            <div class="col-3">
+                <form action="{{ route('withdrawRequests') }}" method="get">
+                    <div class="card-body d-flex justify-content-between">
+                        <div class="col-6 d-flex">
+                            @if (Auth::user()->type == config('status.type_by_name.admin'))
                                 <select class="select2 form-select" id="customer_id" name="customer_id">
                                     <option value="" disabled selected>Select a User</option>
                                     @foreach ($users ?? [] as $customer)
@@ -24,12 +24,14 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary ml-5">Search</button>
-                            <a href="/withdraw-add"><button type="button" class="btn btn-gradient-primary">New Withdraw</button></a>
+                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            @endif
                         </div>
-                    </form>
-                @endif
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                            data-bs-target="#addWithdraw">New
+                            Withdraw</button>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -68,7 +70,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    @if(count($withdraws))
+                    @if (count($withdraws))
                         <div class="mx-1 d-flex justify-content-end">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination mt-2">
@@ -94,6 +96,51 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
+    <div class="modal fade" id="addWithdraw" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-5 pt-50">
+                    <div class="text-center mb-2">
+                        <h1 class="card-title">Available Balance : {{ Auth::user()->total_amount }}</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form class="form form-horizontal" action="{{ route('withdrawAddButton') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Amount</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="first-name" class="form-control" name="amount"
+                                                placeholder="Total Price" value="{{ old('amount') }}" />
+                                            @error('amount')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 offset-sm-3">
+                                    @if (session('error'))
+                                        <div class="text-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('vendor-script')

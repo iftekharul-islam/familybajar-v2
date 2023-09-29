@@ -17,7 +17,7 @@ class WithdrawController extends Controller
         ];
         $withdraws = WithdrawHistory::query();
 
-        if(Auth::user()->type == config('status.type_by_name.admin') && $request->has('user_id')){
+        if (Auth::user()->type == config('status.type_by_name.admin') && $request->has('user_id')) {
             $withdraws->where('user_id', $request->user_id);
         } else {
             $withdraws->where('user_id', Auth::user()->id);
@@ -47,7 +47,7 @@ class WithdrawController extends Controller
             ]
         );
         if (Auth::user()->total_amount < $request->amount) {
-            return redirect()->route('withdrawAdd')
+            return redirect()->back()
                 ->with('error', 'You do not have enough balance!')->withInput();
         }
         $withdraw = WithdrawHistory::create([
@@ -123,14 +123,16 @@ class WithdrawController extends Controller
             );
             $withdraw->update([
                 'status' => $request->status,
-                'remarks' => $request->remarks,
+                'trxID' => $request->TrxID ?? null,
+                'remarks' => $request->remarks ?? null,
             ]);
             return redirect()->route('withdrawRequestEdit', $request->id)
                 ->with('success', 'Withdraw request approved successfully!');
         } elseif ($withdraw->status == 1 && $request->status == 4) {
             $withdraw->update([
                 'status' => $request->status,
-                'remarks' => $request->remarks,
+                'trxID' => $request->TrxID ?? null,
+                'remarks' => $request->remarks ?? null,
             ]);
             $user = $withdraw->user;
             $user->update([

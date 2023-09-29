@@ -25,11 +25,14 @@ class OrderController extends Controller
             $orders->where('customer_id', $request->user_id)
                 ->orWhere('seller_id', $request->user_id);
         }
-        if (Auth::user()->type != config('status.type.admin')) {
+        if (Auth::user()->type != config('status.type_by_name.admin')) {
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
         $orders = $orders->latest()->paginate('10');
-        return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users'));
+        $customers = User::where('type', 3)->get();
+        $sellers = User::where('type', 2)->get();
+
+        return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users', 'sellers', 'customers'));
     }
 
     public function orderShow($id)
@@ -56,6 +59,7 @@ class OrderController extends Controller
 
     public function orderAddButton(Request $request)
     {
+        // info($request->all());
         $request->validate(
             [
                 'seller_id' => 'required',
@@ -84,6 +88,7 @@ class OrderController extends Controller
                 throw new Exception;
             }
         } catch (Exception $e) {
+            info($e->getMessage());
             return redirect()->route('orderAdd')
                 ->with('error', 'Something wents wrong!')->withInput();
         }
@@ -160,7 +165,7 @@ class OrderController extends Controller
             ['name' => "Re-purchase History"]
         ];
         $histories = RepurchaseHistory::query()->with('user');
-        if($request->has('customer_id')){
+        if ($request->has('customer_id')) {
             $histories = $histories->where('user_id', $request->customer_id);
         }
         $histories = $histories->paginate('10');

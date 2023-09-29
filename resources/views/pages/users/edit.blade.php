@@ -11,7 +11,7 @@
                         <h4 class="card-title">Add new user</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form form-horizontal" action="{{ route('userAddButton') }}" method="POST">
+                        <form class="form form-horizontal" action="{{ route('user.edited', $user_data->id) }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -21,7 +21,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" id="first-name" class="form-control" name="name"
-                                                placeholder="Name" value="{{ old('name') }}" />
+                                                placeholder="Name" value="{{ $user_data->name }}" />
                                             @error('name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="email" id="email-id" class="form-control" name="email"
-                                                placeholder="Email" value="{{ old('email') }}" />
+                                                placeholder="Email" value="{{ $user_data->email }}" disabled />
                                             @error('email')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -49,10 +49,13 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search" name="type"
-                                                value={{ old('type') }}>
-                                                <option value="1">Admin</option>
-                                                <option value="2">Seller</option>
-                                                <option value="3" selected>Customer</option>
+                                                value={{ $user_data->type }} disabled>
+                                                <option value="1" {{ $user_data->type == 1 && 'selected' }}>Admin
+                                                </option>
+                                                <option value="2" {{ $user_data->type == 2 && 'selected' }}>Seller
+                                                </option>
+                                                <option value="3" {{ $user_data->type == 3 && 'selected' }}>Customer
+                                                </option>
                                             </select>
                                             @error('type')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -67,7 +70,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" id="ref_by" class="form-control" name="ref_by"
-                                                placeholder="jdk7s6" value="{{ old('ref_by') }}" />
+                                                placeholder="jdk7s6" value="{{ $user_data?->refer?->name }}" disabled />
                                         </div>
                                     </div>
                                 </div>
