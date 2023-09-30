@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Nette\Utils\Random;
 
 class UserController extends Controller
@@ -27,10 +28,17 @@ class UserController extends Controller
         ];
         $users = User::query()->with('refer');
 
-        if ($request->has('search')) {
-            $users->where('name', 'LIKE', "%{$request->search}%")
-                ->orWhere('email', 'LIKE', "%{$request->search}%");
+        if ($request->has('user_type')) {
+            $users->where('type', $request->user_type);
         }
+
+        if ($request->has('search')) {
+            $users->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', "%{$request->search}%")
+                    ->orWhere('email', 'LIKE', "%{$request->search}%");
+            });
+        }
+
         $users =  $users->latest()->paginate('10');
         return view('pages.users.list', compact('users', 'breadcrumbs', 'userList'));
     }
@@ -77,6 +85,9 @@ class UserController extends Controller
         }
         $user = User::find($id);
         $user->update($data);
+
+        Session::flash('message',  $user->name . ' updated successfully!');
+
         return redirect()->route('user.show', $user->id);
     }
 
@@ -97,6 +108,9 @@ class UserController extends Controller
         if ($user) {
             return redirect()->route('users');
         }
+
+        Session::flash('message',  $user->name . ' created successfully!');
+
         return redirect()->route('userAdd')
             ->with('error', 'Something wents wrong!')->withInput();
     }

@@ -5,10 +5,13 @@
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset(mix('fonts/font-awesome/css/font-awesome.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/jstree.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
 @endsection
 @section('page-style')
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-profile.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
+    <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
 @endsection
 
 @section('content')
@@ -202,13 +205,33 @@
         </section>
     </div>
 @endsection
+@section('vendor-script')
+    <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
+@endsection
 
 @section('page-script')
     <script src="{{ asset(mix('js/scripts/pages/page-profile.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-tree.js')) }}"></script>
-@endsection
+    @if(Session::has('message'))
+        <script>
+            $(function () {
+                'use strict'
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '{{ Session::get('message') }}',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                })
+            })
 
-
-@section('vendor-script')
-    <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
+        </script>
+    @endif
 @endsection

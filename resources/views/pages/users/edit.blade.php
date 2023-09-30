@@ -67,7 +67,7 @@
                                                 value={{ $user_data->type }}>
                                                 <option value="1" {{ $user_data->type == 1 ? 'selected' : '' }} disabled>Admin
                                                 </option>
-                                                <option value="2" {{ $user_data->type == 2 ? 'selected' : '' }}>Seller
+                                                <option value="2" {{ $user_data->type == 2 ? 'selected' : '' }}>Dealer
                                                 </option>
                                                 <option value="3" {{ $user_data->type == 3 ? 'selected' : '' }}>Customer
                                                 </option>
