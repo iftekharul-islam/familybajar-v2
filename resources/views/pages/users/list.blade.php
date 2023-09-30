@@ -55,7 +55,6 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>Type</th>
                                 <th>Wallet amount</th>
                                 <th>Referred By</th>
@@ -71,10 +70,10 @@
                                         {{-- width="20" alt="Angular" /> --}}
                                         <span class="fw-bold">
                                             {{ $user->name }}
-                                        </span>
-                                        <span class="badge bg-info">{{ $user->ref_code }}</span>
+                                        </span><br>
+                                        <small>{{ $user->email }}</small><br>
+                                        <small class="badge bg-info">{{ $user->ref_code }}</small>
                                     </td>
-                                    <td>{{ $user->email }}</td>
                                     <td>
                                         <span class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span></td>
                                     <td>
@@ -82,7 +81,12 @@
                                         <span>Withdraw amount : {{ $user->withdraw_amount }}</span> <br>
                                         <span>Total amount : {{ $user->total_amount }}</span>
                                     </td>
-                                    <td>{{ $user->refer->name ?? 'N/A' }}</td>
+                                    <td>
+                                        @if(!empty($user->refer->name))
+                                            <span>{{ $user->refer->name }}</span><br>
+                                            <small>{{ $user->refer->email }}</small>
+                                        @endif
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y H:ia') }}</td>
                                     <td>
                                         @auth
