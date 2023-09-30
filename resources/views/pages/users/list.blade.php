@@ -83,10 +83,10 @@
                                     </td>
                                     <td>
                                         @if(!empty($user->refer->name))
+                                            <span>{{ $user->refer->name }}</span><br>
                                             @if(!empty($user->refer->phone))
                                                 <span>{{ $user->refer->phone }}</span><br>
                                             @endif
-                                            <span>{{ $user->refer->name }}</span><br>
                                             <small>{{ $user->refer->email }}</small>
                                         @endif
                                     </td>
