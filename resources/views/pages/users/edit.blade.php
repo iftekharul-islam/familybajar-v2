@@ -8,7 +8,7 @@
             <div class="col-md-6 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Add new user</h4>
+                        <h4 class="card-title">Edit User : <span class="badge badge-glow bg-primary">{{ $user_data->name }} </span></h4>
                     </div>
                     <div class="card-body">
                         <form class="form form-horizontal" action="{{ route('user.edited', $user_data->id) }}" method="POST"

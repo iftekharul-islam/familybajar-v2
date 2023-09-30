@@ -49,6 +49,9 @@
                             <h5>
                                 Personal Information
                             </h5>
+                            <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">
+                                <i data-feather="edit-2" class="me-50"></i>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="row">
