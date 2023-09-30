@@ -71,7 +71,9 @@
                                         <span class="fw-bold">
                                             {{ $user->name }}
                                         </span><br>
-                                        <small>{{ $user->phone }}</small><br>
+                                        @if(!empty( $user->phone))
+                                            <small>{{ $user->phone }}</small><br>
+                                        @endif
                                         <small>{{ $user->email }}</small><br>
                                         <small class="badge bg-info">{{ $user->ref_code }}</small>
                                     </td>
