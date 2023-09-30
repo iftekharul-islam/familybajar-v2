@@ -14,17 +14,55 @@
                         @csrf
                         <div class="card-header">
                             <div class="col-sm-9">
-                                @error('user_id')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                                @if (session('error'))
-                                    <div class="text-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
+                                <h1>Global Settings</h4>
+                                    @error('user_id')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                    @if (session('error'))
+                                        <div class="text-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                             </div>
                             <button type="submit" id="submit" class="btn btn-primary me-1">Update</button>
                         </div>
+                        <div class="row m-1">
+                            <div class="col-4 border bordered p-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <h4>Buyer Commision
+                                                </h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control" name="buyer"
+                                                    placeholder="Percentage (%)" value="{{ $settings->buyer }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4 border bordered p-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <h4>Dealer Commision
+                                                </h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control" name="dealer"
+                                                    placeholder="Percentage (%)" value="{{ $settings->dealer }}">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row m-1">
                             <div class="col-6">
                                 <h4 class="card-title">Generation Total: <span id="hierarchy_level">
@@ -43,10 +81,10 @@
                                                         placeholder="Percentage (%)" value="{{ $percentage }}">
 
                                                 </div>
-{{--                                                <div class="col-sm-1 d-flex align-items-center justify-content-center">--}}
-{{--                                                    <span class="cursor-pointer"><i data-feather="trash-2"--}}
-{{--                                                            style="color: red;"></i></span>--}}
-{{--                                                </div>--}}
+                                                {{--                                                <div class="col-sm-1 d-flex align-items-center justify-content-center"> --}}
+                                                {{--                                                    <span class="cursor-pointer"><i data-feather="trash-2" --}}
+                                                {{--                                                            style="color: red;"></i></span> --}}
+                                                {{--                                                </div> --}}
                                             </div>
                                         @endforeach
                                     </div>
@@ -54,12 +92,14 @@
                                         <div id="addHierarchy" class="btn btn-primary">Add New</div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="col-6">
                                 <div hidden id="userOptions" data-options="{{ json_encode($userOptions) }}">>
                                 </div>
-                                <h4 class="card-title">Manual Total : <span id="manual_level"> {{ count($settings->manual ?? []) }}
+                                <h4 class="card-title">Manual Total : <span id="manual_level">
+                                        {{ count($settings->manual ?? []) }}
                                     </span>
                                 </h4>
                                 <div class="row">

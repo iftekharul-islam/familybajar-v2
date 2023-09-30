@@ -10,14 +10,18 @@ class GlobalSetting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'hierarchy',
-        'percentage',
-        'manual',
+        'hierarchy', //hierarchy of generation and hierarchy of manual
+        'percentage', //percentage of each generation and should be array
+        'manual', //user_id and percentage of each manual
+        'dealer', //percentage of dealer
+        'buyer', //percentage of buyer
     ];
 
     protected $casts = [
         'hierarchy' => 'integer',
         'percentage' => 'json',
         'manual' => 'json',
+        'dealer' => 'integer',
+        'buyer' => 'integer',
     ];
 }

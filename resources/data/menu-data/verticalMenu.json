@@ -38,8 +38,7 @@
             "url": "repurchase-history",
             "name": "Repurchase History",
             "icon": "list",
-            "slug": "repuchase-history",
-            "access": [1]
+            "slug": "repuchase-history"
         },
         {
             "name": "Setting",

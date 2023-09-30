@@ -14,7 +14,8 @@
                 {{-- <div class="card-header">
                     <h4 class="card-title">User List</h4>
                 </div> --}}
-                @if (Auth::user()->type == config('status.type_by_name.admin'))
+                @if (Auth::user()->type == config('status.type_by_name.admin') ||
+                        Auth::user()->type == config('status.type_by_name.seller'))
                     <form action="{{ route('orders') }}" method="get">
                         <div class="card-body d-flex justify-content-between">
                             <div class="col-6 d-flex">
@@ -41,7 +42,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Customer</th>
-                                <th>Seller</th>
+                                <th>Dealer</th>
                                 <th>Repurchase Amount</th>
                                 <th>Total Amount</th>
                                 <th>Created at</th>
@@ -120,14 +121,27 @@
                                             <label class="col-form-label" for="seller_id">Seller</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select class="select2 form-select" id="seller_id" name="seller_id">
-                                                <option value="" disabled selected>Select a Seller</option>
-                                                @foreach ($sellers as $seller)
-                                                    <option value="{{ $seller->id }}"
-                                                        {{ old('seller_id') == $seller->id ? 'selected' : '' }}>
-                                                        {{ $seller->name }}</option>
-                                                @endforeach
-                                            </select>
+                                            @if (Auth::user()->type == config('status.type_by_name.admin'))
+                                                <select class="select2 form-select" id="seller_id" name="seller_id">
+                                                    <option value="" disabled selected>Select a Seller</option>
+                                                    @foreach ($sellers as $seller)
+                                                        <option value="{{ $seller->id }}"
+                                                            {{ old('seller_id') == $seller->id ? 'selected' : '' }}>
+                                                            {{ $seller->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                            @if (Auth::user()->type == config('status.type_by_name.seller'))
+                                                <select class="select2 form-select" id="seller_id" name="seller_id"
+                                                    disabled>
+                                                    @foreach ($sellers as $seller)
+                                                        <option value="{{ $seller->id }}"
+                                                            {{ Auth::user()->id == $seller->id ? 'selected' : '' }}>
+                                                            {{ $seller->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+
                                             @error('seller_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror

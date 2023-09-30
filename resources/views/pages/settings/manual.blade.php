@@ -22,9 +22,10 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Hierarchy Level</th>
-                                <th>Chain</th>
-                                <th>Manual</th>
+                                <th>Buyer</th>
+                                <th>Dealer</th>
+                                <th>Generation Length</th>
+                                <th>Manual Length</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,7 +35,8 @@
                                     <td>
                                         <span class="fw-bold">{{ $user->user->name }}</span>
                                     </td>
-                                    <td>{{ $user->hierarchy }}</td>
+                                    <td>{{ $user->buyer }}%</td>
+                                    <td>{{ $user->dealer }}%</td>
                                     <td>{{ count($user->percentage ?? []) }}</td>
                                     <td>{{ count($user->manual ?? []) }}</td>
                                     <td>

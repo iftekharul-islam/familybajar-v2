@@ -30,7 +30,8 @@ class User extends Authenticatable
         'repurchase_amount',
         'withdraw_amount',
         'total_amount',
-        'image'
+        'image',
+        'can_create_customer'
     ];
 
     protected $appends = ["image_url"];
@@ -38,7 +39,7 @@ class User extends Authenticatable
     public function getImageUrlAttribute()
     {
         if (!empty($this->attributes['image']))
-        return asset($this->attributes['image']);
+            return asset($this->attributes['image']);
 
         return null;
     }
@@ -60,6 +61,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'can_create_customer' => 'boolean'
     ];
 
     public function manual_mapping()

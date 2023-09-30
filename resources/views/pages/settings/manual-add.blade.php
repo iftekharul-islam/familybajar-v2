@@ -17,7 +17,8 @@
                                 <select class="select2 form-select" id="select2-hide-search" name="user">
                                     <option value="" disabled selected hidden>Select User</option>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('user_id')
@@ -31,6 +32,43 @@
                             </div>
                             <button type="submit" id="submit" class="btn btn-primary me-1">Save</button>
                         </div>
+                        <div class="row m-1">
+                            <div class="col-4 border bordered p-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <h4>Buyer Commision
+                                                </h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control" name="buyer"
+                                                    placeholder="Percentage (%)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4 border bordered p-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <h4>Dealer Commision
+                                                </h4>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="number" class="form-control" name="dealer"
+                                                    placeholder="Percentage (%)">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row m-1">
                             <div class="col-6">
                                 <h4 class="card-title">Generation Total : <span id="hierarchy_level"> 0 </span>
