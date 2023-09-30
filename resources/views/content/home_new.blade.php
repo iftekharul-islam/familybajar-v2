@@ -87,15 +87,15 @@
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
                                         <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased Amount:</span></h5>
-                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
+                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }} ৳</b></p>
                                     </div>
                                     <div class="mt-2">
                                         <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span></h5>
-                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
+                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }} ৳</b></p>
                                     </div>
                                     <div class="mt-2">
                                         <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span></h5>
-                                        <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
+                                        <p class="card-text">BDT : <b>{{ $user->total_amount }} ৳</b></p>
                                     </div>
                                 </div>
                             </div>

@@ -77,9 +77,9 @@
                                     <td>
                                         <span class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span></td>
                                     <td>
-                                        <span>Repurchase amount : {{ $user->repurchase_amount }}</span> <br>
-                                        <span>Withdraw amount : {{ $user->withdraw_amount }}</span> <br>
-                                        <span>Total amount : {{ $user->total_amount }}</span>
+                                        <span>Repurchase amount BDT: {{ $user->repurchase_amount }} ৳</span> <br>
+                                        <span>Withdraw amount BDT: {{ $user->withdraw_amount }} ৳</span> <br>
+                                        <span>Total amount BDT: {{ $user->total_amount }} ৳</span>
                                     </td>
                                     <td>
                                         @if(!empty($user->refer->name))
