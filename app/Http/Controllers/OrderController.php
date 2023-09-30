@@ -43,9 +43,7 @@ class OrderController extends Controller
             ['link' => "orders", 'name' => "Order"], ['name' => "Details"]
         ];
         $order = Order::with('seller', 'customer', 'repurchase_history.user')->find($id);
-        if (Auth::user()->type != 1 && Auth::user()->id != $order->customer_id) {
-            return redirect()->route('orders');
-        }
+
         return view('pages.orders.view', compact('order', 'breadcrumbs'));
     }
 

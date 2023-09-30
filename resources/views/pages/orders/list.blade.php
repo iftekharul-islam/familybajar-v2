@@ -61,9 +61,13 @@
                                     <td>{{ $order->total_price ?? 'N/A' }}</td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>
-                                        <a class="" href="/order/{{ $order->id }}">
-                                            <i data-feather="eye" class="me-50"></i>
-                                        </a>
+                                        @if(in_array(auth()->user()->type, [1,2]))
+                                            <a class="" href="{{ route('orderShow', $order->id) }}">
+                                                <i data-feather="eye" class="me-50"></i>
+                                            </a>
+                                        @else
+                                            --
+                                        @endif
                                         {{-- <a class="" href="#">
                                             <i data-feather="edit-2" class="me-50"></i>
                                         </a>
