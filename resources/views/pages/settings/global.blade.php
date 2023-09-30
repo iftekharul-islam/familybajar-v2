@@ -37,7 +37,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="buyer"
-                                                    placeholder="Percentage (%)" value="{{ $settings->buyer }}">
+                                                    placeholder="Percentage (%)" step="any" value="{{ $settings->buyer }}">
                                             </div>
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="dealer"
-                                                    placeholder="Percentage (%)" value="{{ $settings->dealer }}">
+                                                    placeholder="Percentage (%)" step="any" value="{{ $settings->dealer }}">
 
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <input type="number" class="form-control" name="percentage[]"
-                                                        placeholder="Percentage (%)" value="{{ $percentage }}">
+                                                        placeholder="Percentage (%)" step="any" value="{{ $percentage }}">
 
                                                 </div>
                                                 {{--                                                <div class="col-sm-1 d-flex align-items-center justify-content-center"> --}}
@@ -117,7 +117,7 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input type="number" class="form-control" name="manual[]"
-                                                        placeholder="Percentage (%)" value="{{ $manual['percentage'] }}">
+                                                        placeholder="Percentage (%)" step="any" value="{{ $manual['percentage'] }}">
                                                 </div>
                                                 {{-- <div class="col-sm-2 d-flex align-items-center justify-content-center">
                                                     <span class="cursor-pointer"><i data-feather="trash-2"
@@ -155,6 +155,7 @@
                 newInput.max = '100';
                 newInput.className = 'form-control';
                 newInput.name = 'percentage[]';
+                newInput.type = 'any';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = 0;
 
@@ -211,6 +212,7 @@
                 newInput.max = '100';
                 newInput.className = 'form-control';
                 newInput.name = 'manual[]';
+                newInput.type = 'any';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = null;
 

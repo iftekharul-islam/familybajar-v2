@@ -59,7 +59,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="dealer"
-                                                    placeholder="Percentage (%)">
+                                                    placeholder="Percentage (%)" step="any">
 
                                             </div>
                                         </div>
@@ -122,6 +122,7 @@
                 newInput.max = '100';
                 newInput.className = 'form-control';
                 newInput.name = 'percentage[]';
+                newInput.type = 'any';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = 0;
 
@@ -177,6 +178,7 @@
                 newInput.max = '100';
                 newInput.className = 'form-control';
                 newInput.name = 'manual[]';
+                newInput.type = 'any';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = null;
 

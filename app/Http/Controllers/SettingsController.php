@@ -53,7 +53,7 @@ class SettingsController extends Controller
         if ($total != 100) {
             return redirect()->back()->with('error', 'Total percentage must be 100')->withInput();
         }
-        GlobalSetting::updateOrCreate(
+        ManualSetting::updateOrCreate(
             [ 'id' => $id ],
             [
                 'hierarchy' => count($request->percentage),
