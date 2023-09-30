@@ -65,11 +65,11 @@
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search" name="type"
                                                 value={{ $user_data->type }} disabled>
-                                                <option value="1" {{ $user_data->type == 1 && 'selected' }}>Admin
+                                                <option value="1" {{ $user_data->type == 1 ? 'selected' : '' }}>Admin
                                                 </option>
-                                                <option value="2" {{ $user_data->type == 2 && 'selected' }}>Seller
+                                                <option value="2" {{ $user_data->type == 2 ? 'selected' : '' }}>Seller
                                                 </option>
-                                                <option value="3" {{ $user_data->type == 3 && 'selected' }}>Customer
+                                                <option value="3" {{ $user_data->type == 3 ? 'selected' : '' }}>Customer
                                                 </option>
                                             </select>
                                             @error('type')
