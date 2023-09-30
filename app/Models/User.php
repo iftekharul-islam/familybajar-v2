@@ -37,7 +37,10 @@ class User extends Authenticatable
 
     public function getImageUrlAttribute()
     {
+        if (!empty($this->attributes['image']))
         return asset($this->attributes['image']);
+
+        return null;
     }
 
     /**

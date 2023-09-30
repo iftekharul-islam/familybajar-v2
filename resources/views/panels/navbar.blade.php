@@ -109,7 +109,7 @@
                     @endif
                 </div>
                 <span class="avatar">
-                    <img class="round" src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="avatar"
+                    <img class="round" src="{{ !empty($user->image_url) ? $user->image_url : asset('images/portrait/small/avater.jpeg') }}" alt="avatar"
                         height="40" width="40">
                     <span class="avatar-status-online"></span>
                 </span>

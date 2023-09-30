@@ -33,10 +33,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Type</th>
-                                <th>Repurchase</th>
-                                <th>Withdraw</th>
-                                <th>Total</th>
-                                <th>Reference Code</th>
+                                <th>Wallet amount</th>
                                 <th>Referred By</th>
                                 <th>Created at</th>
                                 <th>Actions</th>
@@ -48,16 +45,21 @@
                                     <td>
                                         {{-- <img src="{{ asset('images/icons/angular.svg') }}" class="me-75" height="20" --}}
                                         {{-- width="20" alt="Angular" /> --}}
-                                        <span class="fw-bold">{{ $user->name }}</span>
+                                        <span class="fw-bold">
+                                            {{ $user->name }}
+                                        </span>
+                                        <span class="badge bg-info">{{ $user->ref_code }}</span>
                                     </td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ config('status.type')[$user->type] }}</td>
-                                    <td>{{ $user->repurchase_amount }}</td>
-                                    <td>{{ $user->withdraw_amount }}</td>
-                                    <td>{{ $user->total_amount }}</td>
-                                    <td>{{ $user->ref_code }}</td>
+                                    <td>
+                                        <span class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span></td>
+                                    <td>
+                                        <span>Repurchase amount : {{ $user->repurchase_amount }}</span> <br>
+                                        <span>Withdraw amount : {{ $user->withdraw_amount }}</span> <br>
+                                        <span>Total amount : {{ $user->total_amount }}</span>
+                                    </td>
                                     <td>{{ $user->refer->name ?? 'N/A' }}</td>
-                                    <td>{{ $user->created_at }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y H:ia') }}</td>
                                     <td>
                                         @auth
                                             @if (Auth::user()->type == 1)
