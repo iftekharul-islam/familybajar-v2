@@ -71,7 +71,7 @@
                                         {{ $repurchase->user->name }}
                                         <small>{{ $repurchase->user->email }}</small>
                                     </td>
-                                    <td>BDT : {{ $repurchase->amount }} ৳</td>
+                                    <td><span>BDT : {{ $repurchase->amount }} ৳</span></td>
                                     <td>{{ $repurchase->percentage }} %</td>
                                     <td>{{ $repurchase->is_heirarchy ? 'Generation - '. $repurchase->chain_serial : 'Manual' }}</td>
                                     <td>
