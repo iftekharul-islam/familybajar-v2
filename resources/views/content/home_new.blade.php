@@ -21,7 +21,7 @@
                     <div class="position-relative">
                         <div class="profile-img-container d-flex align-items-center">
                             <div class="profile-img">
-                                <img src="https://i2.wp.com/ui-avatars.com/api/{{ $user->name }}/400"
+                                <img src="{{ !empty($user->image_url) ? $user->image_url : 'https://i2.wp.com/ui-avatars.com/api/'. $user->name .'/400'}}"
                                      class="rounded img-fluid" alt="Card image" />
                             </div>
                             <div class="profile-title ms-3">
