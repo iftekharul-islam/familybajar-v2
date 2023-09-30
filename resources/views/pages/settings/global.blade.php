@@ -48,7 +48,7 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-sm-6 d-flex align-items-center">
-                                                <h4>Dealer Commision
+                                                <h4>Dealer Commission
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">

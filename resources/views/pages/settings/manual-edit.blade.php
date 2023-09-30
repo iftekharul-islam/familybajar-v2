@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form class="form form-horizontal" action="{{ route('updateGlobal') }}" method="POST">
+                    <form class="form form-horizontal" action="{{ route('updateManual', $settings->id) }}" method="POST">
                         @csrf
                         <div class="card-header">
                             <div class="col-sm-9">

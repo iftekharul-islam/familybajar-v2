@@ -29,6 +29,44 @@ class SettingsController extends Controller
         return view('pages.settings.manual-edit', compact('settings', 'userOptions', 'breadcrumbs'));
     }
 
+    public function updateManual(Request $request, $id)
+    {
+        $total = 0;
+        $total = $total + $request->buyer + $request->dealer;
+        foreach ($request->percentage ?? [] as $percentage) {
+            if ($percentage < 1) {
+                return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
+            }
+            $total += $percentage;
+        }
+        $manual_list = [];
+        foreach ($request->manual ?? [] as $key => $manual) {
+            if ($manual < 1) {
+                return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
+            }
+            $total += $manual;
+            $manual_list[] = [
+                'user_id' => $request->user_id[$key],
+                'percentage' => $manual,
+            ];
+        }
+        if ($total != 100) {
+            return redirect()->back()->with('error', 'Total percentage must be 100')->withInput();
+        }
+        GlobalSetting::updateOrCreate(
+            [ 'id' => $id ],
+            [
+                'hierarchy' => count($request->percentage),
+                'percentage' => $request->percentage,
+                'manual' => $manual_list,
+                'buyer' => $request->buyer,
+                'dealer' => $request->dealer,
+            ]
+        );
+
+        return redirect()->route('manual');
+    }
+
     public function updateGlobal(Request $request)
     {
         $total = 0;
@@ -73,6 +111,7 @@ class SettingsController extends Controller
         $users = ManualSetting::with('user')->get();
         return view('pages.settings.manual', compact('users', 'breadcrumbs'));
     }
+
     public function manualAdd()
     {
         $breadcrumbs = [
