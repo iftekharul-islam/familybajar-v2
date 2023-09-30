@@ -69,7 +69,7 @@ class UserController extends Controller
             $file->move(public_path('uploads/'), $filename);
             $data['image'] = 'uploads/' . $filename;
         }
-        if ($request->has('password')) {
+        if (!empty($request->get('password'))) {
             $data['password'] = Hash::make($request->password);
         }
         $user = User::find($id);
