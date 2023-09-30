@@ -57,7 +57,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID - User</th>
+                                <th>User</th>
                                 <th>Amount</th>
                                 <th>Percentage</th>
                                 <th>Generation/Manual</th>
@@ -68,14 +68,11 @@
                             @foreach ($order->repurchase_history as $repurchase)
                                 <tr>
                                     <td>
-                                        <span class="fw-bold">{{ $repurchase->id }}</span>
-                                    </td>
-                                    <td>
                                         {{ $repurchase->user->name }}
                                         <small>{{ $repurchase->user->email }}</small>
                                     </td>
-                                    <td>{{ $repurchase->amount }}tk</td>
-                                    <td>{{ $repurchase->percentage }}%</td>
+                                    <td>BDT : {{ $repurchase->amount }}</td>
+                                    <td>{{ $repurchase->percentage }} %</td>
                                     <td>{{ $repurchase->is_heirarchy ? 'Generation - '. $repurchase->chain_serial : 'Manual' }}</td>
                                     <td>
                                         @if ($repurchase->remarks)
@@ -88,9 +85,6 @@
                                                 --
                                             </div>
                                         @endif
-
-
-
                                     </td>
                                 </tr>
                             @endforeach
