@@ -61,7 +61,7 @@ class OrderController extends Controller
 
     public function orderAddButton(Request $request)
     {
-        // info($request->all());
+        return $request->all();
         $request->validate(
             [
                 'seller_id' => 'required',

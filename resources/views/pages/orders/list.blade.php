@@ -140,8 +140,8 @@
                                                             {{ $seller->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                    <input type="hidden" name="seller_id" value="{{ Auth::user()->id }}">
                                             @endif
-
                                             @error('seller_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
