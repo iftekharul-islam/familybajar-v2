@@ -31,8 +31,8 @@ class OrderController extends Controller
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
         $orders = $orders->latest()->paginate('10');
-        $customers = User::where('type', 3)->get();
-        $sellers = User::whereIn('type', [2,3])->get();
+        $customers = User::whereIn('type', [2,3])->get();
+        $sellers = User::where('type', 2)->get();
 
         return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users', 'sellers', 'customers'));
     }
