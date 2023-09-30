@@ -80,6 +80,9 @@ class UserController extends Controller
         if (!empty($request->get('type'))) {
             $data['type'] = $request->type;
         }
+        if (!empty($request->get('phone'))) {
+            $data['phone'] = $request->phone;
+        }
         if (!empty($request->get('password'))) {
             $data['password'] = Hash::make($request->password);
         }
@@ -97,9 +100,10 @@ class UserController extends Controller
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
             'type' => 'required',
+            'phone' => 'required',
             'password' => 'required|min:6'
         ]);
-        $data = $request->only(['name', 'email', 'type', 'ref_by']);
+        $data = $request->only(['name', 'email', 'type', 'phone', 'ref_by']);
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
         $user->update([

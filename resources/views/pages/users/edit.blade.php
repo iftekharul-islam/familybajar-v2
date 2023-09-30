@@ -60,6 +60,20 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
+                                            <label class="col-form-label" for="phn-id">Phone number</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="phn-id" class="form-control" name="phone"
+                                                   placeholder="phone number" value="{{ $user_data->phone }}"/>
+                                            @error('number')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
                                             <label class="col-form-label" for="type">Type</label>
                                         </div>
                                         <div class="col-sm-9">
