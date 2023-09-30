@@ -295,7 +295,7 @@
                                         <div class="col-sm-9">
                                             <select class="select2 form-select" id="customer_id" name="ref_by">
                                                 <option value="" disabled selected>Select a User</option>
-                                                @foreach ($userList ?? [] as $customer)
+                                                @foreach (\App\Models\User::all() ?? [] as $customer)
                                                     <option value="{{ $customer->ref_code }}"
                                                         {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
                                                         {{ $customer->name }} ({{ $customer->email }})
