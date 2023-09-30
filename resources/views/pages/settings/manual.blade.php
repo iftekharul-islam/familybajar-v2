@@ -40,7 +40,7 @@
                                     <td>{{ count($user->percentage ?? []) }}</td>
                                     <td>{{ count($user->manual ?? []) }}</td>
                                     <td>
-                                        <a class="" href="#">
+                                        <a class="" href="{{ route('manualEdit', $user->user->id) }}">
                                             <i data-feather="edit-2" class="me-50"></i>
                                         </a>
                                         <a class="" href="#">

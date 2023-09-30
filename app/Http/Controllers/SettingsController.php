@@ -19,6 +19,16 @@ class SettingsController extends Controller
         return view('pages.settings.global', compact('settings', 'userOptions', 'breadcrumbs'));
     }
 
+    public function manualEdit($id)
+    {
+        $breadcrumbs = [
+            ['name' => "Settings"], ['link' => "settings/manual", 'name' => "Global"]
+        ];
+        $userOptions = User::get();
+        $settings = ManualSetting::with('user')->where('user_id', $id)->first();
+        return view('pages.settings.manual-edit', compact('settings', 'userOptions', 'breadcrumbs'));
+    }
+
     public function updateGlobal(Request $request)
     {
         $total = 0;
@@ -68,7 +78,7 @@ class SettingsController extends Controller
         $breadcrumbs = [
             ['name' => "Settings"], ['link' => "settings/manual", 'name' => "Manual"], ['name' => "Add"]
         ];
-        $users = User::whereDoesntHave('manual_mapping')->get();
+        $users = User::where('type', config('status.type_by_name.seller'))->whereDoesntHave('manual_mapping')->get();
         $userOptions = User::get();
         return view('pages.settings.manual-add', compact('users', 'userOptions', 'breadcrumbs'));
     }

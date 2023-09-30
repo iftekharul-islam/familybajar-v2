@@ -101,7 +101,7 @@ class OrderController extends Controller
         $total = 0;
         $serial = 1;
         $user = User::find($order->customer_id);
-        $settings = ManualSetting::where('user_id', $user->id)->first();
+        $settings = ManualSetting::where('user_id', $order->seller_id)->first();
         if (!$settings) {
             $settings = GlobalSetting::latest()->first();
         }

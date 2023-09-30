@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/manual-add', [SettingsController::class, 'manualAdd'])->name('manualAdd');
     Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
 
+    Route::get('settings/manual-edit/{id}', [SettingsController::class, 'manualEdit'])->name('manualEdit');
+
     Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
 
     Route::get('login-as-user/{id}', [AuthenticationController::class, 'loginAsUser'])->name('loginAsUser');
