@@ -35,7 +35,7 @@
                             Total Amount
                         </div>
                         <div class="col-1">:</div>
-                        <div class="col-6">{{ $order->total_price }}tk</div>
+                        <div class="col-6">BDT : {{ $order->total_price }} ৳</div>
                     </div>
                     <div class="row my-1">
                         <div class="col-5">

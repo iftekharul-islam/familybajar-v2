@@ -35,14 +35,14 @@
                             Total Amount
                         </div>
                         <div class="col-1">:</div>
-                        <div class="col-6">{{ $order->total_price }}tk</div>
+                        <div class="col-6">BDT : {{ $order->total_price }} ৳</div>
                     </div>
                     <div class="row my-1">
                         <div class="col-5">
                             Repurchase Amount
                         </div>
                         <div class="col-1">:</div>
-                        <div class="col-6">{{ $order->repurchase_price }}tk</div>
+                        <div class="col-6">{{ $order->repurchase_price }} ৳</div>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                                         {{ $repurchase->user->name }}
                                         <small>{{ $repurchase->user->email }}</small>
                                     </td>
-                                    <td>BDT : {{ $repurchase->amount }}</td>
+                                    <td>BDT : {{ $repurchase->amount }} ৳</td>
                                     <td>{{ $repurchase->percentage }} %</td>
                                     <td>{{ $repurchase->is_heirarchy ? 'Generation - '. $repurchase->chain_serial : 'Manual' }}</td>
                                     <td>
