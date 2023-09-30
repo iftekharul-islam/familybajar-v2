@@ -97,7 +97,7 @@
                                         <div class="col-sm-9">
                                             <div class="input-group input-group-merge form-password-toggle">
                                                 <input class="form-control form-control-merge" id="login-password"
-                                                    type="password" name="password" placeholder="············"
+                                                    type="password" name="password" placeholder="Enter new password"
                                                     aria-describedby="login-password" tabindex="2" />
                                                 <span class="input-group-text cursor-pointer"><i
                                                         data-feather="eye"></i></span>
