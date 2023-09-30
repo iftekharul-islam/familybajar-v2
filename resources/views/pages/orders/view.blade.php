@@ -71,7 +71,7 @@
                                         {{ $repurchase->user->name }}
                                         <small>{{ $repurchase->user->email }}</small>
                                     </td>
-                                    <td><span>BDT : {{ $repurchase->amount }} ৳</span></td>
+                                    <td class="d-inline-block"><strong>BDT : {{ $repurchase->amount }} ৳</strong></td>
                                     <td>{{ $repurchase->percentage }} %</td>
                                     <td>{{ $repurchase->is_heirarchy ? 'Generation - '. $repurchase->chain_serial : 'Manual' }}</td>
                                     <td>
@@ -93,8 +93,8 @@
                             <tr>
                                 <th>Total</th>
                                 <th></th>
-                                <th>{{ $order->repurchase_history->sum('amount') }}tk</th>
-                                <th>{{ $order->repurchase_history->sum('percentage') }}%</th>
+                                <th>{{ $order->repurchase_history->sum('amount') }} ৳</th>
+                                <th>{{ $order->repurchase_history->sum('percentage') }} %</th>
                                 <th></th>
                                 <th></th>
                             </tr>
