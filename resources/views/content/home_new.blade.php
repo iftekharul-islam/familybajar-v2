@@ -57,35 +57,42 @@
                             <div class="row">
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Email:</h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Email:</span></h5>
                                         <p class="card-text">{{ $user->email }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Joined at:</h5>
-                                        <p class="card-text">{{ $user->created_at->format('d M Y') }}</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Joined at:</span></h5>
+                                        <p class="card-text">{{ $user->created_at->format('d M Y H:s a') }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Reference Code:</h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code:</span></h5>
                                         <p class="card-text">{{ $user->ref_code }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Refered By:</h5>
-                                        <p class="card-text">{{ $user->refer->name ?? 'N/A' }}</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Referred By:</span></h5>
+                                        <p class="card-text">
+                                            @if(!empty($user->refer))
+                                                <strong>{{ $user->refer->name }}</strong>
+                                                <strong>({{ $user->refer->email }})</strong>
+                                            @else
+                                                <span>'N/A'</span>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Re-purchased Amount:</h5>
-                                        <p class="card-text">{{ $user->repurchase_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Withdraw Amount:</h5>
-                                        <p class="card-text">{{ $user->withdraw_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Current Amount:</h5>
-                                        <p class="card-text">{{ $user->total_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
                                     </div>
                                 </div>
                             </div>

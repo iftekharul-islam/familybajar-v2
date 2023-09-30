@@ -17,12 +17,12 @@
             <div class="col-12">
                 <div class="card profile-header mb-2">
                     <img class="card-img-top" src="{{ asset('images/profile/user-uploads/timeline.jpg') }}"
-                        alt="User Profile Image" />
+                         alt="User Profile Image" />
                     <div class="position-relative">
                         <div class="profile-img-container d-flex align-items-center">
                             <div class="profile-img">
-                                <img src="{{ $user->image_url ?? "https://i2.wp.com/ui-avatars.com/api/$user->name/400" }}"
-                                    class="rounded img-fluid" alt="Card image" />
+                                <img src="{{ !empty($user->image_url) ? $user->image_url : 'https://i2.wp.com/ui-avatars.com/api/'. $user->name .'/400'}}"
+                                     class="rounded img-fluid" alt="Card image" />
                             </div>
                             <div class="profile-title ms-3">
                                 <h2 class="text-white">{{ $user->name }}</h2>
@@ -49,40 +49,50 @@
                             <h5>
                                 Personal Information
                             </h5>
+                            <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">
+                                <i data-feather="edit-2" class="me-50"></i>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Email:</h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Email:</span></h5>
                                         <p class="card-text">{{ $user->email }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Joined at:</h5>
-                                        <p class="card-text">{{ $user->created_at->format('d M Y') }}</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Joined at:</span></h5>
+                                        <p class="card-text">{{ $user->created_at->format('d M Y H:s a') }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Reference Code:</h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code:</span></h5>
                                         <p class="card-text">{{ $user->ref_code }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Refered By:</h5>
-                                        <p class="card-text">{{ $user->refer->name ?? 'N/A' }}</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Referred By:</span></h5>
+                                        <p class="card-text">
+                                            @if(!empty($user->refer))
+                                                <strong>{{ $user->refer->name }}</strong>
+                                                <strong>({{ $user->refer->email }})</strong>
+                                            @else
+                                                <span>'N/A'</span>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Re-purchased Amount:</h5>
-                                        <p class="card-text">{{ $user->repurchase_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Withdraw Amount:</h5>
-                                        <p class="card-text">{{ $user->withdraw_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75">Current Amount:</h5>
-                                        <p class="card-text">{{ $user->total_amount }} tk</p>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
                                     </div>
                                 </div>
                             </div>
@@ -114,30 +124,30 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Seller</th>
-                                        <th>Repurchase Amount</th>
-                                        <th>Total Amount</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Seller</th>
+                                    <th>Repurchase Amount</th>
+                                    <th>Total Amount</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($user->orders as $order)
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bold">{{ $order->id }}</span>
-                                            </td>
-                                            <td>{{ $order->seller->name ?? 'N/A' }}</td>
-                                            <td>{{ $order->repurchase_price ?? 0 }} tk</td>
-                                            <td>{{ $order->total_price ?? 0 }} tk</td>
-                                            <td>
-                                                <a class="" href="/order/{{ $order->id }}">
-                                                    <i data-feather="eye" class="me-50"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach ($user->orders as $order)
+                                    <tr>
+                                        <td>
+                                            <span class="fw-bold">{{ $order->id }}</span>
+                                        </td>
+                                        <td>{{ $order->seller->name ?? 'N/A' }}</td>
+                                        <td>{{ $order->repurchase_price ?? 0 }} tk</td>
+                                        <td>{{ $order->total_price ?? 0 }} tk</td>
+                                        <td>
+                                            <a class="" href="/order/{{ $order->id }}">
+                                                <i data-feather="eye" class="me-50"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -155,30 +165,30 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Seller</th>
-                                        <th>Repurchase Amount</th>
-                                        <th>Total Amount</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Seller</th>
+                                    <th>Repurchase Amount</th>
+                                    <th>Total Amount</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($user->orders as $order)
-                                        <tr>
-                                            <td>
-                                                <span class="fw-bold">{{ $order->id }}</span>
-                                            </td>
-                                            <td>{{ $order->seller->name }}</td>
-                                            <td>{{ $order->repurchase_price }}</td>
-                                            <td>{{ $order->total_price ?? 'N/A' }}</td>
-                                            <td>
-                                                <a class="" href="/order/{{ $order->id }}">
-                                                    <i data-feather="eye" class="me-50"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
+                                {{-- @foreach ($user->orders as $order)
+                                    <tr>
+                                        <td>
+                                            <span class="fw-bold">{{ $order->id }}</span>
+                                        </td>
+                                        <td>{{ $order->seller->name }}</td>
+                                        <td>{{ $order->repurchase_price }}</td>
+                                        <td>{{ $order->total_price ?? 'N/A' }}</td>
+                                        <td>
+                                            <a class="" href="/order/{{ $order->id }}">
+                                                <i data-feather="eye" class="me-50"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
