@@ -52,6 +52,10 @@
                             <h5>
                                 Personal Information
                             </h5>
+                            @if(auth()->user()->type == config('status.type_by_name.admin') || auth()->user()->can_create_customer == 1)
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#editUser">Add User</button>
+                            @endif
                             <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">
                                 <i data-feather="edit-2" class="me-50"></i>
                             </a>
@@ -207,6 +211,168 @@
 
             </div>
         </section>
+    </div>
+    <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-5 pt-50">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-1">Add new user</h1>
+                    </div>
+
+                    <div class="card-body">
+                        <form class="form form-horizontal" action="{{ route('userAddButton') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Name</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="first-name" class="form-control" name="name"
+                                                   placeholder="Name" value="{{ old('name') }}" />
+                                            @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="email-id">Email</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="email" id="email-id" class="form-control" name="email"
+                                                   placeholder="Email" value="{{ old('email') }}" />
+                                            @error('email')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="phn-id">Phone Number</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="phn-id" class="form-control" name="phone"
+                                                   placeholder="phone number" value="{{ old('phone') }}" />
+                                            @error('number')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="type">Type</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="hide-search form-select" id="select2-hide-search"
+                                                    name="type" value={{ old('type') }}>
+                                                <option value="1">Admin</option>
+                                                <option value="2">Seller</option>
+                                                <option value="3" selected>Customer</option>
+                                            </select>
+                                            @error('type')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="ref_by">Refer By</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select class="select2 form-select" id="customer_id" name="ref_by">
+                                                <option value="" disabled selected>Select a User</option>
+                                                @foreach ($userList ?? [] as $customer)
+                                                    <option value="{{ $customer->ref_code }}"
+                                                        {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                        {{ $customer->name }} ({{ $customer->email }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="password">Password</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="login-password"
+                                                       type="password" name="password" placeholder="············"
+                                                       aria-describedby="login-password" tabindex="2" />
+                                                <span class="input-group-text cursor-pointer"><i
+                                                        data-feather="eye"></i></span>
+                                            </div>
+                                            @error('password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                @if(auth()->user()->type == config('status.type_by_name.admin'))
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="ref_by"><b>Can create New User?</b></label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-check-inline">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="can_create_customer"
+                                                            id="inlineRadio1"
+                                                            value="1"
+                                                        />
+                                                        <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="can_create_customer"
+                                                            id="inlineRadio2"
+                                                            value=""
+                                                            checked
+                                                        />
+                                                        <label class="form-check-label" for="inlineRadio2">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-sm-9 offset-sm-3">
+                                    @if (session('error'))
+                                        <div class="text-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+                                    <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('vendor-script')

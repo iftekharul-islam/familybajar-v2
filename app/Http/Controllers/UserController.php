@@ -86,6 +86,9 @@ class UserController extends Controller
         if (!empty($request->get('password'))) {
             $data['password'] = Hash::make($request->password);
         }
+
+        $data['can_create_customer'] = $request->can_create_customer;
+
         $user = User::find($id);
         $user->update($data);
 
@@ -103,19 +106,16 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required|min:6'
         ]);
-        $data = $request->only(['name', 'email', 'type', 'phone', 'ref_by']);
+        $data = $request->only(['name', 'email', 'type', 'phone', 'ref_by', 'can_create_customer']);
         $data['password'] = Hash::make($request->password);
+        $data['can_create_customer'] = $request->can_create_customer ?? 0;
         $user = User::create($data);
         $user->update([
             'ref_code' => $user->id . Random::generate(6)
         ]);
-        if ($user) {
-            return redirect()->route('users');
-        }
 
         Session::flash('message',  $user->name . ' created successfully!');
 
-        return redirect()->route('userAdd')
-            ->with('error', 'Something wents wrong!')->withInput();
+        return redirect()->back();
     }
 }

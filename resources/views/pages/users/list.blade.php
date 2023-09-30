@@ -250,6 +250,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if(auth()->user()->type == config('status.type_by_name.admin'))
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="ref_by"><b>Can create New User?</b></label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="demo-inline-spacing">
+                                                <div class="form-check form-check-inline">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="can_create_customer"
+                                                        id="inlineRadio1"
+                                                        value="1"
+                                                    />
+                                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="can_create_customer"
+                                                        id="inlineRadio2"
+                                                        value="0"
+                                                        checked
+                                                    />
+                                                    <label class="form-check-label" for="inlineRadio2">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="col-sm-9 offset-sm-3">
                                     @if (session('error'))
                                         <div class="text-danger">
