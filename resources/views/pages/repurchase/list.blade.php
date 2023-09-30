@@ -12,7 +12,7 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-                @if(Auth::user()->type == config('status.type_by_name.admin'))
+                @if (Auth::user()->type == config('status.type_by_name.admin'))
                     <form action="{{ route('repurchase-history') }}" method="get">
                         <div class="card-body d-flex">
                             <div class="col-2">
@@ -34,9 +34,11 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                {{-- <th>ID</th> --}}
                                 <th>Order ID</th>
-                                <th>Customer</th>
+                                <th>Buyer</th>
+                                <th>Seller</th>
+                                <th>Consumer</th>
                                 <th>Amount</th>
                                 <th>Percentage</th>
                                 <th>Generation/Manual</th>
@@ -47,19 +49,21 @@
                         <tbody>
                             @foreach ($histories as $history)
                                 <tr>
-                                    <td>
+                                    {{-- <td>
                                         <span class="fw-bold">{{ $history->id }}</span>
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <a class="" href="/order/{{ $history->order_id }}">
                                             {{ $history->order_id }}
                                         </a>
                                     </td>
+                                    <td>{{ $history->order->customer->name }}</td>
+                                    <td>{{ $history->order->seller->name }}</td>
                                     <td>{{ $history->user->name }}</td>
                                     <td>{{ $history->amount }} tk</td>
                                     <td>{{ $history->percentage }}%</td>
                                     <td>
-                                        {{ $history->is_heirarchy ? 'Generation - '. $history->chain_serial : 'Manual' }}
+                                        {{ $history->is_heirarchy ? 'Generation - ' . $history->chain_serial : 'Manual' }}
                                     </td>
                                     <td>{{ $history->remarks }}</td>
                                     <td>{{ $history->created_at }}</td>

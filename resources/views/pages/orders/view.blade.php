@@ -73,7 +73,8 @@
                                     </td>
                                     <td class="d-inline-block"><strong>BDT : {{ $repurchase->amount }} ৳</strong></td>
                                     <td>{{ $repurchase->percentage }} %</td>
-                                    <td>{{ $repurchase->is_heirarchy ? 'Generation - '. $repurchase->chain_serial : 'Manual' }}</td>
+                                    <td>{{ $repurchase->is_heirarchy ? 'Generation - ' . $repurchase->chain_serial : 'Manual' }}
+                                    </td>
                                     <td>
                                         @if ($repurchase->remarks)
                                             <div class="d-flex justify-content-center" title={{ $repurchase->remarks }}
@@ -95,7 +96,6 @@
                                 <th></th>
                                 <th>{{ $order->repurchase_history->sum('amount') }} ৳</th>
                                 <th>{{ $order->repurchase_history->sum('percentage') }} %</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>

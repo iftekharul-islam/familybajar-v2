@@ -25,7 +25,9 @@ class OrderController extends Controller
             $orders->where('customer_id', $request->user_id)
                 ->orWhere('seller_id', $request->user_id);
         }
-        if (Auth::user()->type != config('status.type_by_name.admin')) {
+        if (Auth::user()->type == config('status.type_by_name.seller')) {
+            $orders = $orders->where('seller_id', Auth::user()->id);
+        } else if (Auth::user()->type != config('status.type_by_name.admin')) {
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
         $orders = $orders->latest()->paginate('10');
@@ -97,7 +99,8 @@ class OrderController extends Controller
     public function repurchase_calculation($order)
     {
         $total = 0;
-        $user = User::find($order->seller_id);
+        $serial = 1;
+        $user = User::find($order->customer_id);
         $settings = ManualSetting::where('user_id', $user->id)->first();
         if (!$settings) {
             $settings = GlobalSetting::latest()->first();
@@ -110,7 +113,7 @@ class OrderController extends Controller
                     'user_id' => $user->id,
                     'amount' => $order->repurchase_price * $percentage / 100,
                     'percentage' => $percentage,
-                    'chain_serial' => $index + 1,
+                    'chain_serial' => $serial,
                     'is_heirarchy' => true,
                 ]);
                 $total += $percentage;
@@ -119,6 +122,7 @@ class OrderController extends Controller
                     'repurchase_amount' => $user->repurchase_amount + $order->repurchase_price * $percentage / 100,
                     'total_amount' => $user->total_amount + $order->repurchase_price * $percentage / 100,
                 ]);
+                $serial++;
             } else {
                 break;
             }
@@ -129,7 +133,7 @@ class OrderController extends Controller
                 'user_id' => $manual['user_id'],
                 'amount' => $order->repurchase_price * $manual['percentage'] / 100,
                 'percentage' => $manual['percentage'],
-                'chain_serial' => count($settings->percentage) + $index + 1,
+                'chain_serial' => $serial,
                 'is_heirarchy' => false,
             ]);
             $total += $manual['percentage'];
@@ -139,6 +143,47 @@ class OrderController extends Controller
                 'repurchase_amount' => $user->repurchase_amount + $order->repurchase_price * $manual['percentage'] / 100,
                 'total_amount' => $user->total_amount + $order->repurchase_price * $manual['percentage'] / 100,
             ]);
+            $serial++;
+        }
+
+        if ($settings->buyer > 0) {
+            RepurchaseHistory::create([
+                'order_id' => $order->id,
+                'user_id' => $order->customer_id,
+                'amount' => $order->repurchase_price * $settings->buyer / 100,
+                'percentage' => $settings->buyer,
+                'chain_serial' => $serial,
+                'is_heirarchy' => false,
+                'remarks' => "Buyer Commision"
+            ]);
+            $total += $settings->buyer;
+
+            $user = User::find(auth()->user()->id);
+            $user->update([
+                'repurchase_amount' => $user->repurchase_amount + $order->repurchase_price * $settings->buyer / 100,
+                'total_amount' => $user->total_amount + $order->repurchase_price * $settings->buyer / 100,
+            ]);
+
+            $serial++;
+        }
+        if ($settings->dealer > 0) {
+            RepurchaseHistory::create([
+                'order_id' => $order->id,
+                'user_id' => $order->seller_id,
+                'amount' => $order->repurchase_price * $settings->dealer / 100,
+                'percentage' => $settings->dealer,
+                'chain_serial' => $serial,
+                'is_heirarchy' => false,
+                'remarks' => "Dealer Commision"
+            ]);
+            $total += $settings->dealer;
+
+            $user = User::find($order->seller_id);
+            $user->update([
+                'repurchase_amount' => $user->repurchase_amount + $order->repurchase_price * $settings->dealer / 100,
+                'total_amount' => $user->total_amount + $order->repurchase_price * $settings->dealer / 100,
+            ]);
+            $serial++;
         }
         if ($total < 100) {
             RepurchaseHistory::create([
@@ -146,7 +191,7 @@ class OrderController extends Controller
                 'user_id' => 1,
                 'amount' => $order->repurchase_price * (100 - $total) / 100,
                 'percentage' => 100 - $total,
-                'chain_serial' => count($settings->percentage) + count($settings->manual) + 1,
+                'chain_serial' => $serial,
                 'is_heirarchy' => false,
                 'remarks' => "Remaining amount"
             ]);
@@ -164,9 +209,12 @@ class OrderController extends Controller
         $breadcrumbs = [
             ['name' => "Re-purchase History"]
         ];
-        $histories = RepurchaseHistory::query()->with('user');
+        $histories = RepurchaseHistory::query()->with('user', 'order.customer', 'order.seller');
         if ($request->has('customer_id')) {
             $histories = $histories->where('user_id', $request->customer_id);
+        }
+        if (Auth::user()->type != config('status.type_by_name.admin')) {
+            $orders = $histories->where('user_id', Auth::user()->id);
         }
         $histories = $histories->paginate('10');
         return view('pages.repurchase.list', compact('histories', 'breadcrumbs', 'users'));

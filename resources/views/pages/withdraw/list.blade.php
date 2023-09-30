@@ -37,6 +37,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>User</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>TrxID</th>
@@ -50,6 +51,7 @@
                                     <td>
                                         <span class="fw-bold">{{ $withdraw->id }}</span>
                                     </td>
+                                    <td>{{ $withdraw->user->name }}</td>
                                     <td>{{ $withdraw->amount }} tk</td>
                                     <td>{{ config('status.withdraw')[$withdraw->status] }}</td>
                                     <td>{{ $withdraw->trxID }}</td>

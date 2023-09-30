@@ -22,6 +22,7 @@ class SettingsController extends Controller
     public function updateGlobal(Request $request)
     {
         $total = 0;
+        $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
             if ($percentage < 1) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
@@ -46,6 +47,8 @@ class SettingsController extends Controller
             'hierarchy' => count($request->percentage),
             'percentage' => $request->percentage,
             'manual' => $manual_list,
+            'buyer' => $request->buyer,
+            'dealer' => $request->dealer,
         ]);
 
         return redirect()->route('global');
@@ -74,14 +77,15 @@ class SettingsController extends Controller
     {
         $request->validate(
             [
-                'user_id' => 'required|exists:users,id',
+                'user' => 'required|exists:users,id',
             ],
             [
-                'user_id.required' => 'User is required',
-                'user_id.exists' => 'User is not exists',
+                'user.required' => 'User is required',
+                'user.exists' => 'User is not exists',
             ]
         );
         $total = 0;
+        $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
             if ($percentage < 1) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
@@ -108,6 +112,8 @@ class SettingsController extends Controller
             'hierarchy' => count($request->percentage ?? []) + count($manual_list),
             'percentage' => $request->percentage ?? [],
             'manual' => $manual_list ?? [],
+            'buyer' => $request->buyer,
+            'dealer' => $request->dealer,
         ]);
         return redirect()->route('manual');
     }
