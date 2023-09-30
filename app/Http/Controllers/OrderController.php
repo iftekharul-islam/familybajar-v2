@@ -97,7 +97,7 @@ class OrderController extends Controller
     public function repurchase_calculation($order)
     {
         $total = 0;
-        $user = User::find($order->customer_id);
+        $user = User::find($order->seller_id);
         $settings = ManualSetting::where('user_id', $user->id)->first();
         if (!$settings) {
             $settings = GlobalSetting::latest()->first();
