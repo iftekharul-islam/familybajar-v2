@@ -14,6 +14,8 @@ class Order extends Model
         'customer_id',
         'total_price',
         'repurchase_price',
+        'setting_id',
+        'setting_type', // 1 = global, 2 = manual
     ];
 
     /**

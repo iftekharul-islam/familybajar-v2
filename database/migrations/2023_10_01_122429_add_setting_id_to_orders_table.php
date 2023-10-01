@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('manual_settings', function (Blueprint $table) {
-            $table->integer('dealer')->default(0);
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('setting_id')->after('repurchase_price')->default(1);
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('manual_settings', function (Blueprint $table) {
-            $table->dropColumn('dealer');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('setting_id');
         });
     }
 };

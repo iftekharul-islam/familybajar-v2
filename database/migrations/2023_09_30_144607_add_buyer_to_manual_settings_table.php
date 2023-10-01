@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('manual_settings', function (Blueprint $table) {
-            //
+            $table->dropColumn('buyer');
         });
     }
 };

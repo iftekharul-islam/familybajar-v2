@@ -31,7 +31,7 @@ class OrderController extends Controller
             $orders = $orders->where('customer_id', Auth::user()->id);
         }
         $orders = $orders->latest()->paginate('10');
-        $customers = User::whereIn('type', [2,3])->get();
+        $customers = User::whereIn('type', [2, 3])->get();
         $sellers = User::where('type', 2)->get();
 
         return view('pages.orders.list', compact('orders', 'breadcrumbs', 'users', 'sellers', 'customers'));
@@ -98,10 +98,16 @@ class OrderController extends Controller
         $total = 0;
         $serial = 1;
         $user = User::find($order->customer_id);
+        $settings_type = 2;
         $settings = ManualSetting::where('user_id', $order->seller_id)->first();
         if (!$settings) {
             $settings = GlobalSetting::latest()->first();
+            $settings_type = 1;
         }
+        $order->update([
+            'setting_id' => $settings->id,
+            'setting_type' => $settings_type,
+        ]);
         foreach ($settings->percentage ?? [] as $index => $percentage) {
             $user = User::where('ref_code', $user->ref_by)->first();
             if ($user) {

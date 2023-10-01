@@ -11,7 +11,7 @@
 @section('page-style')
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-profile.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
-    <link rel="stylesheet" href="{{asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css'))}}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css')) }}">
 @endsection
 
 @section('content')
@@ -20,12 +20,12 @@
             <div class="col-12">
                 <div class="card profile-header mb-2">
                     <img class="card-img-top" src="{{ asset('images/profile/user-uploads/timeline.jpg') }}"
-                         alt="User Profile Image" />
+                        alt="User Profile Image" />
                     <div class="position-relative">
                         <div class="profile-img-container d-flex align-items-center">
                             <div class="profile-img">
-                                <img src="{{ !empty($user->image_url) ? $user->image_url : 'https://i2.wp.com/ui-avatars.com/api/'. $user->name .'/400'}}"
-                                     class="rounded img-fluid" alt="Card image" />
+                                <img src="{{ !empty($user->image_url) ? $user->image_url : 'https://i2.wp.com/ui-avatars.com/api/' . $user->name . '/400' }}"
+                                    class="rounded img-fluid" alt="Card image" />
                             </div>
                             <div class="profile-title ms-3">
                                 <h2 class="text-white">{{ $user->name }}</h2>
@@ -52,9 +52,9 @@
                             <h5>
                                 Personal Information
                             </h5>
-                            @if(auth()->user()->type == config('status.type_by_name.admin') || auth()->user()->can_create_customer == 1)
+                            @if (auth()->user()->type == config('status.type_by_name.admin') || auth()->user()->can_create_customer == 1)
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editUser">Add User</button>
+                                    data-bs-target="#editUser">Add User</button>
                             @endif
                             <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">
                                 <i data-feather="edit-2" class="me-50"></i>
@@ -68,7 +68,8 @@
                                         <p class="card-text">{{ $user->email }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Phone Number:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Phone Number:</span>
+                                        </h5>
                                         <p class="card-text">{{ $user->phone }}</p>
                                     </div>
                                     <div class="mt-2">
@@ -76,16 +77,18 @@
                                         <p class="card-text">{{ $user->created_at->format('d M Y H:s a') }}</p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code:</span>
+                                        </h5>
                                         <p class="card-text">{{ $user->ref_code }}</p>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Referred By:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Referred By:</span>
+                                        </h5>
                                         <p class="card-text">
-                                            @if(!empty($user->refer))
+                                            @if (!empty($user->refer))
                                                 <strong>{{ $user->refer->name }}</strong>
                                                 <strong>({{ $user->refer->email }})</strong>
                                             @else
@@ -94,15 +97,18 @@
                                         </p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased Amount:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased
+                                                Amount:</span></h5>
                                         <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span>
+                                        </h5>
                                         <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
                                     </div>
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span>
+                                        </h5>
                                         <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
                                     </div>
                                 </div>
@@ -112,7 +118,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h5>Your Generations</h5>
+                            <h5>Your Generations: {{ $countAllNodes }}</h5>
                         </div>
                         <div class="card-body">
                             <div id="jstree-basic">
@@ -135,30 +141,30 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Seller</th>
-                                    <th>Repurchase Amount</th>
-                                    <th>Total Amount</th>
-                                    <th>Actions</th>
-                                </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Seller</th>
+                                        <th>Repurchase Amount</th>
+                                        <th>Total Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($user->orders as $order)
-                                    <tr>
-                                        <td>
-                                            <span class="fw-bold">{{ $order->id }}</span>
-                                        </td>
-                                        <td>{{ $order->seller->name ?? 'N/A' }}</td>
-                                        <td>{{ $order->repurchase_price ?? 0 }} tk</td>
-                                        <td>{{ $order->total_price ?? 0 }} tk</td>
-                                        <td>
-                                            <a class="" href="/order/{{ $order->id }}">
-                                                <i data-feather="eye" class="me-50"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    @foreach ($user->orders as $order)
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bold">{{ $order->id }}</span>
+                                            </td>
+                                            <td>{{ $order->seller->name ?? 'N/A' }}</td>
+                                            <td>{{ $order->repurchase_price ?? 0 }} tk</td>
+                                            <td>{{ $order->total_price ?? 0 }} tk</td>
+                                            <td>
+                                                <a class="" href="/order/{{ $order->id }}">
+                                                    <i data-feather="eye" class="me-50"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -176,16 +182,16 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Seller</th>
-                                    <th>Repurchase Amount</th>
-                                    <th>Total Amount</th>
-                                    <th>Actions</th>
-                                </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Seller</th>
+                                        <th>Repurchase Amount</th>
+                                        <th>Total Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                {{-- @foreach ($user->orders as $order)
+                                    {{-- @foreach ($user->orders as $order)
                                     <tr>
                                         <td>
                                             <span class="fw-bold">{{ $order->id }}</span>
@@ -234,9 +240,9 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" id="first-name" class="form-control" name="name"
-                                                   placeholder="Name" value="{{ old('name') }}" />
+                                                placeholder="Name" value="{{ old('name') }}" />
                                             @error('name')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -248,9 +254,9 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="email" id="email-id" class="form-control" name="email"
-                                                   placeholder="Email" value="{{ old('email') }}" />
+                                                placeholder="Email" value="{{ old('email') }}" />
                                             @error('email')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -262,9 +268,23 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="number" id="phn-id" class="form-control" name="phone"
-                                                   placeholder="phone number" value="{{ old('phone') }}" />
+                                                placeholder="phone number" value="{{ old('phone') }}" />
                                             @error('number')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="phn-id">Image</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="file" id="image-id" class="form-control" name="image"
+                                                placeholder="Image" />
+                                            @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -276,13 +296,15 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search"
-                                                    name="type" value={{ old('type') }}>
-                                                <option value="1">Admin</option>
-                                                <option value="2">Seller</option>
+                                                name="type" value={{ old('type') }}>
+                                                @if (Auth::user()->type == config('status.type_by_name.admin'))
+                                                    <option value="1">Admin</option>
+                                                    <option value="2">Seller</option>
+                                                @endif
                                                 <option value="3" selected>Customer</option>
                                             </select>
                                             @error('type')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -295,7 +317,7 @@
                                         <div class="col-sm-9">
                                             <select class="select2 form-select" id="customer_id" name="ref_by">
                                                 <option value="" disabled selected>Select a User</option>
-                                                @foreach (\App\Models\User::all() ?? [] as $customer)
+                                                @foreach ($userList ?? [] as $customer)
                                                     <option value="{{ $customer->ref_code }}"
                                                         {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
                                                         {{ $customer->name }} ({{ $customer->email }})
@@ -313,44 +335,104 @@
                                         <div class="col-sm-9">
                                             <div class="input-group input-group-merge form-password-toggle">
                                                 <input class="form-control form-control-merge" id="login-password"
-                                                       type="password" name="password" placeholder="············"
-                                                       aria-describedby="login-password" tabindex="2" />
+                                                    type="password" name="password" placeholder="············"
+                                                    aria-describedby="login-password" tabindex="2" />
                                                 <span class="input-group-text cursor-pointer"><i
                                                         data-feather="eye"></i></span>
                                             </div>
                                             @error('password')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                @if(auth()->user()->type == config('status.type_by_name.admin'))
+                                <hr />
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="nominee_name">Nominee Name</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-name"
+                                                    type="text" name="nominee_name" placeholder="Nominee Name" />
+
+                                            </div>
+                                            @error('nominee_name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="nominee_relation">Nominee Relation</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-relation"
+                                                    type="text" name="nominee_relation"
+                                                    placeholder="Nominee Relation" />
+                                            </div>
+                                            @error('nominee_relation')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="nominee_nid">Nominee NID</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-nid"
+                                                    type="text" name="nominee_nid" placeholder="Nominee NID" />
+                                            </div>
+                                            @error('nominee_nid')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                @if (auth()->user()->type == config('status.type_by_name.admin'))
                                     <div class="col-12">
                                         <div class="mb-1 row">
                                             <div class="col-sm-3">
-                                                <label class="col-form-label" for="ref_by"><b>Can create New User?</b></label>
+                                                <label class="col-form-label" for="ref_by">Package</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <select class="select2 form-select" id="customer_id" name="package">
+                                                    <option value="" disabled selected>Select a Package</option>
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <option value="{{ $i }}">Level-{{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="ref_by"><b>Can create New
+                                                        User?</b></label>
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="demo-inline-spacing">
                                                     <div class="form-check form-check-inline">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="can_create_customer"
-                                                            id="inlineRadio1"
-                                                            value="1"
-                                                        />
+                                                        <input class="form-check-input" type="radio"
+                                                            name="can_create_customer" id="inlineRadio1"
+                                                            value="1" />
                                                         <label class="form-check-label" for="inlineRadio1">Yes</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="can_create_customer"
-                                                            id="inlineRadio2"
-                                                            value=""
-                                                            checked
-                                                        />
+                                                        <input class="form-check-input" type="radio"
+                                                            name="can_create_customer" id="inlineRadio2" value="0"
+                                                            checked />
                                                         <label class="form-check-label" for="inlineRadio2">No</label>
                                                     </div>
                                                 </div>
@@ -385,9 +467,9 @@
     <script src="{{ asset(mix('js/scripts/pages/page-profile.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-tree.js')) }}"></script>
-    @if(Session::has('message'))
+    @if (Session::has('message'))
         <script>
-            $(function () {
+            $(function() {
                 'use strict'
                 Swal.fire({
                     position: 'top-end',
@@ -401,7 +483,6 @@
                     buttonsStyling: false
                 })
             })
-
         </script>
     @endif
 @endsection

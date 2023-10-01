@@ -54,7 +54,7 @@ class SettingsController extends Controller
             return redirect()->back()->with('error', 'Total percentage must be 100')->withInput();
         }
         ManualSetting::updateOrCreate(
-            [ 'id' => $id ],
+            ['id' => $id],
             [
                 'hierarchy' => count($request->percentage),
                 'percentage' => $request->percentage,
@@ -69,6 +69,12 @@ class SettingsController extends Controller
 
     public function updateGlobal(Request $request)
     {
+        if ($request->minimum_withdraw < 1) {
+            return redirect()->back()->with('error', 'Minimum Withdraw Amount must be greater than 0')->withInput();
+        }
+        if ($request->charge < 0 || $request->charge > 100) {
+            return redirect()->back()->with('error', 'Company Charge Percentage should be in 0% to 100%')->withInput();
+        }
         $total = 0;
         $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
@@ -97,9 +103,10 @@ class SettingsController extends Controller
             'manual' => $manual_list,
             'buyer' => $request->buyer,
             'dealer' => $request->dealer,
+            'minimum_withdraw' => $request->minimum_withdraw,
+            'charge' => $request->charge,
         ]);
-
-        return redirect()->route('global');
+        return redirect()->back()->with('success', 'Global Settings Updated')->withInput();
     }
 
 

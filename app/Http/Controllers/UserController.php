@@ -16,8 +16,12 @@ class UserController extends Controller
         $user = User::with('refer')->with('orders', function ($q) {
             $q->with('seller')->latest()->take(5);
         })->find(auth()->user()->id);
-        $tree = User::buildTree($user->ref_code);
-        return view('pages.users.profile', compact('user', 'tree'));
+        $result = User::buildTree($user->ref_code);
+        $countAllNodes = User::countAllNodes($user->ref_code);
+        $self = $user;
+        $self['children'] = $result;
+        $tree = [$self];
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
     }
 
     public function index(Request $request)
@@ -47,9 +51,13 @@ class UserController extends Controller
     {
         $user = User::with('refer')->with('orders', function ($q) {
             $q->with('seller')->latest()->take(5);
-        })->find($id);
-        $tree = User::buildTree($user->ref_code);
-        return view('pages.users.show', compact('user', 'tree'));
+        })->find(auth()->user()->id);
+        $result = User::buildTree($user->ref_code);
+        $countAllNodes = User::countAllNodes($user->ref_code);
+        $self = $user;
+        $self['children'] = $result;
+        $tree = [$self];
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
     }
 
     public function userEdit($id)
@@ -100,13 +108,25 @@ class UserController extends Controller
     public function userAddButton(Request $request)
     {
         $request->validate([
+            'package' => 'required',
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
             'type' => 'required',
             'phone' => 'required',
             'password' => 'required|min:6'
         ]);
-        $data = $request->only(['name', 'email', 'type', 'phone', 'ref_by', 'can_create_customer']);
+        $data = $request->only(['name', 'email', 'type', 'phone', 'ref_by', 'can_create_customer', 'nominee_name', 'nominee_nid', 'nominee_relation', 'package']);
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif',
+            ]);
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('uploads/'), $filename);
+            $data['image'] = 'uploads/' . $filename;
+        }
+
         $data['password'] = Hash::make($request->password);
         $data['can_create_customer'] = $request->can_create_customer ?? 0;
         $user = User::create($data);

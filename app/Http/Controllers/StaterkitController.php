@@ -11,7 +11,7 @@ class StaterkitController extends Controller
     // home
     public function home()
     {
-//        return auth()->user();
+        //        return auth()->user();
         $breadcrumbs = [
             ['link' => "home", 'name' => "Home"], ['name' => "Index"]
         ];
@@ -23,9 +23,12 @@ class StaterkitController extends Controller
         $user = User::with('refer')->with('orders', function ($q) {
             $q->with('seller')->latest()->take(5);
         })->find(auth()->user()->id);
-        $tree = User::buildTree($user->ref_code);
-
-        return view('content.home_new', compact('user', 'tree'));
+        $result = User::buildTree($user->ref_code);
+        $countAllNodes = User::countAllNodes($user->ref_code);
+        $self = $user;
+        $self['children'] = $result;
+        $tree = [$self];
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
     }
 
     // Layout collapsed menu

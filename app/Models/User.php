@@ -32,7 +32,11 @@ class User extends Authenticatable
         'withdraw_amount',
         'total_amount',
         'image',
-        'can_create_customer'
+        'nominee_name',
+        'nominee_relation',
+        'nominee_nid',
+        'can_create_customer',
+        'package'
     ];
 
     protected $appends = ["image_url"];
@@ -90,6 +94,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'ref_by', 'ref_code');
     }
+
     public static function buildTree($parentId = null)
     {
         $nodes = User::where('ref_by', $parentId)->get();
@@ -103,6 +108,30 @@ class User extends Authenticatable
 
             $tree[] = $node;
         }
+
         return collect($tree);
+    }
+
+    public static function countAllNodes($parentId = null)
+    {
+        $rootNodes = User::buildTree($parentId);
+        return $rootNodes->reduce(function ($carry, $node) {
+            $carry++; // Increment the count for the current node.
+            if ($node->children) {
+                $carry += User::countAllNodesHelper($node->children);
+            }
+            return $carry;
+        }, 0);
+    }
+
+    private static function countAllNodesHelper($nodes)
+    {
+        return $nodes->reduce(function ($carry, $node) {
+            $carry++; // Increment the count for the current node.
+            if ($node->children) {
+                $carry += User::countAllNodesHelper($node->children);
+            }
+            return $carry;
+        }, 0);
     }
 }

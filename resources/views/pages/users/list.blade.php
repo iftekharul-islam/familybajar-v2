@@ -19,35 +19,37 @@
                         <div class="d-flex justify-content-between">
                             <div class="col-6 d-flex">
                                 <input type="text" class="form-control" id="floating-label1"
-                                       placeholder="Search By name or email" name="search"
-                                       value="{{ Request()->get('search') }}" />
+                                    placeholder="Search By name or email" name="search"
+                                    value="{{ Request()->get('search') }}" />
                                 <div class="col-8 d-flex">
                                     <select class="select2 form-select" id="user_type" name="user_type">
                                         <option value="" disabled selected>Select a User type</option>
-                                        <option value="3" {{ Request()->get('user_type') == 3 ? 'selected' : '' }}>Customer</option>
-                                        <option value="2" {{ Request()->get('user_type') == 2 ? 'selected' : '' }}>Seller</option>
+                                        <option value="3" {{ Request()->get('user_type') == 3 ? 'selected' : '' }}>
+                                            Customer</option>
+                                        <option value="2" {{ Request()->get('user_type') == 2 ? 'selected' : '' }}>
+                                            Seller</option>
                                     </select>
                                     <button type="submit" class="btn btn-primary ml-5">Search</button>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editUser">Add User</button>
+                                data-bs-target="#editUser">Add User</button>
                         </div>
                     </form>
-{{--                    <form action="{{ route('users') }}" method="get">--}}
-{{--                        <div class="form-floating">--}}
-{{--                            <input type="text" class="form-control" id="floating-label1"--}}
-{{--                                placeholder="Search By name or email" name="search"--}}
-{{--                                value="{{ Request()->get('search') }}" />--}}
-{{--                            <label for="floating-label1">Search here</label>--}}
-{{--                            <select class="select2 form-select" id="customer_id" name="user_type">--}}
-{{--                                <option value="" disabled selected>Select a User type</option>--}}
-{{--                                    <option value="1">Customer</option>--}}
-{{--                                    <option value="2">Dealer</option>--}}
-{{--                            </select>--}}
-{{--                            <button type="submit" class="btn btn-primary ml-5">Search</button>--}}
-{{--                        </div>--}}
-{{--                    </form>--}}
+                    {{--                    <form action="{{ route('users') }}" method="get"> --}}
+                    {{--                        <div class="form-floating"> --}}
+                    {{--                            <input type="text" class="form-control" id="floating-label1" --}}
+                    {{--                                placeholder="Search By name or email" name="search" --}}
+                    {{--                                value="{{ Request()->get('search') }}" /> --}}
+                    {{--                            <label for="floating-label1">Search here</label> --}}
+                    {{--                            <select class="select2 form-select" id="customer_id" name="user_type"> --}}
+                    {{--                                <option value="" disabled selected>Select a User type</option> --}}
+                    {{--                                    <option value="1">Customer</option> --}}
+                    {{--                                    <option value="2">Dealer</option> --}}
+                    {{--                            </select> --}}
+                    {{--                            <button type="submit" class="btn btn-primary ml-5">Search</button> --}}
+                    {{--                        </div> --}}
+                    {{--                    </form> --}}
 
                 </div>
                 <div class="table-responsive">
@@ -71,23 +73,25 @@
                                         <span class="fw-bold">
                                             {{ $user->name }}
                                         </span><br>
-                                        @if(!empty( $user->phone))
+                                        @if (!empty($user->phone))
                                             <small>{{ $user->phone }}</small><br>
                                         @endif
                                         <small>{{ $user->email }}</small><br>
                                         <small class="badge bg-info">{{ $user->ref_code }}</small>
                                     </td>
                                     <td>
-                                        <span class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span></td>
+                                        <span
+                                            class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span>
+                                    </td>
                                     <td>
                                         <span>Repurchase amount BDT: {{ $user->repurchase_amount }} ৳</span> <br>
                                         <span>Withdraw amount BDT: {{ $user->withdraw_amount }} ৳</span> <br>
                                         <span>Total amount BDT: {{ $user->total_amount }} ৳</span>
                                     </td>
                                     <td>
-                                        @if(!empty($user->refer->name))
+                                        @if (!empty($user->refer->name))
                                             <span>{{ $user->refer->name }}</span><br>
-                                            @if(!empty($user->refer->phone))
+                                            @if (!empty($user->refer->phone))
                                                 <span>{{ $user->refer->phone }}</span><br>
                                             @endif
                                             <small>{{ $user->refer->email }}</small>
@@ -191,9 +195,23 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="number" id="phn-id" class="form-control" name="phone"
-                                                   placeholder="phone number" value="{{ old('phone') }}" />
+                                                placeholder="phone number" value="{{ old('phone') }}" />
                                             @error('number')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="phn-id">Image</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="file" id="image-id" class="form-control" name="image"
+                                                placeholder="Image" />
+                                            @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
@@ -253,39 +271,99 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(auth()->user()->type == config('status.type_by_name.admin'))
+                                <hr />
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                            <label class="col-form-label" for="ref_by"><b>Can create New User?</b></label>
+                                            <label class="col-form-label" for="nominee_name">Nominee Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <div class="demo-inline-spacing">
-                                                <div class="form-check form-check-inline">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="can_create_customer"
-                                                        id="inlineRadio1"
-                                                        value="1"
-                                                    />
-                                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="can_create_customer"
-                                                        id="inlineRadio2"
-                                                        value="0"
-                                                        checked
-                                                    />
-                                                    <label class="form-check-label" for="inlineRadio2">No</label>
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-name"
+                                                    type="text" name="nominee_name" placeholder="Nominee Name" />
+
+                                            </div>
+                                            @error('nominee_name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="nominee_relation">Nominee Relation</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-relation"
+                                                    type="text" name="nominee_relation"
+                                                    placeholder="Nominee Relation" />
+                                            </div>
+                                            @error('nominee_relation')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="nominee_nid">Nominee NID</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge form-password-toggle">
+                                                <input class="form-control form-control-merge" id="nominee-nid"
+                                                    type="text" name="nominee_nid" placeholder="Nominee NID" />
+                                            </div>
+                                            @error('nominee_nid')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                @if (auth()->user()->type == config('status.type_by_name.admin'))
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="ref_by">Package</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <select class="select2 form-select" id="customer_id" name="package">
+                                                    <option value="" disabled selected>Select a Package</option>
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <option value="{{ $i }}">Level-{{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1 row">
+                                            <div class="col-sm-3">
+                                                <label class="col-form-label" for="ref_by"><b>Can create New
+                                                        User?</b></label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="can_create_customer" id="inlineRadio1"
+                                                            value="1" />
+                                                        <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="can_create_customer" id="inlineRadio2" value="0"
+                                                            checked />
+                                                        <label class="form-check-label" for="inlineRadio2">No</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endif
                                 <div class="col-sm-9 offset-sm-3">
                                     @if (session('error'))
