@@ -7,6 +7,9 @@
 <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <!-- END: Page Vendor JS-->
 <!-- BEGIN: Theme JS-->
 <script src="{{ asset(mix('js/core/app-menu.js')) }}"></script>
@@ -24,6 +27,9 @@
 <script src="{{ asset(mix('js/scripts/pages/page-profile.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/extensions/ext-component-tree.js')) }}"></script>
+<script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
+<script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+
 @if (Session::has('success'))
     <script>
         $(function() {

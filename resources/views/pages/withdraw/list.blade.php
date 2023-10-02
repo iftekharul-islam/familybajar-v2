@@ -2,11 +2,6 @@
 
 @section('title', 'User List')
 
-@section('vendor-style')
-    <!-- vendor css files -->
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-@endsection
-
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -189,24 +184,16 @@
     </div>
 @endsection
 
-@section('vendor-script')
-    <!-- vendor js files -->
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-@endsection
 @section('page-script')
-    {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 
     <script>
         $(document).ready(function() {
             $('#withdraw-amount').on('input', function() {
                 var withdrawAmount = parseFloat($(this).val());
                 if (!isNaN(withdrawAmount)) {
-                    var companyCharge = withdrawAmount * 0.15;
-                    var withdrawableAmount = withdrawAmount * (1 - 0.15);
+                    var company_charge = {{ $withdraw_settings->company_charge }};
+                    var companyCharge = withdrawAmount * company_charge / 100;
+                    var withdrawableAmount = withdrawAmount * (1 - company_charge / 100);
 
                     $('#company-charge').val(companyCharge.toFixed(2));
                     $('#withdrawable-amount').val(withdrawableAmount.toFixed(2));
