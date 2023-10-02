@@ -97,8 +97,8 @@
                             {{ Auth::user()->name }}
                         </span>
                         <span class="user-status">
-                            {{ config('status.type')[Auth::user()->type] }}
-                        </span>
+                            {{ config('status.type')[Auth::user()->type] }} <span
+                                class="badge badge bg-danger">{{ 'Level-' . Auth::user()->package }}</span></span>
                     @else
                         <span class="user-name fw-bolder">
                             Name
@@ -109,8 +109,9 @@
                     @endif
                 </div>
                 <span class="avatar">
-                    <img class="round" src="{{ !empty($user->image_url) ? $user->image_url : asset('images/portrait/small/avater.jpeg') }}" alt="avatar"
-                        height="40" width="40">
+                    <img class="round"
+                        src="{{ !empty(Auth::user()->image_url) ? Auth::user()->image_url : 'https://i2.wp.com/ui-avatars.com/api/' . Auth::user()->name . '/400' }}"
+                        alt="avatar" height="40" width="40">
                     <span class="avatar-status-online"></span>
                 </span>
             </a>

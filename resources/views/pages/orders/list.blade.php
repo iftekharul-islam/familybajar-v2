@@ -61,7 +61,7 @@
                                     <td>{{ $order->total_price ?? 'N/A' }}</td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>
-                                        @if(in_array(auth()->user()->type, [1,2]))
+                                        @if (in_array(auth()->user()->type, [1, 2]))
                                             <a class="" href="{{ route('orderShow', $order->id) }}">
                                                 <i data-feather="eye" class="me-50"></i>
                                             </a>
@@ -144,7 +144,7 @@
                                                             {{ $seller->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                    <input type="hidden" name="seller_id" value="{{ Auth::user()->id }}">
+                                                <input type="hidden" name="seller_id" value="{{ Auth::user()->id }}">
                                             @endif
                                             @error('seller_id')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -176,11 +176,12 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                            <label class="col-form-label" for="first-name">Total Price</label>
+                                            <label class="col-form-label" for="total_price">Total Price</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="number" id="first-name" class="form-control" name="total_price"
-                                                placeholder="Total Price" value="{{ old('total_price') }}" />
+                                            <input type="number" step="0.01" id="total_price" class="form-control"
+                                                name="total_price" placeholder="Total Price"
+                                                value="{{ old('total_price') }}" />
                                             @error('total_price')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -190,12 +191,12 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                            <label class="col-form-label" for="email-id">Repurchase Price</label>
+                                            <label class="col-form-label" for="repurchase_price">Repurchase Price</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="number" id="email-id" class="form-control"
-                                                name="repurchase_price" placeholder="Repurchase Price"
-                                                value="{{ old('repurchase_price') }}" />
+                                            <input type="number" step="0.01" id="repurchase_price"
+                                                class="form-control" name="repurchase_price"
+                                                placeholder="Repurchase Price" value="{{ old('repurchase_price') }}" />
                                             @error('repurchase_price')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror

@@ -15,8 +15,6 @@ class GlobalSetting extends Model
         'manual', //user_id and percentage of each manual
         'dealer', //percentage of dealer
         'buyer', //percentage of buyer
-        'minimum_withdraw', //minimum withdraw amount
-        'charge', //company charge percentage
     ];
 
     protected $casts = [
@@ -25,7 +23,5 @@ class GlobalSetting extends Model
         'manual' => 'json',
         'dealer' => 'integer',
         'buyer' => 'integer',
-        'minimum_withdraw' => 'float',
-        'charge' => 'float',
     ];
 }

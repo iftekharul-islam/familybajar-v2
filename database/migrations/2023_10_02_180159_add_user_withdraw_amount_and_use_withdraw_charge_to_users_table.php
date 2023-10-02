@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('global_settings', function (Blueprint $table) {
-            $table->float('minimum_withdraw')->after('buyer')->default(0);
+        Schema::table('users', function (Blueprint $table) {
+            $table->float('user_withdraw_amount')->after('package')->nullable();
+            $table->float('user_withdraw_charge')->after('user_withdraw_amount')->nullable();
         });
     }
 
@@ -25,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('global_settings', function (Blueprint $table) {
-            $table->dropColumn('minimum_withdraw');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('user_withdraw_amount');
+            $table->dropColumn('user_withdraw_charge');
         });
     }
 };

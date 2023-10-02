@@ -52,20 +52,42 @@
                                         <span class="fw-bold">{{ $withdraw->id }}</span>
                                     </td>
                                     <td>{{ $withdraw->user->name }}</td>
-                                    <td>{{ $withdraw->amount }} tk</td>
-                                    <td>{{ config('status.withdraw')[$withdraw->status] }}</td>
-                                    <td>{{ $withdraw->trxID }}</td>
-                                    <td>{{ $withdraw->Remarks ?? 'N/A' }}</td>
+                                    <td>
+                                        Total : {{ $withdraw->amount }} tk
+                                        <br />
+                                        Charge : {{ $withdraw->company_charge }} tk
+                                        <br />
+                                        Withdraw : {{ $withdraw->withdrawable_amount }} tk
+
+                                    </td>
+                                    <td>
+                                        @if ($withdraw->status == 1)
+                                            <span
+                                                class="badge bg-info">{{ config('status.withdraw')[$withdraw->status] }}</span>
+                                        @elseif ($withdraw->status == 2)
+                                            <span
+                                                class="badge bg-warning">{{ config('status.withdraw')[$withdraw->status] }}</span>
+                                        @elseif ($withdraw->status == 3)
+                                            <span
+                                                class="badge bg-success">{{ config('status.withdraw')[$withdraw->status] }}</span>
+                                        @elseif ($withdraw->status == 4)
+                                            <span
+                                                class="badge bg-danger">{{ config('status.withdraw')[$withdraw->status] }}</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $withdraw->trxID ?? '--' }}</td>
+                                    <td>{{ $withdraw->remarks ?? 'N/A' }}</td>
                                     <td>
                                         @if (Auth::user()->type == 3 && $withdraw->status == 1)
                                             <a class="" href="/withdraw-cancel/{{ $withdraw->id }}">
                                                 <i data-feather="trash" class="me-50"></i>
                                             </a>
-                                        @endif
-                                        @if (Auth::user()->type == 1)
+                                        @elseif (Auth::user()->type == 1)
                                             <a class="" href="/withdraw-request-edit/{{ $withdraw->id }}">
                                                 <i data-feather="edit" class="me-50"></i>
                                             </a>
+                                        @else
+                                            --
                                         @endif
                                     </td>
                                 </tr>
@@ -106,7 +128,9 @@
                 </div>
                 <div class="modal-body pb-5 px-sm-5 pt-50">
                     <div class="text-center mb-2">
-                        <h1 class="card-title">Available Balance : {{ Auth::user()->total_amount }}</h4>
+                        <h1 class="card-title">Available Balance : {{ Auth::user()->total_amount }}</h1>
+                        <div>Minimum Withdraw Balance : {{ $withdraw_settings->minimum_withdraw_amount }}</div>
+                        <div>Company Charge : {{ $withdraw_settings->company_charge }}%</div>
                     </div>
 
                     <div class="card-body">
@@ -115,24 +139,44 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="first-name">Amount</label>
+                                        <div class="col-sm-4">
+                                            <label class="col-form-label" for="withdraw-amount">Withdraw Amount</label>
                                         </div>
-                                        <div class="col-sm-9">
-                                            <input type="number" id="first-name" class="form-control" name="amount"
-                                                placeholder="Total Price" value="{{ old('amount') }}" />
-                                            @error('amount')
+                                        <div class="col-sm-8">
+                                            <input type="number" id="withdraw-amount" class="form-control"
+                                                name="withdraw_amount" placeholder="Total Price"
+                                                value="{{ old('withdraw_amount') }}" />
+                                            @error('withdraw_amount')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-9 offset-sm-3">
-                                    @if (session('error'))
-                                        <div class="text-danger">
-                                            {{ session('error') }}
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-4">
+                                            <label class="col-form-label" for="company-charge">Company charge
+                                                ({{ $withdraw_settings->company_charge }}%)</label>
                                         </div>
-                                    @endif
+                                        <div class="col-sm-8">
+                                            <input type="number" id="company-charge" class="form-control"
+                                                name="company_charge" placeholder="Company charge" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-4">
+                                            <label class="col-form-label" for="withdrawable-amount">Withdrawable
+                                                Amount</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="number" id="withdrawable-amount" class="form-control"
+                                                name="withdrawable_amount" placeholder="Withdrawable Amount" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 offset-sm-3">
                                     <button type="submit" class="btn btn-primary me-1">Submit</button>
                                     <button type="reset" class="btn btn-outline-secondary">Reset</button>
                                 </div>
@@ -155,4 +199,23 @@
     {{-- Page js files --}}
     <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#withdraw-amount').on('input', function() {
+                var withdrawAmount = parseFloat($(this).val());
+                if (!isNaN(withdrawAmount)) {
+                    var companyCharge = withdrawAmount * 0.15;
+                    var withdrawableAmount = withdrawAmount * (1 - 0.15);
+
+                    $('#company-charge').val(companyCharge.toFixed(2));
+                    $('#withdrawable-amount').val(withdrawableAmount.toFixed(2));
+                } else {
+                    // Clear the values if the input is not a valid number
+                    $('#company-charge').val('');
+                    $('#withdrawable-amount').val('');
+                }
+            });
+        });
+    </script>
 @endsection

@@ -12,6 +12,8 @@ class WithdrawHistory extends Model
     protected $fillable = [
         'user_id',
         'amount',
+        'company_charge',
+        'withdrawable_amount',
         'trxID',
         'status',
         'remarks'

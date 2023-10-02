@@ -62,6 +62,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/global', [SettingsController::class, 'global'])->name('global');
     Route::post('settings/global', [SettingsController::class, 'updateGlobal'])->name('updateGlobal');
 
+    Route::get('settings/withdraw', [SettingsController::class, 'withdraw'])->name('settings.withdraw');
+    Route::post('settings/withdraw', [SettingsController::class, 'withdrawUpdate'])->name('settings.withdraw.update');
+
     Route::get('settings/manual', [SettingsController::class, 'manual'])->name('manual');
     Route::get('settings/manual-add', [SettingsController::class, 'manualAdd'])->name('manualAdd');
     Route::post('settings/manual-add', [SettingsController::class, 'createManual'])->name('createManual');
@@ -69,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/manual-edit/{id}', [SettingsController::class, 'manualEdit'])->name('manualEdit');
     Route::post('settings/manual-edit/{id}', [SettingsController::class, 'updateManual'])->name('updateManual');
 
-//    Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
+    //    Route::post('settings/manual', [SettingsController::class, 'updateManual'])->name('updateManual');
 
     Route::get('login-as-user/{id}', [AuthenticationController::class, 'loginAsUser'])->name('loginAsUser');
 });

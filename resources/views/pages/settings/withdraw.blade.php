@@ -10,120 +10,51 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form class="form form-horizontal" action="{{ route('updateGlobal') }}" method="POST">
+                    <form class="form form-horizontal" action="{{ route('settings.withdraw.update') }}" method="POST">
                         @csrf
                         <div class="card-header">
                             <div class="col-sm-9">
-                                <h1>Global Settings</h4>
+                                <h1>Global Withdraw Settings</h4>
                             </div>
                             <button type="submit" id="submit" class="btn btn-primary me-1">Update</button>
                         </div>
                         <div class="row m-1">
-                            <div class="col-6 border bordered p-1">
-                                <div class="row">
+                            <div class="col-6">
+                                <div class="row mb-1">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-sm-6 d-flex align-items-center">
-                                                <h4>Customer Commission
+                                                <h4>Minimum Withdraw Amount
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="buyer"
-                                                    placeholder="Percentage (%)" step="any"
-                                                    value="{{ $settings->buyer }}">
+                                                <input type="number" class="form-control" name="minimum_withdraw_amount"
+                                                    placeholder="Amount" step="any"
+                                                    value="{{ old('minimum_withdraw_amount') ?? $settings->minimum_withdraw_amount }}">
+
+                                                @error('minimum_withdraw_amount')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6 border bordered p-1">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-sm-6 d-flex align-items-center">
-                                                <h4>Dealer Commission
+                                                <h4>Company Charge Percentage
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="dealer"
+                                                <input type="number" class="form-control" name="company_charge"
                                                     placeholder="Percentage (%)" step="any"
-                                                    value="{{ $settings->dealer }}">
-
+                                                    value="{{ old('company_charge') ?? $settings->company_charge }}">
+                                                @error('company_charge')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row m-1">
-                            <div class="col-6">
-                                <h4 class="card-title">Generation Total: <span id="hierarchy_level">
-                                        {{ count($settings->percentage) }} </span>
-                                </h4>
-                                <div class="row">
-                                    <div id="percentage_list" class="col-12">
-                                        @foreach ($settings->percentage ?? [] as $index => $percentage)
-                                            <div class="row mb-1" id="percentage_list-{{ $index }}">
-                                                <div class="col-sm-3">
-                                                    <label class="col-form-label">Generation - {{ $loop->index + 1 }}
-                                                    </label>
-                                                </div>
-                                                <div class="col-sm-8">
-                                                    <input type="number" class="form-control" name="percentage[]"
-                                                        placeholder="Percentage (%)" step="any"
-                                                        value="{{ $percentage }}">
-
-                                                </div>
-                                                {{--                                                <div class="col-sm-1 d-flex align-items-center justify-content-center"> --}}
-                                                {{--                                                    <span class="cursor-pointer"><i data-feather="trash-2" --}}
-                                                {{--                                                            style="color: red;"></i></span> --}}
-                                                {{--                                                </div> --}}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div id="addHierarchy" class="btn btn-primary">Add New</div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-6">
-                                <div hidden id="userOptions" data-options="{{ json_encode($userOptions) }}">>
-                                </div>
-                                <h4 class="card-title">Manual Total : <span id="manual_level">
-                                        {{ count($settings->manual ?? []) }}
-                                    </span>
-                                </h4>
-                                <div class="row">
-                                    <div id="manual_list" class="col-12">
-                                        @foreach ($settings->manual ?? [] as $index => $manual)
-                                            <div class="row mb-1" id="percentage_list-{{ $index }}">
-                                                <div class="col-sm-6">
-                                                    <select class="select2 form-select" name="user_id[]">
-                                                        @foreach ($userOptions as $user)
-                                                            <option value="{{ $user->id }}"
-                                                                {{ $manual['user_id'] == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="number" class="form-control" name="manual[]"
-                                                        placeholder="Percentage (%)" step="any"
-                                                        value="{{ $manual['percentage'] }}">
-                                                </div>
-                                                {{-- <div class="col-sm-2 d-flex align-items-center justify-content-center">
-                                                    <span class="cursor-pointer"><i data-feather="trash-2"
-                                                            style="color: red;"></i></span>
-                                                </div> --}}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div id="addManual" class="btn btn-primary">Add New</div>
                                     </div>
                                 </div>
                             </div>

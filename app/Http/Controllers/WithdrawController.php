@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GlobalWithdrawSetting;
 use App\Models\User;
 use App\Models\WithdrawHistory;
 use Illuminate\Http\Request;
@@ -24,7 +25,9 @@ class WithdrawController extends Controller
         }
         $withdraws = $withdraws->latest()->paginate('10');
 
-        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users'));
+        $withdraw_settings = GlobalWithdrawSetting::first();
+
+        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users', 'withdraw_settings'));
     }
 
     public function withdrawAdd(Request $request)
@@ -37,28 +40,27 @@ class WithdrawController extends Controller
 
     public function withdrawAddButton(Request $request)
     {
-        $request->validate(
-            [
-                'amount' => 'required|numeric|min:1500',
-            ],
-            [
-                'amount.required' => 'Amount is required',
-                'amount.min' => 'Minimum amount should be 1500 tk',
-            ]
-        );
-        if (Auth::user()->total_amount < $request->amount) {
+        $withdraw_settings = GlobalWithdrawSetting::first();
+        if ($withdraw_settings->minimum_withdraw_amount > $request->withdraw_amount) {
+            return redirect()->back()
+                ->with('error', 'Minimum withdraw amount is ' . $withdraw_settings->minimum_withdraw_amount . ' tk')->withInput();
+        };
+
+        if (Auth::user()->total_amount < $request->withdraw_amount) {
             return redirect()->back()
                 ->with('error', 'You do not have enough balance!')->withInput();
         }
         $withdraw = WithdrawHistory::create([
             'user_id' => Auth::user()->id,
-            'amount' => $request->amount,
+            'amount' => $request->withdraw_amount,
+            'company_charge' => $request->withdraw_amount * $withdraw_settings->company_charge / 100,
+            'withdrawable_amount' => $request->withdraw_amount - ($request->withdraw_amount * $withdraw_settings->company_charge / 100),
             'status' => 1,
         ]);
         $user = Auth::user();
         $user->update([
-            'withdraw_amount' => $user->withdraw_amount + $request->amount,
-            'total_amount' => $user->total_amount - $request->amount,
+            'withdraw_amount' => $user->withdraw_amount + $request->withdraw_amount,
+            'total_amount' => $user->total_amount - $request->withdraw_amount,
         ]);
         return redirect()->route('withdraws')
             ->with('success', 'Withdraw request sent successfully!');
@@ -90,7 +92,8 @@ class WithdrawController extends Controller
             ['name' => "Withdraw Requests"]
         ];
         $withdraws = WithdrawHistory::latest()->paginate('10');
-        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users'));
+        $withdraw_settings = GlobalWithdrawSetting::first();
+        return view('pages.withdraw.list', compact('withdraws', 'breadcrumbs', 'users', 'withdraw_settings'));
     }
 
     public function withdrawRequestEdit($id)
@@ -115,23 +118,28 @@ class WithdrawController extends Controller
         if ($withdraw->status == 1 && $request->status == 3) {
             $request->validate(
                 [
-                    'TrxID' => 'required',
+                    'trxID' => 'required',
                 ],
                 [
-                    'TrxID.required' => 'Transaction ID is required',
+                    'trxID.required' => 'Transaction ID is required',
                 ]
             );
             $withdraw->update([
                 'status' => $request->status,
-                'trxID' => $request->TrxID ?? null,
+                'trxID' => $request->trxID ?? null,
                 'remarks' => $request->remarks ?? null,
             ]);
-            return redirect()->route('withdrawRequestEdit', $request->id)
+            $user = User::find(auth()->user()->id);
+            $user->update([
+                'user_withdraw_amount' => $user->user_withdraw_amount + $withdraw->withdrawable_amount,
+                'user_withdraw_charge' => $user->user_withdraw_charge + $withdraw->company_charge,
+            ]);
+            return redirect()->route('withdrawRequests')
                 ->with('success', 'Withdraw request approved successfully!');
         } elseif ($withdraw->status == 1 && $request->status == 4) {
             $withdraw->update([
                 'status' => $request->status,
-                'trxID' => $request->TrxID ?? null,
+                'trxID' => $request->trxID ?? null,
                 'remarks' => $request->remarks ?? null,
             ]);
             $user = $withdraw->user;
@@ -139,10 +147,10 @@ class WithdrawController extends Controller
                 'withdraw_amount' => $user->withdraw_amount - $withdraw->amount,
                 'total_amount' => $user->total_amount + $withdraw->amount,
             ]);
-            return redirect()->route('withdrawRequestEdit', $request->id)
+            return redirect()->route('withdrawRequests')
                 ->with('success', 'Withdraw request rejected successfully!');
         } else {
-            return redirect()->route('withdrawRequestEdit', $request->id)
+            return redirect()->route('withdrawRequests')
                 ->with('error', 'Withdraw request already approved or rejected or canceled!');
         }
     }

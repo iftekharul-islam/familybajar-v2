@@ -82,7 +82,7 @@ class OrderController extends Controller
             });
 
             if (is_null($exception)) {
-                return redirect()->route('orders');
+                return redirect()->route('orders')->with('success', 'Order Created successfully!')->withInput();
             } else {
                 throw new Exception;
             }

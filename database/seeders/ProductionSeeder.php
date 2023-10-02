@@ -14,6 +14,6 @@ class ProductionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $this->call(SettingsSeeder::class);
     }
 }

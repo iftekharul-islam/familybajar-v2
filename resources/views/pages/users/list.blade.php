@@ -80,8 +80,10 @@
                                         <small class="badge bg-info">{{ $user->ref_code }}</small>
                                     </td>
                                     <td>
+                                        <span class="badge badge bg-info">{{ 'Level-' . $user->package }}</span>
+                                        <br />
                                         <span
-                                            class="badge badge-glow bg-primary">{{ config('status.type')[$user->type] }}</span>
+                                            class="badge badge bg-primary">{{ config('status.type')[$user->type] }}</span>
                                     </td>
                                     <td>
                                         <span>Repurchase amount BDT: {{ $user->repurchase_amount }} ৳</span> <br>
@@ -157,7 +159,8 @@
                     </div>
 
                     <div class="card-body">
-                        <form class="form form-horizontal" action="{{ route('userAddButton') }}" method="POST">
+                        <form class="form form-horizontal" action="{{ route('userAddButton') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -224,7 +227,7 @@
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search"
                                                 name="type" value={{ old('type') }}>
-                                                <option value="1">Admin</option>
+                                                {{-- <option value="1">Admin</option> --}}
                                                 <option value="2">Seller</option>
                                                 <option value="3" selected>Customer</option>
                                             </select>

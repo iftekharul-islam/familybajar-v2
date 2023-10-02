@@ -37,6 +37,36 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Company Charge</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="first-name" class="form-control" name="amount"
+                                                disabled placeholder="Total Price"
+                                                value="{{ $withdraw->company_charge }}" />
+                                            @error('amount')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                            <label class="col-form-label" for="first-name">Actual Withdraw</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="number" id="first-name" class="form-control" name="amount"
+                                                disabled placeholder="Total Price"
+                                                value="{{ $withdraw->withdrawable_amount }}" />
+                                            @error('amount')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
                                             <label class="col-form-label" for="status">Status</label>
                                         </div>
                                         <div class="col-sm-9">
@@ -67,9 +97,9 @@
                                             <label class="col-form-label" for="remarks">TrxID</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="remarks" class="form-control" name="TrxID"
-                                                placeholder="TrxID" value="{{ old('TrxID') }}" />
-                                            @error('TrxID')
+                                            <input type="text" id="remarks" class="form-control" name="trxID"
+                                                placeholder="TrxID" value="{{ old('trxID') ?? $withdraw->trxID }}" />
+                                            @error('trxID')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -82,7 +112,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" id="remarks" class="form-control" name="remarks"
-                                                placeholder="Remarks" value="{{ old('remarks') }}" />
+                                                placeholder="Remarks" value="{{ old('remarks') ?? $withdraw->remarks }}" />
                                             @error('remarks')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -90,16 +120,6 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-9 offset-sm-3">
-                                    @if (session('error'))
-                                        <div class="text-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
-                                    @if (session('success'))
-                                        <div class="text-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
                                     <button type="submit" class="btn btn-primary me-1">Update</button>
                                     <button type="reset" class="btn btn-outline-secondary">Reset</button>
                                 </div>

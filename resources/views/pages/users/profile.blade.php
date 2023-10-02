@@ -2,18 +2,6 @@
 
 @section('title', 'Profile')
 
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset(mix('fonts/font-awesome/css/font-awesome.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/jstree.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
-@endsection
-@section('page-style')
-    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-profile.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-tree.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css')) }}">
-@endsection
-
 @section('content')
     <div id="user-profile">
         <div class="row">
@@ -29,7 +17,9 @@
                             </div>
                             <div class="profile-title ms-3">
                                 <h2 class="text-white">{{ $user->name }}</h2>
-                                <p class="text-white">{{ config('status.type')[$user->type] }}</p>
+                                <p class="text-white">
+                                    {{ config('status.type')[$user->type] }} <span
+                                        class="badge badge bg-danger">{{ 'Level-' . $user->package }}</span></p>
                             </div>
                         </div>
                     </div>
@@ -62,71 +52,130 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-6 col-12 order-2 order-lg-1">
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Email:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Email</span></h5>
                                         <p class="card-text">{{ $user->email }}</p>
                                     </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Phone Number:</span>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Phone Number</span>
                                         </h5>
-                                        <p class="card-text">{{ $user->phone }}</p>
+                                        <p class="card-text">{{ $user->phone ?? 'Not available' }}</p>
                                     </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Joined at:</span></h5>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Joined at</span></h5>
                                         <p class="card-text">{{ $user->created_at->format('d M Y H:s a') }}</p>
                                     </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code:</span>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference Code</span>
                                         </h5>
                                         <p class="card-text">{{ $user->ref_code }}</p>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-6 col-12 order-2 order-lg-1">
+                                <div class="col-lg-8 col-12 order-2 order-lg-1">
                                     <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Referred By:</span>
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Reference By</span>
                                         </h5>
                                         <p class="card-text">
                                             @if (!empty($user->refer))
-                                                <strong>{{ $user->refer->name }}</strong>
-                                                <strong>({{ $user->refer->email }})</strong>
+                                                {{ $user->refer->name }} ({{ $user->refer->email }})
                                             @else
-                                                <span>'N/A'</span>
+                                                <span>Not available</span>
                                             @endif
                                         </p>
-                                    </div>
-                                    <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased
-                                                Amount:</span></h5>
-                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
-                                    </div>
-                                    <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount:</span>
-                                        </h5>
-                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
-                                    </div>
-                                    <div class="mt-2">
-                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current Amount:</span>
-                                        </h5>
-                                        <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card">
+                        <hr />
                         <div class="card-header">
-                            <h5>Your Generations: {{ $countAllNodes }}</h5>
+                            <b>
+                                Nominee Information
+                            </b>
                         </div>
                         <div class="card-body">
-                            <div id="jstree-basic">
-                                <ul>
-                                    @foreach ($tree as $item)
-                                        @include('pages/users/treeItem', ['user' => $item])
-                                    @endforeach
-                                </ul>
+                            <div class="row">
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-1">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Nominee name</span>
+                                        </h5>
+                                        <p class="card-text">{{ $user->nominee_name ?? 'Not available' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-1">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Nominee
+                                                Relation</span>
+                                        </h5>
+                                        <p class="card-text">{{ $user->nominee_relation ?? 'Not available' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-1">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Nominee
+                                                NID</span>
+                                        </h5>
+                                        <p class="card-text">{{ $user->nominee_nid ?? 'Not available' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="card-header">
+                            <b>
+                                Wallet Information
+                            </b>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-2">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Re-purchased
+                                                Amount</span></h5>
+                                        <p class="card-text">BDT : <b>{{ $user->repurchase_amount }}</b></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-2">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Withdraw Amount</span>
+                                        </h5>
+                                        <p class="card-text">BDT : <b>{{ $user->withdraw_amount }}</b></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                    <div class="mt-2">
+                                        <h5 class="mb-75"><span class="badge badge-glow bg-primary">Current
+                                                Amount</span>
+                                        </h5>
+                                        <p class="card-text">BDT : <b>{{ $user->total_amount }}</b></p>
+                                    </div>
+                                </div>
+
+                                @if ($user->type == config('status.type_by_name.admin'))
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">User Withdraw
+                                                    Amount</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $user->user_withdraw_amount }}</b></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">User Withdraw
+                                                    Charge</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $user->user_withdraw_charge }}</b></p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -142,7 +191,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>OrderID</th>
                                         <th>Seller</th>
                                         <th>Repurchase Amount</th>
                                         <th>Total Amount</th>
@@ -214,7 +263,25 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-12 order-2 order-lg-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Your Generations: <span class="badge badge-glow bg-danger">{{ $countAllNodes }}</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="jstree-basic">
+                                <ul>
+                                    @foreach ($tree as $item)
+                                        @include('pages/users/treeItem', ['user' => $item, 'level' => 1])
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
@@ -298,7 +365,7 @@
                                             <select class="hide-search form-select" id="select2-hide-search"
                                                 name="type" value={{ old('type') }}>
                                                 @if (Auth::user()->type == config('status.type_by_name.admin'))
-                                                    <option value="1">Admin</option>
+                                                    {{-- <option value="1">Admin</option> --}}
                                                     <option value="2">Seller</option>
                                                 @endif
                                                 <option value="3" selected>Customer</option>
@@ -456,33 +523,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('vendor-script')
-    <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/extensions/jstree.min.js')) }}"></script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset(mix('js/scripts/pages/page-profile.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-sweet-alerts.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/extensions/ext-component-tree.js')) }}"></script>
-    @if (Session::has('message'))
-        <script>
-            $(function() {
-                'use strict'
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: '{{ Session::get('message') }}',
-                    showConfirmButton: false,
-                    timer: 1500,
-                    customClass: {
-                        confirmButton: 'btn btn-primary'
-                    },
-                    buttonsStyling: false
-                })
-            })
-        </script>
-    @endif
 @endsection

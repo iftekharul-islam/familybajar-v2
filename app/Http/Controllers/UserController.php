@@ -21,7 +21,8 @@ class UserController extends Controller
         $self = $user;
         $self['children'] = $result;
         $tree = [$self];
-        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
+        $userList = User::all();
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList'));
     }
 
     public function index(Request $request)
@@ -43,7 +44,7 @@ class UserController extends Controller
             });
         }
 
-        $users =  $users->latest()->paginate('10');
+        $users =  $users->orderBy('id', 'desc')->paginate('10');
         return view('pages.users.list', compact('users', 'breadcrumbs', 'userList'));
     }
 
@@ -51,13 +52,14 @@ class UserController extends Controller
     {
         $user = User::with('refer')->with('orders', function ($q) {
             $q->with('seller')->latest()->take(5);
-        })->find(auth()->user()->id);
+        })->find($id);
         $result = User::buildTree($user->ref_code);
         $countAllNodes = User::countAllNodes($user->ref_code);
         $self = $user;
         $self['children'] = $result;
         $tree = [$self];
-        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
+        $userList = User::all();
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList'));
     }
 
     public function userEdit($id)
@@ -66,7 +68,8 @@ class UserController extends Controller
             ['link' => "users", 'name' => "Users"], ['name' => "Edit"]
         ];
         $user_data = User::with('refer')->find($id);
-        return view('pages.users.edit', compact('user_data', 'breadcrumbs'));
+        $userList = User::all();
+        return view('pages.users.edit', compact('user_data', 'userList', 'breadcrumbs'));
     }
 
     public function userEdited(Request $request, $id)
@@ -74,7 +77,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3',
         ]);
-        $data = $request->only('name');
+        $data = $request->only('name', 'ref_by', 'nominee_name', 'nominee_nid', 'nominee_relation', 'package');
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'image|mimes:jpeg,png,jpg,gif',
@@ -100,7 +103,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($data);
 
-        Session::flash('message',  $user->name . ' updated successfully!');
+        Session::flash('success',  $user->name . ' updated successfully!');
 
         return redirect()->route('user.show', $user->id);
     }

@@ -17,12 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        GlobalSetting::create([
-            'hierarchy' => 1,
-            'percentage' => [100],
-            'manual' => null,
-        ]);
-
         $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
@@ -37,6 +31,7 @@ class UserSeeder extends Seeder
             'name' => 'Seller',
             'email' => 'seller@example.com',
             'password' => Hash::make('123456'),
+            'ref_by' => $user->ref_code,
             'type' => 2
         ]);
         $user->update([

@@ -47,15 +47,21 @@
             "submenu": [
                 {
                     "url": "settings/global",
-                    "name": "Global",
+                    "name": "Global RP",
                     "icon": "circle",
                     "slug": "setting/global"
                 },
                 {
                     "url": "settings/manual",
-                    "name": "Manual",
+                    "name": "Manual RP",
                     "icon": "circle",
                     "slug": "setting/manual"
+                },
+                {
+                    "url": "settings/withdraw",
+                    "name": "Withdraw Settings",
+                    "icon": "circle",
+                    "slug": "setting/withdraw"
                 }
             ],
             "access": [1]

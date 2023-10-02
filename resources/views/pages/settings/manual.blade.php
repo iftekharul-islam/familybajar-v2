@@ -51,6 +51,31 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($users->count() == 0)
+                        <div class="d-flex justify-content-center m-1">
+                            <h4>No User Found</h4>
+                        </div>
+                    @else
+                        <div class="mx-1 d-flex justify-content-end">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination mt-2">
+                                    <li class="page-item prev"><a class="page-link"
+                                            style="pointer-events: {{ $users->currentPage() == 1 ? 'none' : '' }}"
+                                            href="{{ $users->url($users->currentPage() - 1) }}"></a>
+                                    </li>
+                                    @for ($i = 1; $i <= $users->lastPage(); $i++)
+                                        <li class="page-item {{ $i == $users->currentPage() ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $users->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                    <li class="page-item next" disabled><a class="page-link"
+                                            style="pointer-events: {{ $users->currentPage() == $users->lastPage() ? 'none' : '' }}"
+                                            href="{{ $users->url($users->currentPage() + 1) }}"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('global_settings', function (Blueprint $table) {
-            $table->float('charge')->after('minimum_withdraw')->default(0);
+        Schema::create('global_withdraw_settings', function (Blueprint $table) {
+            $table->id();
+            $table->integer('minimum_withdraw_amount')->default(0);
+            $table->integer('company_charge')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('global_settings', function (Blueprint $table) {
-            $table->dropColumn('charge');
-        });
+        Schema::dropIfExists('global_withdraw_settings');
     }
 };

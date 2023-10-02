@@ -36,7 +36,9 @@ class User extends Authenticatable
         'nominee_relation',
         'nominee_nid',
         'can_create_customer',
-        'package'
+        'package',
+        'user_withdraw_amount',
+        'user_withdraw_charge',
     ];
 
     protected $appends = ["image_url"];

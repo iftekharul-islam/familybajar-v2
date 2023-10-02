@@ -68,10 +68,10 @@
                             @foreach ($order->repurchase_history as $repurchase)
                                 <tr>
                                     <td>
-                                        {{ $repurchase->user->name }}
+                                        {{ $repurchase->user->name }} <br />
                                         <small>{{ $repurchase->user->email }}</small>
                                     </td>
-                                    <td class="d-inline-block"><strong>BDT : {{ $repurchase->amount }} ৳</strong></td>
+                                    <td><strong>BDT : {{ $repurchase->amount }} ৳</strong></td>
                                     <td>{{ $repurchase->percentage }} %</td>
                                     <td>{{ $repurchase->is_heirarchy ? 'Generation - ' . $repurchase->chain_serial : 'Manual' }}
                                     </td>

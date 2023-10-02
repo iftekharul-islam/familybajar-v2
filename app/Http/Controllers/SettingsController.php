@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GlobalSetting;
+use App\Models\GlobalWithdrawSetting;
 use App\Models\ManualSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -69,12 +70,6 @@ class SettingsController extends Controller
 
     public function updateGlobal(Request $request)
     {
-        if ($request->minimum_withdraw < 1) {
-            return redirect()->back()->with('error', 'Minimum Withdraw Amount must be greater than 0')->withInput();
-        }
-        if ($request->charge < 0 || $request->charge > 100) {
-            return redirect()->back()->with('error', 'Company Charge Percentage should be in 0% to 100%')->withInput();
-        }
         $total = 0;
         $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
@@ -103,8 +98,6 @@ class SettingsController extends Controller
             'manual' => $manual_list,
             'buyer' => $request->buyer,
             'dealer' => $request->dealer,
-            'minimum_withdraw' => $request->minimum_withdraw,
-            'charge' => $request->charge,
         ]);
         return redirect()->back()->with('success', 'Global Settings Updated')->withInput();
     }
@@ -115,7 +108,7 @@ class SettingsController extends Controller
         $breadcrumbs = [
             ['name' => "Settings"], ['name' => "Manual"]
         ];
-        $users = ManualSetting::with('user')->get();
+        $users = ManualSetting::with('user')->paginate('10');
         return view('pages.settings.manual', compact('users', 'breadcrumbs'));
     }
 
@@ -172,5 +165,39 @@ class SettingsController extends Controller
             'dealer' => $request->dealer,
         ]);
         return redirect()->route('manual');
+    }
+
+    public function withdraw()
+    {
+        $breadcrumbs = [
+            ['name' => "Settings"], ['name' => "Withdraw"]
+        ];
+        $settings = GlobalWithdrawSetting::first();
+        return view('pages.settings.withdraw', compact('settings', 'breadcrumbs'));
+    }
+
+    public function withdrawUpdate(Request $request)
+    {
+        $request->validate(
+            [
+                'minimum_withdraw_amount' => 'required|numeric|min:0',
+                'company_charge' => 'required|numeric|min:0|max:100'
+            ],
+            [
+                'minimum_withdraw_amount.required' => 'Withdraw is required',
+                'minimum_withdraw_amount.numeric' => 'Withdraw must be numeric',
+                'minimum_withdraw_amount.min' => 'Withdraw must be greater than or equal 0',
+                'company_charge.required' => 'Company charge is required',
+                'company_charge.numeric' => 'Company charge must be numeric',
+                'company_charge.min' => 'Company charge must be greater than or equal 0',
+                'company_charge.max' => 'Company charge must be less than 100',
+            ]
+        );
+        $settings = GlobalWithdrawSetting::first();
+        $settings->update([
+            'minimum_withdraw_amount' => $request->minimum_withdraw_amount ?? 0,
+            'company_charge' => $request->company_charge ?? 0,
+        ]);
+        return redirect()->back()->with('success', 'Global Settings Updated')->withInput();
     }
 }

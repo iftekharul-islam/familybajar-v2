@@ -28,7 +28,8 @@ class StaterkitController extends Controller
         $self = $user;
         $self['children'] = $result;
         $tree = [$self];
-        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes'));
+        $userList = User::all();
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList'));
     }
 
     // Layout collapsed menu
