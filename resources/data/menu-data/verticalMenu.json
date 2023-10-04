@@ -27,6 +27,13 @@
             "access": [2, 3]
         },
         {
+            "url": "transfer-repurchase",
+            "name": "Transfer Repurchase",
+            "icon": "send",
+            "slug": "transfer-repurchase",
+            "access": [1, 2]
+        },
+        {
             "url": "withdraw-requests",
             "name": "Withdraw Requests",
             "icon": "dollar-sign",

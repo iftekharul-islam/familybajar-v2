@@ -39,6 +39,10 @@ class User extends Authenticatable
         'package',
         'user_withdraw_amount',
         'user_withdraw_charge',
+        'total_order_amount',
+        'total_order_repurchase_amount',
+        'seller_repurchase_transfer_amount',
+        'status'
     ];
 
     protected $appends = ["image_url"];
@@ -68,7 +72,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'can_create_customer' => 'boolean'
+        'can_create_customer' => 'boolean',
+        'status' => 'boolean',
     ];
 
     public function manual_mapping()

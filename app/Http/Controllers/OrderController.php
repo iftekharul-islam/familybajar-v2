@@ -78,6 +78,11 @@ class OrderController extends Controller
             $exception = DB::transaction(function () use ($request) {
                 $data = $request->only(['seller_id', 'customer_id', 'total_price', 'repurchase_price']);
                 $order = Order::create($data);
+                $user = User::find($request->seller_id);
+                $user->update([
+                    'total_order_amount' => $user->total_order_amount + $request->total_price,
+                    'total_order_repurchase_amount' => $user->total_order_repurchase_amount + $request->repurchase_price,
+                ]);
                 $this->repurchase_calculation($order);
             });
 
@@ -157,11 +162,11 @@ class OrderController extends Controller
                 'percentage' => $settings->buyer,
                 'chain_serial' => $serial,
                 'is_heirarchy' => false,
-                'remarks' => "Buyer Commision"
+                'remarks' => "Customer Commision"
             ]);
             $total += $settings->buyer;
 
-            $user = User::find(auth()->user()->id);
+            $user = User::find($order->customer_id);
             $user->update([
                 'repurchase_amount' => $user->repurchase_amount + $order->repurchase_price * $settings->buyer / 100,
                 'total_amount' => $user->total_amount + $order->repurchase_price * $settings->buyer / 100,

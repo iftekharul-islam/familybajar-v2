@@ -175,9 +175,48 @@
                                             <p class="card-text">BDT : <b>{{ $user->user_withdraw_charge }}</b></p>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">Seller Transfered
+                                                    Repurchase</span>
+                                            </h5>
+                                            <p class="card-text">BDT :
+                                                <b>{{ $user->seller_repurchase_transfer_amount }}</b>
+                                            </p>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
+                        @if ($user->type == config('status.type_by_name.seller'))
+                            <hr />
+                            <div class="card-header">
+                                <b>
+                                    Order Wallet Information
+                                </b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">Total sell</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $user->total_order_amount }}</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">Avaiable
+                                                    Repurchase Amount</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $user->total_order_repurchase_amount }}</b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2">
@@ -359,7 +398,7 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                            <label class="col-form-label" for="type">Type</label>
+                                            <label class="col-form-label" for="type">Typexcds</label>
                                         </div>
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search"
@@ -472,7 +511,7 @@
                                                 <label class="col-form-label" for="ref_by">Package</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                <select class="select2 form-select" id="customer_id" name="package">
+                                                <select class="hide-search form-select" id="package_id" name="package">
                                                     <option value="" disabled selected>Select a Package</option>
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         <option value="{{ $i }}">Level-{{ $i }}

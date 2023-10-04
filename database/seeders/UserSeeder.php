@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('123456'),
+            'package' => 5,
             'type' => 1
         ]);
         $user->update([
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
             'name' => 'Seller',
             'email' => 'seller@example.com',
             'password' => Hash::make('123456'),
+            'package' => 2,
             'ref_by' => $user->ref_code,
             'type' => 2
         ]);
@@ -43,6 +45,7 @@ class UserSeeder extends Seeder
                 'name' => 'Customer-' . $i + 1,
                 'email' => 'customer' . $i + 1 . '@example.com',
                 'password' => Hash::make('123456'),
+                'package' => rand(1, 4),
                 'ref_by' => User::all()->random()->ref_code,
                 'type' => 3
             ]);
