@@ -2,11 +2,6 @@
 
 @section('title', 'User List')
 
-@section('vendor-style')
-    <!-- vendor css files -->
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-@endsection
-
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -80,10 +75,15 @@
                                         <small class="badge bg-info">{{ $user->ref_code }}</small>
                                     </td>
                                     <td>
+                                        @if ($user->status == true)
+                                            <span class="badge badge bg-success">Active</span>
+                                        @else
+                                            <span class="badge badge bg-danger">Deactive</span>
+                                        @endif
+                                        <br />
                                         <span class="badge badge bg-info">{{ 'Level-' . $user->package }}</span>
                                         <br />
-                                        <span
-                                            class="badge badge bg-primary">{{ config('status.type')[$user->type] }}</span>
+                                        <span class="badge badge bg-primary">{{ config('status.type')[$user->type] }}</span>
                                     </td>
                                     <td>
                                         <span>Repurchase amount BDT: {{ $user->repurchase_amount }} ৳</span> <br>
@@ -101,23 +101,22 @@
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y H:ia') }}</td>
                                     <td>
-                                        @auth
-                                            @if (Auth::user()->type == 1)
-                                                <a class="" href="{{ route('loginAsUser', $user->id) }}">
-                                                    <i data-feather='log-in' class="me-50"></i>
-                                                </a>
-                                                <a class="" href="{{ route('user.edit', $user->id) }}">
-                                                    <i data-feather="edit-2" class="me-50"></i>
-                                                </a>
-                                            @endif
-                                        @endauth
+                                        @if (Auth::user()->type == config('status.type_by_name.admin'))
+                                            <a class="" href="{{ route('loginAsUser', $user->id) }}">
+                                                <i data-feather='log-in' class="me-50"></i>
+                                            </a>
+                                            <a class="" href="{{ route('user.edit', $user->id) }}">
+                                                <i data-feather="edit-2" class="me-50"></i>
+                                            </a>
+                                        @endif
                                         <a class="" href="{{ route('user.show', $user->id) }}">
                                             <i data-feather="eye" class="me-50"></i>
                                         </a>
-
-                                        {{--                                        <a class="" href="#"> --}}
-                                        {{--                                            <i data-feather="trash" class="me-50"></i> --}}
-                                        {{--                                        </a> --}}
+                                        @if (Auth::user()->type == config('status.type_by_name.admin') && $user->status == true)
+                                            <a class="delete-button" data-item-id="{{ $user->id }}" href="#">
+                                                <i data-feather='trash-2' class="me-50"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -219,16 +218,19 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
                                             <label class="col-form-label" for="type">Type</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select class="hide-search form-select" id="select2-hide-search"
-                                                name="type" value={{ old('type') }}>
-                                                {{-- <option value="1">Admin</option> --}}
-                                                <option value="2">Seller</option>
+                                            <select class="hide-search form-select" id="type" name="type"
+                                                value={{ old('type') }}>
+                                                @if (Auth::user()->type == config('status.type_by_name.admin'))
+                                                    {{-- <option value="1">Admin</option> --}}
+                                                    <option value="2">Seller</option>
+                                                @endif
                                                 <option value="3" selected>Customer</option>
                                             </select>
                                             @error('type')
@@ -237,6 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
@@ -333,7 +336,7 @@
                                                 <label class="col-form-label" for="ref_by">Package</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                <select class="select2 form-select" id="customer_id" name="package">
+                                                <select class="hide-search form-select" id="package_id" name="package">
                                                     <option value="" disabled selected>Select a Package</option>
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         <option value="{{ $i }}">Level-{{ $i }}
@@ -384,18 +387,52 @@
             </div>
         </div>
     </div>
-
-    <!-- Hoverable rows end -->
 @endsection
 
 @section('vendor-script')
-    <!-- vendor js files -->
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-@endsection
-@section('page-script')
-    {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function() {
+                const itemId = $(this).data('item-id');
+                Swal.fire({
+                    title: 'Are you confirm to deactive?',
+                    // text: "",
+                    html: "After deactiving this user, his/her generation with be added to his/her refer. <br /> <b class='text-danger'>You won't be able to revert this!</b>",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-outline-danger ms-1'
+                    },
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: "user-delete/" + itemId,
+                            type: "GET",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                // id: itemId
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Deactived!',
+                                    text: 'User has been deactivated.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function(result) {
+                                    if (result.value) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        })
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

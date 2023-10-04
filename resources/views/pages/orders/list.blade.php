@@ -2,11 +2,6 @@
 
 @section('title', 'User List')
 
-@section('vendor-style')
-    <!-- vendor css files -->
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-@endsection
-
 @section('content')
     <div class="row" id="table-hover-row">
         <div class="col-12">
@@ -219,16 +214,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('vendor-script')
-    <!-- vendor js files -->
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.bootpag.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/pagination/jquery.twbsPagination.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-@endsection
-@section('page-script')
-    {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pagination/components-pagination.js')) }}"></script>'
-    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 @endsection

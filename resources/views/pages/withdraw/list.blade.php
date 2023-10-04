@@ -73,11 +73,11 @@
                                     <td>{{ $withdraw->trxID ?? '--' }}</td>
                                     <td>{{ $withdraw->remarks ?? 'N/A' }}</td>
                                     <td>
-                                        @if (Auth::user()->type == 3 && $withdraw->status == 1)
+                                        @if (Auth::user()->type == config('status.type_by_name.customer') && $withdraw->status == 1)
                                             <a class="" href="/withdraw-cancel/{{ $withdraw->id }}">
                                                 <i data-feather="trash" class="me-50"></i>
                                             </a>
-                                        @elseif (Auth::user()->type == 1)
+                                        @elseif (Auth::user()->type == config('status.type_by_name.admin'))
                                             <a class="" href="/withdraw-request-edit/{{ $withdraw->id }}">
                                                 <i data-feather="edit" class="me-50"></i>
                                             </a>
@@ -198,7 +198,6 @@
                     $('#company-charge').val(companyCharge.toFixed(2));
                     $('#withdrawable-amount').val(withdrawableAmount.toFixed(2));
                 } else {
-                    // Clear the values if the input is not a valid number
                     $('#company-charge').val('');
                     $('#withdrawable-amount').val('');
                 }

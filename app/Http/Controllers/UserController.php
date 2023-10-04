@@ -141,4 +141,15 @@ class UserController extends Controller
 
         return redirect()->back();
     }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+        $user->status = false;
+        $user->save();
+        foreach ($user->children ?? [] as $children) {
+            $children->ref_by = $user->ref_by;
+            $children->save();
+        }
+    }
 }

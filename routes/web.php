@@ -6,6 +6,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TransferRepurchase;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 
@@ -37,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users/edit/{id}', [UserController::class, 'userEdit'])->name('user.edit');
     Route::post('users/edit/{id}', [UserController::class, 'userEdited'])->name('user.edited');
     Route::post('user-add', [UserController::class, 'userAddButton'])->name('userAddButton');
+    Route::get('user-delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 
     // Orders
     Route::get('orders', [OrderController::class, 'index'])->name('orders');
@@ -54,6 +56,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('withdraw-requests', [WithdrawController::class, 'withdrawRequests'])->name('withdrawRequests');
     Route::get('withdraw-request-edit/{id}', [WithdrawController::class, 'withdrawRequestEdit'])->name('withdrawRequestEdit');
     Route::post('withdraw-request-edit', [WithdrawController::class, 'withdrawRequestEditButton'])->name('withdrawRequestEditButton');
+
+    // Transfer Repurchase
+    Route::get('transfer-repurchase', [TransferRepurchase::class, 'index'])->name('transfer.index');
+    Route::post('transfer-repurchase', [TransferRepurchase::class, 'store'])->name('transfer.add');
+    Route::get('transfer-repurchase-cancel/{id}', [TransferRepurchase::class, 'cancel'])->name('transfer.cancel');
+    Route::get('transfer-repurchase-edit/{id}', [TransferRepurchase::class, 'edit'])->name('transfer.edit');
+    Route::post('transfer-repurchase-edit', [TransferRepurchase::class, 'update'])->name('transfer.update');
 
     // Repurchase History
     Route::get('repurchase-history', [OrderController::class, 'repurchaseHistory'])->name('repurchase-history');

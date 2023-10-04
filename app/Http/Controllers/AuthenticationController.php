@@ -18,14 +18,18 @@ class AuthenticationController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required'
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->status != true) {
+                return redirect()->route('login')
+                    ->with('loginError', 'Account is deactived')->withInput();
+            }
             return redirect()->route('home');
         }
         return redirect()->route('login')
-            ->with('error', 'Invalid login credentials')->withInput();
+            ->with('loginError', 'Invalid login credentials')->withInput();
     }
 
     public function logout(Request $request)
