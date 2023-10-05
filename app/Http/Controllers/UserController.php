@@ -111,7 +111,6 @@ class UserController extends Controller
     public function userAddButton(Request $request)
     {
         $request->validate([
-            'package' => 'required',
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
             'type' => 'required',
