@@ -21,7 +21,7 @@ class GlobalSetting extends Model
         'hierarchy' => 'integer',
         'percentage' => 'json',
         'manual' => 'json',
-        'dealer' => 'integer',
-        'buyer' => 'integer',
+        'dealer' => 'float',
+        'buyer' => 'float',
     ];
 }

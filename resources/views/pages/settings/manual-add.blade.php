@@ -42,8 +42,8 @@
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="buyer"
-                                                    placeholder="Percentage (%)">
+                                                <input type="number" class="form-control" name="buyer" min="0.01"
+                                                    step="0.01" placeholder="Percentage (%)">
                                             </div>
                                         </div>
                                     </div>
@@ -58,8 +58,8 @@
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="dealer"
-                                                    placeholder="Percentage (%)" step="any">
+                                                <input type="number" class="form-control" name="dealer" min="0.01"
+                                                    step="0.01" placeholder="Percentage (%)">
 
                                             </div>
                                         </div>
@@ -120,9 +120,10 @@
                 var newInput = document.createElement('input');
                 newInput.type = 'number';
                 newInput.max = '100';
+                newInput.min = '0.01';
                 newInput.className = 'form-control';
                 newInput.name = 'percentage[]';
-                newInput.type = 'any';
+                newInput.step = '0.01';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = 0;
 
@@ -176,9 +177,10 @@
                 var newInput = document.createElement('input');
                 newInput.type = 'number';
                 newInput.max = '100';
+                newInput.min = '0.01';
                 newInput.className = 'form-control';
                 newInput.name = 'manual[]';
-                newInput.type = 'any';
+                newInput.step = '0.01';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = null;
 

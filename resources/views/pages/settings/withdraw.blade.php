@@ -29,7 +29,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="minimum_withdraw_amount"
-                                                    placeholder="Amount" step="any"
+                                                    placeholder="Amount" step="0.01" min="0.01"
                                                     value="{{ old('minimum_withdraw_amount') ?? $settings->minimum_withdraw_amount }}">
 
                                                 @error('minimum_withdraw_amount')
@@ -48,7 +48,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="company_charge"
-                                                    placeholder="Percentage (%)" step="any"
+                                                    placeholder="Percentage (%)" step="0.01" min="0.01"
                                                     value="{{ old('company_charge') ?? $settings->company_charge }}">
                                                 @error('company_charge')
                                                     <div class="text-danger">{{ $message }}</div>
