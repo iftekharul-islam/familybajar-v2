@@ -16,13 +16,13 @@
                             <div class="col-sm-9">
                                 <h1>Manual Settings of Dealer : {{ $settings->user->name }}</h4>
                                     @error('user_id')
-                                    <div class="text-danger">{{ $message }}</div>
+                                        <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                     @if (session('error'))
                                         <div class="text-danger">
                                             {{ session('error') }}
                                         </div>
-                                @endif
+                                    @endif
                             </div>
                             <button type="submit" id="submit" class="btn btn-primary me-1">Update</button>
                         </div>
@@ -36,8 +36,9 @@
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="buyer"
-                                                       placeholder="Percentage (%)" value="{{ $settings->buyer }}">
+                                                <input type="number" class="form-control" name="buyer" min="0.01"
+                                                    step="0.01" placeholder="Percentage (%)"
+                                                    value="{{ $settings->buyer }}">
                                             </div>
                                         </div>
                                     </div>
@@ -52,8 +53,9 @@
                                                 </h4>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="number" class="form-control" name="dealer"
-                                                       placeholder="Percentage (%)" value="{{ $settings->dealer }}">
+                                                <input type="number" class="form-control" name="dealer" min="0.01"
+                                                    step="0.01" placeholder="Percentage (%)"
+                                                    value="{{ $settings->dealer }}">
 
                                             </div>
                                         </div>
@@ -77,7 +79,8 @@
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <input type="number" class="form-control" name="percentage[]"
-                                                           placeholder="Percentage (%)" step="any" value="{{ $percentage }}">
+                                                        min="0.01" step="0.01" placeholder="Percentage (%)"
+                                                        value="{{ $percentage }}">
 
                                                 </div>
                                                 {{--                                                <div class="col-sm-1 d-flex align-items-center justify-content-center"> --}}
@@ -117,7 +120,8 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <input type="number" class="form-control" name="manual[]"
-                                                           placeholder="Percentage (%)" step="any" value="{{ $manual['percentage'] }}">
+                                                        min="0.01" step="0.01" placeholder="Percentage (%)"
+                                                        value="{{ $manual['percentage'] }}">
                                                 </div>
                                                 {{-- <div class="col-sm-2 d-flex align-items-center justify-content-center">
                                                     <span class="cursor-pointer"><i data-feather="trash-2"
@@ -153,9 +157,10 @@
                 var newInput = document.createElement('input');
                 newInput.type = 'number';
                 newInput.max = '100';
+                newInput.min = '0.01';
                 newInput.className = 'form-control';
                 newInput.name = 'percentage[]';
-                newInput.type = 'any';
+                newInput.step = '0.01';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = 0;
 
@@ -210,9 +215,10 @@
                 var newInput = document.createElement('input');
                 newInput.type = 'number';
                 newInput.max = '100';
+                newInput.min = '0.01';
                 newInput.className = 'form-control';
                 newInput.name = 'manual[]';
-                newInput.type = 'any';
+                newInput.step = '0.01';
                 newInput.placeholder = 'Percentage (%)';
                 newInput.value = null;
 

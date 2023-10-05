@@ -22,8 +22,8 @@ class ManualSetting extends Model
         'hierarchy' => 'integer',
         'percentage' => 'json',
         'manual' => 'json',
-        'dealer' => 'integer',
-        'buyer' => 'integer',
+        'dealer' => 'float',
+        'buyer' => 'float',
     ];
 
     public function user()

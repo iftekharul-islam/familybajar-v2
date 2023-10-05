@@ -73,14 +73,14 @@ class SettingsController extends Controller
         $total = 0;
         $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
-            if ($percentage < 1) {
+            if ($percentage <= 0) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
             }
             $total += $percentage;
         }
         $manual_list = [];
         foreach ($request->manual ?? [] as $key => $manual) {
-            if ($manual < 1) {
+            if ($manual <= 0) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
             }
             $total += $manual;
