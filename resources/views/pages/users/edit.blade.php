@@ -85,9 +85,11 @@
                                                 {{-- <option
                                                     value="1"{{ old('type') ?? $user_data->type == 1 ? 'selected' : '' }}>
                                                     Admin</option> --}}
-                                                <option
-                                                    value="2"{{ old('type') ?? $user_data->type == 2 ? 'selected' : '' }}>
-                                                    Seller</option>
+                                                @if (Auth::user()->type != config('status.type_by_name.customer'))
+                                                    <option
+                                                        value="2"{{ old('type') ?? $user_data->type == 2 ? 'selected' : '' }}>
+                                                        Seller</option>
+                                                @endif
                                                 <option value="3"
                                                     {{ old('type') ?? $user_data->type == 3 ? 'selected' : '' }}>Customer
                                                 </option>
