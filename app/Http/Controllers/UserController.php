@@ -98,7 +98,9 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->password);
         }
 
-        $data['can_create_customer'] = $request->can_create_customer;
+        if (!empty($request->get('can_create_customer'))) {
+            $data['can_create_customer'] = $request->can_create_customer;
+        }
 
         $user = User::find($id);
         $user->update($data);
