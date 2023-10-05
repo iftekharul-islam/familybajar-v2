@@ -398,7 +398,7 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                            <label class="col-form-label" for="type">Typexcds</label>
+                                            <label class="col-form-label" for="type">Type</label>
                                         </div>
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search"
