@@ -163,7 +163,7 @@
                                             <h5 class="mb-75"><span class="badge badge-glow bg-primary">User Withdraw
                                                     Amount</span>
                                             </h5>
-                                            <p class="card-text">BDT : <b>{{ $user->user_withdraw_amount  ?? 'O' }} ৳</b></p>
+                                            <p class="card-text">BDT <b>{{ $user->user_withdraw_amount  ?? 'O' }} ৳</b></p>
                                         </div>
                                     </div>
 
@@ -172,7 +172,7 @@
                                             <h5 class="mb-75"><span class="badge badge-glow bg-primary">User Withdraw
                                                     Charge</span>
                                             </h5>
-                                            <p class="card-text">BDT : <b>{{ $user->user_withdraw_charge  ?? 'O' }} ৳</b></p>
+                                            <p class="card-text">BDT <b>{{ $user->user_withdraw_charge  ?? 'O' }} ৳</b></p>
                                         </div>
                                     </div>
 
@@ -244,8 +244,8 @@
                                                 <span class="fw-bold">{{ $order->id }}</span>
                                             </td>
                                             <td>{{ $order->seller->name ?? 'N/A' }}</td>
-                                            <td>BDT :{{ $order->repurchase_price ?? 0 }} ৳</td>
-                                            <td>BDT :{{ $order->total_price ?? 0 }} ৳</td>
+                                            <td>BDT {{ $order->repurchase_price ?? 0 }} ৳</td>
+                                            <td>BDT {{ $order->total_price ?? 0 }} ৳</td>
                                             <td>
                                                 <a class="" href="/order/{{ $order->id }}">
                                                     <i data-feather="eye" class="me-50"></i>
@@ -285,8 +285,8 @@
                                             <span class="fw-bold">{{ $order->id }}</span>
                                         </td>
                                         <td>{{ $order->seller->name }}</td>
-                                        <td>{{ $order->repurchase_price }}</td>
-                                        <td>{{ $order->total_price ?? 'N/A' }}</td>
+                                        <td>BDT {{ $order->repurchase_price }} ৳</td>
+                                        <td>BDT {{ $order->total_price ?? '0' }} ৳</td>
                                         <td>
                                             <a class="" href="/order/{{ $order->id }}">
                                                 <i data-feather="eye" class="me-50"></i>
