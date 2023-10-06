@@ -97,8 +97,13 @@
                             {{ Auth::user()->name }}
                         </span>
                         <span class="user-status">
-                            {{ config('status.type')[Auth::user()->type] }} <span
-                                class="badge badge bg-danger">{{ 'Level-' . Auth::user()->package }}</span></span>
+                            <span class="badge badge bg-success">
+                                {{ config('status.type')[Auth::user()->type] }}
+                            </span>
+                            @if($user->package)
+                                <span class="badge badge bg-danger">LEVEL-{{ $user->package }}</span>
+                            @endif
+                        </span>
                     @else
                         <span class="user-name fw-bolder">
                             Name

@@ -18,8 +18,13 @@
                             <div class="profile-title ms-3">
                                 <h2 class="text-white">{{ $user->name }}</h2>
                                 <p class="text-white">
-                                    {{ config('status.type')[$user->type] }} <span
-                                        class="badge badge bg-danger">{{ 'Level-' . $user->package }}</span></p>
+                                    <span class="badge badge bg-success">
+                                        {{ config('status.type')[$user->type] }}
+                                    </span>
+                                    @if($user->package)
+                                        <span class="badge badge bg-danger">LEVEL-{{ $user->package }}</span>
+                                    @endif
+                                </p>
                             </div>
                         </div>
                     </div>
