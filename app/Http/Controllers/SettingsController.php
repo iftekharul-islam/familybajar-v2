@@ -159,6 +159,7 @@ class SettingsController extends Controller
             return redirect()->back()->with('error', 'Total percentage must be 100')->withInput();
         }
 
+
         ManualSetting::create([
             'user_id' => $request->user,
             'hierarchy' => count($request->percentage ?? []) + count($manual_list),
