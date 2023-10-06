@@ -255,6 +255,9 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('ref_by')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

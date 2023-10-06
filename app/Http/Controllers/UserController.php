@@ -115,6 +115,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
+            'ref_by' => 'required',
             'type' => 'required',
             'phone' => 'required',
             'password' => 'required|min:6'
