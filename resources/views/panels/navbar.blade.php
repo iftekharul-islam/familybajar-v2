@@ -100,7 +100,7 @@
                             <span class="badge badge bg-success">
                                 {{ config('status.type')[Auth::user()->type] }}
                             </span>
-                            @if($user->package)
+                            @isset($user->package)
                                 <span class="badge badge bg-danger">LEVEL-{{ $user->package }}</span>
                             @endif
                         </span>

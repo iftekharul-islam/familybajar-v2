@@ -48,11 +48,11 @@
                                 Personal Information
                             </h5>
                             @if (auth()->user()->type == config('status.type_by_name.admin') || auth()->user()->can_create_customer == 1)
-                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-gradient-info" data-bs-toggle="modal"
                                     data-bs-target="#editUser">Add User</button>
                             @endif
-                            <a class="btn btn-primary" href="{{ route('user.edit', $user->id) }}">
-                                <i data-feather="edit-2" class="me-50"></i>
+                            <a class="btn btn-danger" href="{{ route('user.edit', $user->id) }}">
+                                <i data-feather="edit-2"></i>
                             </a>
                         </div>
                         <div class="card-body">
