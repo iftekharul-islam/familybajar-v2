@@ -230,9 +230,9 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>OrderID</th>
-                                        <th>Seller</th>
-                                        <th>Repurchase Amount</th>
+                                        <th>ID</th>
+                                        <th>Dealer</th>
+                                        <th>RP Amount</th>
                                         <th>Total Amount</th>
                                         <th>Actions</th>
                                     </tr>
@@ -272,14 +272,14 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Seller</th>
-                                        <th>Repurchase Amount</th>
+                                        <th>Dealer</th>
+                                        <th>RP Amount</th>
                                         <th>Total Amount</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($user->orders as $order)
+                                    @foreach ($user->orders as $order)
                                     <tr>
                                         <td>
                                             <span class="fw-bold">{{ $order->id }}</span>
@@ -293,7 +293,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

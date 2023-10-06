@@ -48,11 +48,11 @@
                                     </td>
                                     <td>{{ $withdraw->user->name }}</td>
                                     <td>
-                                        Total : {{ $withdraw->amount }} tk
+                                        Total : {{ $withdraw->amount ?? '0' }} ৳
                                         <br />
-                                        Charge : {{ $withdraw->company_charge }} tk
+                                        Charge : {{ $withdraw->company_charge ?? '0' }} ৳
                                         <br />
-                                        Withdraw : {{ $withdraw->withdrawable_amount }} tk
+                                        Withdraw : {{ $withdraw->withdrawable_amount ?? '0' }} ৳
 
                                     </td>
                                     <td>
@@ -123,9 +123,9 @@
                 </div>
                 <div class="modal-body pb-5 px-sm-5 pt-50">
                     <div class="text-center mb-2">
-                        <h1 class="card-title">Available Balance : {{ Auth::user()->total_amount }}</h1>
-                        <div>Minimum Withdraw Balance : {{ $withdraw_settings->minimum_withdraw_amount }}</div>
-                        <div>Company Charge : {{ $withdraw_settings->company_charge }}%</div>
+                        <h1 class="card-title">Available Balance : {{ Auth::user()->total_amount ?? '0' }} ৳</h1>
+                        <div>Minimum Withdraw Balance : {{ $withdraw_settings->minimum_withdraw_amount ?? '0' }} ৳</div>
+                        <div>Company Charge : {{ $withdraw_settings->company_charge?? '0'  }} %</div>
                     </div>
 
                     <div class="card-body">
@@ -151,7 +151,7 @@
                                     <div class="mb-1 row">
                                         <div class="col-sm-4">
                                             <label class="col-form-label" for="company-charge">Company charge
-                                                ({{ $withdraw_settings->company_charge }}%)</label>
+                                                ( {{ $withdraw_settings->company_charge ?? '0' }} % )</label>
                                         </div>
                                         <div class="col-sm-8">
                                             <input type="number" id="company-charge" class="form-control"
@@ -191,7 +191,7 @@
             $('#withdraw-amount').on('input', function() {
                 var withdrawAmount = parseFloat($(this).val());
                 if (!isNaN(withdrawAmount)) {
-                    var company_charge = {{ $withdraw_settings->company_charge }};
+                    var company_charge = {{ $withdraw_settings->company_charge ?? 0 }};
                     var companyCharge = withdrawAmount * company_charge / 100;
                     var withdrawableAmount = withdrawAmount * (1 - company_charge / 100);
 

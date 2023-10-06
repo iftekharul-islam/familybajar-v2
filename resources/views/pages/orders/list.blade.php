@@ -14,7 +14,7 @@
                     <form action="{{ route('orders') }}" method="get">
                         <div class="card-body d-flex justify-content-between">
                             <div class="col-6 d-flex">
-                                <select class="select2 form-select" id="customer_id" name="user_id">
+                                <select class="select2 form-select" id="customer_" name="user_id">
                                     <option value="" disabled selected>Select a User</option>
                                     @foreach ($users ?? [] as $customer)
                                         <option value="{{ $customer->id }}"
