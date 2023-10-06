@@ -224,7 +224,7 @@ class OrderController extends Controller
         if (Auth::user()->type != config('status.type_by_name.admin')) {
             $orders = $histories->where('user_id', Auth::user()->id);
         }
-        $histories = $histories->paginate('10');
+        $histories = $histories->orderBy('created_at', 'desc')->paginate('10');
         return view('pages.repurchase.list', compact('histories', 'breadcrumbs', 'users'));
     }
 }
