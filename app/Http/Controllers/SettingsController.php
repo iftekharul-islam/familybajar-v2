@@ -150,6 +150,7 @@ class SettingsController extends Controller
             if ($manual <= 0) {
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
             }
+            $total += $manual;
             $manual_list[] = [
                 'user_id' => $request->user_id[$key],
                 'percentage' => $manual,
