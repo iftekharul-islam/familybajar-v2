@@ -32,18 +32,22 @@ class SettingsController extends Controller
 
     public function updateManual(Request $request, $id)
     {
+//        return $request->all();
         $total = 0;
         $total = $total + $request->buyer + $request->dealer;
         foreach ($request->percentage ?? [] as $percentage) {
             if ($percentage <= 0) {
+                return $percentage;
                 return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
             }
             $total += $percentage;
         }
+
         $manual_list = [];
         foreach ($request->manual ?? [] as $key => $manual) {
             if ($manual <= 0) {
-                return redirect()->back()->with('error', 'Percentage must be greater than 0')->withInput();
+                return $manual;
+                return redirect()->back()->with('error', 'Manual percentage must be greater than 0')->withInput();
             }
             $total += $manual;
             $manual_list[] = [
@@ -65,7 +69,7 @@ class SettingsController extends Controller
             ]
         );
 
-        return redirect()->route('manual');
+        return redirect()->route('manual')->with('success', 'Manual setting updated successfully!')->withInput();
     }
 
     public function updateGlobal(Request $request)
@@ -99,7 +103,7 @@ class SettingsController extends Controller
             'buyer' => $request->buyer,
             'dealer' => $request->dealer,
         ]);
-        return redirect()->back()->with('success', 'Global Settings Updated')->withInput();
+        return redirect()->back()->with('success', 'Global Settings Updated successfully')->withInput();
     }
 
 
