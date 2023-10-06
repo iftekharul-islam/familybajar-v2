@@ -199,10 +199,19 @@ class SettingsController extends Controller
             ]
         );
         $settings = GlobalWithdrawSetting::first();
-        $settings->update([
-            'minimum_withdraw_amount' => $request->minimum_withdraw_amount ?? 0,
-            'company_charge' => $request->company_charge ?? 0,
-        ]);
-        return redirect()->back()->with('success', 'Global Settings Updated')->withInput();
+        if($settings) {
+            $settings->update([
+                'minimum_withdraw_amount' => $request->minimum_withdraw_amount ?? 0,
+                'company_charge' => $request->company_charge ?? 0,
+            ]);
+            return redirect()->back()->with('success', 'Withdraw Settings Updated successfully')->withInput();
+        } else {
+            GlobalWithdrawSetting::create([
+                'minimum_withdraw_amount' => $request->minimum_withdraw_amount ?? 0,
+                'company_charge' => $request->company_charge ?? 0,
+            ]);
+
+            return redirect()->back()->with('success', 'Withdraw Settings created successfully')->withInput();
+        }
     }
 }

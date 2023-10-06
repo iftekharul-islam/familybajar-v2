@@ -207,7 +207,7 @@
                                         <div class="mt-2">
                                             <h5 class="mb-75"><span class="badge badge-glow bg-primary">Total sell</span>
                                             </h5>
-                                            <p class="card-text">BDT : <b>{{ $user->total_order_amount }}</b></p>
+                                            <p class="card-text">BDT : <b>{{ $user->total_order_amount }} ৳</b></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-12 order-2 order-lg-1">
@@ -221,7 +221,34 @@
                                     </div>
                                 </div>
                             </div>
+                        @elseif($user->type == config('status.type_by_name.admin'))
+                            <hr />
+                            <div class="card-header">
+                                <b>
+                                    Dealers sell Information
+                                </b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">Total Orders sell</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $order['total_amount'] ?? '0' }} ৳</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-12 order-2 order-lg-1">
+                                        <div class="mt-2">
+                                            <h5 class="mb-75"><span class="badge badge-glow bg-primary">Total RP Amount</span>
+                                            </h5>
+                                            <p class="card-text">BDT : <b>{{ $order['total_rp_amount'] }} ৳</b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2">

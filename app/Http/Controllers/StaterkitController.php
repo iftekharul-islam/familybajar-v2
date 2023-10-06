@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class StaterkitController extends Controller
 {
@@ -29,7 +28,12 @@ class StaterkitController extends Controller
         $self['children'] = $result;
         $tree = [$self];
         $userList = User::all();
-        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList'));
+        $order = [];
+        //total orders amount
+        $order['total_amount'] = Order::sum('total_price');
+        //total RP amount of orders
+        $order['total_rp_amount'] = Order::sum('repurchase_price');
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList', 'order'));
     }
 
     // Layout collapsed menu
