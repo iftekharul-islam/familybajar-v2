@@ -106,7 +106,7 @@
                                             <label class="col-form-label" for="ref_by">Refer By</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select class="select2 form-select" id="customer_id" name="ref_by">
+                                            <select class="select2 form-select" id="ref_id" name="ref_by" {{ auth()->user()->type == config('status.type_by_name.admin') ? null : 'disabled' }}>
                                                 <option value="" disabled selected>Select a User</option>
                                                 @foreach ($userList ?? [] as $customer)
                                                     <option value="{{ $customer->ref_code }}"

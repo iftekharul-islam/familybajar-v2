@@ -51,11 +51,17 @@
                                     <td>
                                         <span class="fw-bold">{{ $order->id }}</span>
                                     </td>
-                                    <td>{{ $order->customer->name }}</td>
-                                    <td>{{ $order->seller->name }}</td>
-                                    <td>{{ $order->repurchase_price }}</td>
-                                    <td>{{ $order->total_price ?? 'N/A' }}</td>
-                                    <td>{{ $order->created_at }}</td>
+                                    <td>
+                                        {{ $order->customer->name }}
+                                        <small>{{ $order->customer->email }}</small>
+                                    </td>
+                                    <td>
+                                        {{ $order->seller->name }}
+                                        <small>{{ $order->seller->email }}</small>
+                                    </td>
+                                    <td>BDT : <b>{{ $order->repurchase_price }} ৳</b></td>
+                                    <td>BDT : <b>{{ $order->total_price ?? '0' }} ৳</b></td>
+                                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:ia')  }}</td>
                                     <td>
                                         @if (in_array(auth()->user()->type, [1, 2]))
                                             <a class="" href="{{ route('orderShow', $order->id) }}">

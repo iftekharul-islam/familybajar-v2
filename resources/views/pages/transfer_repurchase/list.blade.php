@@ -40,7 +40,7 @@
                             <tr>
                                 <th>ID</th>
                                 @if (Auth::user()->type == config('status.type_by_name.admin'))
-                                    <th>Seller</th>
+                                    <th>Dealer</th>
                                 @endif
                                 <th>Amount</th>
                                 <th>Medium</th>
@@ -58,12 +58,15 @@
                                         <span class="fw-bold">{{ $history->id }}</span>
                                     </td>
                                     @if (Auth::user()->type == config('status.type_by_name.admin'))
-                                        <td>{{ $history->seller->name }}</td>
+                                        <td>
+                                            {{ $history->seller->name }}
+                                            <small> {{ $history->seller->email }}</small>
+                                        </td>
                                     @endif
-                                    <td>{{ $history->amount }}</td>
+                                    <td>BDT: <b>{{ $history->amount }} ৳</b></td>
                                     <td>{{ $history->account }}</td>
                                     <td>{{ $history->trxID }}</td>
-                                    <td>{{ $history->created_at }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d M Y H:ia')  }}</td>
                                     <td>
                                         @if ($history->status == 1)
                                             <span
