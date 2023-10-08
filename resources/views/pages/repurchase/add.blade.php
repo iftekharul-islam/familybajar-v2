@@ -30,7 +30,8 @@
                                                 @foreach ($sellers as $seller)
                                                     <option value="{{ $seller->id }}"
                                                         {{ old('seller_id') == $seller->id ? 'selected' : '' }}>
-                                                        {{ $seller->name }}</option>
+                                                        {{ $seller->name }} ({{ $seller->email }})
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @error('seller_id')
@@ -50,7 +51,7 @@
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}"
                                                         {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                                                        {{ $customer->name }}
+                                                        {{ $customer->name }} ({{ $customer->email }})
                                                     </option>
                                                 @endforeach
                                             </select>

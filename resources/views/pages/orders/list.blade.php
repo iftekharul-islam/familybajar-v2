@@ -126,7 +126,8 @@
                                                     @foreach ($sellers as $seller)
                                                         <option value="{{ $seller->id }}"
                                                             {{ old('seller_id') == $seller->id ? 'selected' : '' }}>
-                                                            {{ $seller->name }}</option>
+                                                            {{ $seller->name }} ({{ $seller->email }})
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             @endif
@@ -136,7 +137,8 @@
                                                     @foreach ($sellers as $seller)
                                                         <option value="{{ $seller->id }}"
                                                             {{ Auth::user()->id == $seller->id ? 'selected' : '' }}>
-                                                            {{ $seller->name }}</option>
+                                                            {{ $seller->name }} ({{ $seller->email }})
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 <input type="hidden" name="seller_id" value="{{ Auth::user()->id }}">
@@ -158,7 +160,7 @@
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}"
                                                         {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                                                        {{ $customer->name }}
+                                                        {{ $customer->name }} ({{ $customer->email }})
                                                     </option>
                                                 @endforeach
                                             </select>
