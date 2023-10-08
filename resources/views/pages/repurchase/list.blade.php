@@ -14,20 +14,22 @@
             <div class="card">
                 @if (Auth::user()->type == config('status.type_by_name.admin'))
                     <form action="{{ route('repurchase-history') }}" method="get">
-                        <div class="card-body d-flex">
-                            <div class="col-4">
-                                <select class="select2 form-select" id="customer_id" name="customer_id">
-                                    <option value="" disabled selected>Select a User</option>
-                                    @foreach ($users ?? [] as $customer)
-                                        <option value="{{ $customer->id }}"
-                                            {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
-                                            {{ $customer->name }} ({{ $customer->email }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <select class="select2 form-select" id="customer_id" name="customer_id">
+                                        <option value="" disabled selected>Select a User</option>
+                                        @foreach ($users ?? [] as $customer)
+                                            <option value="{{ $customer->id }}"
+                                                {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                {{ $customer->name }} ({{ $customer->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary ml-5">Search</button>
+                                </div>
                             </div>
                         </div>
                     </form>

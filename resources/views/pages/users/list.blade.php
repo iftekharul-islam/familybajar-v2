@@ -11,24 +11,28 @@
                 </div> --}}
                 <div class="card-body">
                     <form action="{{ route('users') }}" method="get">
-                        <div class="d-flex justify-content-between">
-                            <div class="col-6 d-flex">
+                        <div class="row">
+                            <div class="col-3">
                                 <input type="text" class="form-control" id="floating-label1"
                                     placeholder="Search By name or email" name="search"
                                     value="{{ Request()->get('search') }}" />
-                                <div class="col-8 d-flex">
-                                    <select class="select2 form-select" id="user_type" name="user_type">
-                                        <option value="" disabled selected>Select a User type</option>
-                                        <option value="3" {{ Request()->get('user_type') == 3 ? 'selected' : '' }}>
-                                            Customer</option>
-                                        <option value="2" {{ Request()->get('user_type') == 2 ? 'selected' : '' }}>
-                                            Seller</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary ml-5">Search</button>
-                                </div>
                             </div>
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                data-bs-target="#editUser">Add User</button>
+                            <div class="col-2">
+                                <select class="select2 form-select" id="user_type" name="user_type">
+                                    <option value="" disabled selected>Select a User type</option>
+                                    <option value="3" {{ Request()->get('user_type') == 3 ? 'selected' : '' }}>
+                                        Customer</option>
+                                    <option value="2" {{ Request()->get('user_type') == 2 ? 'selected' : '' }}>
+                                        Seller</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#editUser">Add User</button>
+                            </div>
                         </div>
                     </form>
                     {{--                    <form action="{{ route('users') }}" method="get"> --}}

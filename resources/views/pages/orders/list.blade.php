@@ -9,25 +9,27 @@
                 @if (Auth::user()->type == config('status.type_by_name.admin') ||
                         Auth::user()->type == config('status.type_by_name.seller'))
                     <form action="{{ route('orders') }}" method="get">
-                        <div class="card-body d-flex">
-                            <div class="col-4">
-                                <select class="select2 form-select" id="customer_" name="user_id">
-                                    <option value="" disabled selected>Select a User</option>
-                                    @foreach ($users ?? [] as $customer)
-                                        <option value="{{ $customer->id }}"
-                                            {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
-                                            {{ $customer->name }} ({{ $customer->email }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary ml-5">Search</button>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addOrder">Add New
-                                    Order</button>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <select class="select2 form-select" id="customer_" name="user_id">
+                                        <option value="" disabled selected>Select a User</option>
+                                        @foreach ($users ?? [] as $customer)
+                                            <option value="{{ $customer->id }}"
+                                                {{ Request()->get('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                {{ $customer->name }} ({{ $customer->email }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary ml-5">Search</button>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addOrder">Add New
+                                        Order</button>
+                                </div>
                             </div>
                         </div>
                     </form>

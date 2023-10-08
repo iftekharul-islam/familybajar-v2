@@ -6,22 +6,24 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body d-flex">
+                <div class="card-body">
                     @if (Auth::user()->type == config('status.type_by_name.admin'))
                     <form action="{{ route('transfer.index') }}" method="get">
-                        <div class="col-4">
-                            <select class="select2 form-select" id="customer_id" name="seller_id">
-                                <option value="" disabled selected>Select a Seller</option>
-                                @foreach ($sellers ?? [] as $seller)
-                                    <option value="{{ $seller->id }}"
-                                        {{ Request()->get('seller_id') == $seller->id ? 'selected' : '' }}>
-                                        {{ $seller->name }} ({{ $seller->email }})
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-primary ml-5">Search</button>
+                        <div class="row">
+                            <div class="col-4">
+                                <select class="select2 form-select" id="customer_id" name="seller_id">
+                                    <option value="" disabled selected>Select a Seller</option>
+                                    @foreach ($sellers ?? [] as $seller)
+                                        <option value="{{ $seller->id }}"
+                                            {{ Request()->get('seller_id') == $seller->id ? 'selected' : '' }}>
+                                            {{ $seller->name }} ({{ $seller->email }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            </div>
                         </div>
                     </form>
                     @endif
