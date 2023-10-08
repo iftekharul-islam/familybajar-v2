@@ -147,6 +147,12 @@
                 newRowDiv.appendChild(col3Div);
                 var percentageList = document.getElementById('percentage_list');
                 percentageList.appendChild(newRowDiv);
+                if (feather) {
+                    feather.replace({
+                        width: 14,
+                        height: 14
+                    });
+                }
             });
 
 
@@ -172,7 +178,7 @@
                 }
 
                 var col1Div = document.createElement('div');
-                col1Div.className = 'col-sm-6';
+                col1Div.className = 'col-sm-5';
                 col1Div.appendChild(newSelect);
 
                 var newInput = document.createElement('input');
@@ -196,7 +202,7 @@
                     '<span class="cursor-pointer"><i data-feather="trash-2" style="color: red;"></i></span>';
 
                 var newRowDiv = document.createElement('div');
-                newRowDiv.className = 'row';
+                newRowDiv.className = 'mb-1 row';
                 newRowDiv.id = "percentage_list-" + (currentLevel);
 
                 newRowDiv.appendChild(col1Div);
@@ -204,7 +210,36 @@
                 newRowDiv.appendChild(col3Div);
                 var percentageList = document.getElementById('manual_list');
                 percentageList.appendChild(newRowDiv);
+
+                if (feather) {
+                    feather.replace({
+                        width: 14,
+                        height: 14
+                    });
+                }
             });
+        });
+
+        // Add an event listener to a parent element containing delete buttons (assuming the parent has the ID 'percentage_list')
+        var percentageList = document.getElementById('percentage_list');
+        percentageList.addEventListener('click', function(event) {
+            // Check if the clicked element or its parent has the class 'cursor-pointer'
+            if (event.target.classList.contains('cursor-pointer') || event.target.parentElement.classList.contains('cursor-pointer')) {
+                // Find the closest row element containing the delete button
+                var row = event.target.closest('.row');
+
+                if (row) {
+                    // Remove the row
+                    row.remove();
+
+                    // Optionally decrement the hierarchy level
+                    var hierarchyLevel = document.getElementById('hierarchyLevel');
+                    var currentLevel = parseInt(hierarchyLevel.textContent);
+                    if (currentLevel > 0) {
+                        hierarchyLevel.textContent = currentLevel - 1;
+                    }
+                }
+            }
         });
     </script>
 

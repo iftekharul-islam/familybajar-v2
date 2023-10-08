@@ -39,8 +39,8 @@
                                 <th>Order ID</th>
                                 <th>Customer</th>
                                 <th>Seller</th>
-                                <th>Amount</th>
-                                <th>Generation/Manual</th>
+                                <th>Consumer</th>
+                                <th>Payment Details</th>
                                 <th>Remarks</th>
                                 <th>Created at</th>
                             </tr>
@@ -61,9 +61,13 @@
                                         {{ $history->order->seller->name }}
                                         <small>{{ $history->order->seller->email }}</small>
                                     </td>
-                                    <td>BDT : <b>{{ $history->amount }}</b>৳</td>
                                     <td>
-                                        {{ $history->is_heirarchy ? 'Generation - ' . $history->chain_serial : 'Manual' }}
+                                        {{ $history->user->name }}
+                                        <small>{{ $history->user->email }}</small>
+                                    </td>
+                                    <td>
+                                        BDT : <b>{{ $history->amount }}</b>৳
+                                       <small>{{ $history->is_heirarchy ? 'Generation - ' . $history->chain_serial : 'Manual' }}</small>
                                         <br>
                                         <b>{{ $history->percentage }}%</b>
                                     </td>
