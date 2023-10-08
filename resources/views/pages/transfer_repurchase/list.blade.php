@@ -6,34 +6,30 @@
     <div class="row" id="table-hover-row">
         <div class="col-12">
             <div class="card">
-                {{-- <div class="card-header">
-                    <h4 class="card-title">User List</h4>
-                </div> --}}
-                <form action="{{ route('transfer.index') }}" method="get">
-                    <div class="card-body d-flex">
+                <div class="card-body d-flex">
+                    @if (Auth::user()->type == config('status.type_by_name.admin'))
+                    <form action="{{ route('transfer.index') }}" method="get">
                         <div class="col-4">
-                            @if (Auth::user()->type == config('status.type_by_name.admin'))
-                                <select class="select2 form-select" id="customer_id" name="seller_id">
-                                    <option value="" disabled selected>Select a Seller</option>
-                                    @foreach ($sellers ?? [] as $seller)
-                                        <option value="{{ $seller->id }}"
-                                            {{ Request()->get('seller_id') == $seller->id ? 'selected' : '' }}>
-                                            {{ $seller->name }} ({{ $seller->email }})
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                            @endif
+                            <select class="select2 form-select" id="customer_id" name="seller_id">
+                                <option value="" disabled selected>Select a Seller</option>
+                                @foreach ($sellers ?? [] as $seller)
+                                    <option value="{{ $seller->id }}"
+                                        {{ Request()->get('seller_id') == $seller->id ? 'selected' : '' }}>
+                                        {{ $seller->name }} ({{ $seller->email }})
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-6">
                             <button type="submit" class="btn btn-primary ml-5">Search</button>
                         </div>
-                        @if (Auth::user()->type == config('status.type_by_name.seller'))
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                data-bs-target="#addOrder">New Transfer Request</button>
-                        @endif
-                    </div>
-                </form>
+                    </form>
+                    @endif
+                    @if (Auth::user()->type == config('status.type_by_name.seller'))
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                            data-bs-target="#addOrder">New Transfer Request</button>
+                    @endif
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -43,10 +39,9 @@
                                     <th>Dealer</th>
                                 @endif
                                 <th>Amount</th>
-                                <th>Medium</th>
-                                <th>TrxID</th>
-                                <th>Created at</th>
+                                <th>Details</th>
                                 <th>Status</th>
+                                <th>Created at</th>
                                 <th>Remarks</th>
                                 <th>Actions</th>
                             </tr>
@@ -64,9 +59,11 @@
                                         </td>
                                     @endif
                                     <td>BDT: <b>{{ $history->amount }} ৳</b></td>
-                                    <td>{{ $history->account }}</td>
-                                    <td>{{ $history->trxID }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d M Y H:ia')  }}</td>
+                                    <td>
+                                        <small>Transfer By : <b>{{ $history->account }}</b></small><br>
+                                        <small>Trans ID : <b>{{ $history->trxID }}</b></small><br>
+
+                                    </td>
                                     <td>
                                         @if ($history->status == 1)
                                             <span
@@ -82,6 +79,7 @@
                                                 class="badge bg-danger">{{ config('status.withdraw')[$history->status] }}</span>
                                         @endif
                                     </td>
+                                    <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d M Y H:ia')  }}</td>
                                     <td>{{ $history->remarks }}</td>
                                     <td>
                                         @if (Auth::user()->type == config('status.type_by_name.admin'))
