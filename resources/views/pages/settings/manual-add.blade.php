@@ -13,9 +13,10 @@
                     <form class="form form-horizontal" action="{{ route('createManual') }}" method="POST">
                         @csrf
                         <div class="card-header">
-                            <div class="col-sm-9">
+                            <div class="col-sm-6">
+                                <label for="select2-hide-search"><h4>Select Dealer</h4></label>
                                 <select class="select2 form-select" id="select2-hide-search" name="user">
-                                    <option value="" disabled selected hidden>Select User</option>
+                                    <option value="" disabled selected hidden>Enter Dealer name</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})
                                         </option>

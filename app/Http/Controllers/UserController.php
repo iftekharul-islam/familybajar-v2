@@ -22,7 +22,11 @@ class UserController extends Controller
         $self['children'] = $result;
         $tree = [$self];
         $userList = User::all();
-        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList'));
+        //total orders amount
+        $order['total_amount'] = Order::sum('total_price');
+        //total RP amount of orders
+        $order['total_rp_amount'] = Order::sum('repurchase_price');
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList', 'order'));
     }
 
     public function index(Request $request)

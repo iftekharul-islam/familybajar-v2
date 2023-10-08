@@ -10,8 +10,8 @@
                     <h4 class="card-title">User List</h4>
                 </div> --}}
                 <form action="{{ route('transfer.index') }}" method="get">
-                    <div class="card-body d-flex justify-content-between">
-                        <div class="col-6 d-flex">
+                    <div class="card-body d-flex">
+                        <div class="col-4">
                             @if (Auth::user()->type == config('status.type_by_name.admin'))
                                 <select class="select2 form-select" id="customer_id" name="seller_id">
                                     <option value="" disabled selected>Select a Seller</option>
@@ -22,8 +22,11 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+
                             @endif
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary ml-5">Search</button>
                         </div>
                         @if (Auth::user()->type == config('status.type_by_name.seller'))
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"

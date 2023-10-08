@@ -24,8 +24,7 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-sm-6 d-flex align-items-center">
-                                                <h4>Minimum Withdraw Amount
-                                                </h4>
+                                                Minimum Withdraw Amount
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="number" class="form-control" name="minimum_withdraw_amount"
@@ -43,10 +42,9 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-sm-6 d-flex align-items-center">
-                                                <h4>Company Charge Percentage
-                                                </h4>
+                                                Company Charge Percentage<b> ( % )</b>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-5">
                                                 <input type="number" class="form-control" name="company_charge"
                                                     placeholder="Percentage (%)" step="0.01" min="0.01"
                                                     value="{{ $settings->company_charge ?? null }}">

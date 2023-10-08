@@ -15,7 +15,7 @@
                 @if (Auth::user()->type == config('status.type_by_name.admin'))
                     <form action="{{ route('repurchase-history') }}" method="get">
                         <div class="card-body d-flex">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <select class="select2 form-select" id="customer_id" name="customer_id">
                                     <option value="" disabled selected>Select a User</option>
                                     @foreach ($users ?? [] as $customer)
@@ -26,7 +26,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary ml-5">Search</button>
+                            </div>
                         </div>
                     </form>
                 @endif
@@ -34,13 +36,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                {{-- <th>ID</th> --}}
                                 <th>Order ID</th>
-                                <th>Buyer</th>
+                                <th>Customer</th>
                                 <th>Seller</th>
-                                <th>Consumer</th>
                                 <th>Amount</th>
-                                <th>Percentage</th>
                                 <th>Generation/Manual</th>
                                 <th>Remarks</th>
                                 <th>Created at</th>
@@ -49,24 +48,27 @@
                         <tbody>
                             @foreach ($histories as $history)
                                 <tr>
-                                    {{-- <td>
-                                        <span class="fw-bold">{{ $history->id }}</span>
-                                    </td> --}}
                                     <td>
                                         <a class="" href="/order/{{ $history->order_id }}">
                                             {{ $history->order_id }}
                                         </a>
                                     </td>
-                                    <td>{{ $history->order->customer->name }}</td>
-                                    <td>{{ $history->order->seller->name }}</td>
-                                    <td>{{ $history->user->name }}</td>
-                                    <td>{{ $history->amount }} tk</td>
-                                    <td>{{ $history->percentage }}%</td>
+                                    <td>
+                                        {{ $history->order->customer->name }}
+                                        <small>{{ $history->order->customer->email }}</small>
+                                    </td>
+                                    <td>
+                                        {{ $history->order->seller->name }}
+                                        <small>{{ $history->order->seller->email }}</small>
+                                    </td>
+                                    <td>BDT : <b>{{ $history->amount }}</b>৳</td>
                                     <td>
                                         {{ $history->is_heirarchy ? 'Generation - ' . $history->chain_serial : 'Manual' }}
+                                        <br>
+                                        <b>{{ $history->percentage }}%</b>
                                     </td>
                                     <td>{{ $history->remarks }}</td>
-                                    <td>{{ $history->created_at }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($history->created_at)->format('d M Y H:ia')  }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
